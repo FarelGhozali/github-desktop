@@ -15,6 +15,7 @@ import { parseRawUnfoldedTrailers } from './interpret-trailers'
 import { createLogParser } from './git-delimiter-parser'
 import { revRange } from '.'
 import { forceUnwrap } from '../fatal-error'
+import { IHistoryFilter } from '../app-state'
 
 // File mode 160000 is used by git specifically for submodules:
 // https://github.com/git/git/blob/v2.37.3/cache.h#L62-L69
@@ -102,7 +103,8 @@ export async function getCommits(
   revisionRange?: string,
   limit?: number,
   skip?: number,
-  additionalArgs: ReadonlyArray<string> = []
+  additionalArgs: ReadonlyArray<string> = [],
+  filter?: IHistoryFilter
 ): Promise<ReadonlyArray<Commit>> {
   const { formatArgs, parse } = createLogParser({
     sha: '%H', // SHA
@@ -135,13 +137,33 @@ export async function getCommits(
     args.push(`--skip=${skip}`)
   }
 
+  if (filter) {
+    if (filter.author) {
+      args.push(`--author=${filter.author}`)
+    }
+    if (filter.dateRange) {
+      if (filter.dateRange.since) {
+        args.push(`--since=${filter.dateRange.since.toISOString()}`)
+      }
+      if (filter.dateRange.until) {
+        args.push(`--until=${filter.dateRange.until.toISOString()}`)
+      }
+    }
+  }
+
   args.push(
     ...formatArgs,
     '--no-show-signature',
     '--no-color',
-    ...additionalArgs,
-    '--'
+    ...additionalArgs
   )
+
+  if (filter?.path) {
+    args.push('--', filter.path)
+  } else {
+    args.push('--')
+  }
+
   const result = await git(args, repository.path, 'getCommits', {
     successExitCodes: new Set([0, 128]),
   })

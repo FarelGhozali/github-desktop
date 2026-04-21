@@ -331,6 +331,7 @@ function getInitialRepositoryState(): IRepositoryState {
       isLoadingPullRequests: false,
       forcePushBranches: new Map<string, string>(),
     },
+    worktrees: [],
     compareState: {
       formState: {
         kind: HistoryTabMode.History,

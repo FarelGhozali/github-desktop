@@ -45,7 +45,7 @@ import {
   MultiCommitOperationDetail,
   MultiCommitOperationStep,
 } from '../models/multi-commit-operation'
-import { IChangesetData } from './git'
+import { IChangesetData, IWorktree } from './git'
 import { Popup } from '../models/popup'
 import { RepoRulesInfo } from '../models/repo-rules'
 import { IAPIRepoRuleset } from './api'
@@ -504,6 +504,9 @@ export interface IRepositoryState {
 
   readonly branchesState: IBranchesState
 
+  /** The worktrees associated with the repository. */
+  readonly worktrees: ReadonlyArray<IWorktree>
+
   /** The commits loaded, keyed by their full SHA. */
   readonly commitLookup: Map<string, Commit>
 
@@ -771,6 +774,18 @@ export enum HistoryTabMode {
 }
 
 /**
+ * Filter options for the history view.
+ */
+export interface IHistoryFilter {
+  readonly path?: string
+  readonly author?: string
+  readonly dateRange?: {
+    readonly since?: Date
+    readonly until?: Date
+  }
+}
+
+/**
  * This represents whether the compare tab is currently viewing the
  * commits ahead or behind when merging some other branch into your
  * current branch.
@@ -786,6 +801,7 @@ export enum ComparisonMode {
  */
 export interface IDisplayHistory {
   readonly kind: HistoryTabMode.History
+  readonly filter?: IHistoryFilter
 }
 
 /**
@@ -803,6 +819,8 @@ export interface ICompareBranch {
 
   /** The number of commits the selected branch is ahead/behind the current branch */
   readonly aheadBehind: IAheadBehind
+
+  readonly filter?: IHistoryFilter
 }
 
 export interface ICompareState {
@@ -817,6 +835,9 @@ export interface ICompareState {
 
   /** The text entered into the compare branch filter text box */
   readonly filterText: string
+
+  /** The advanced history filter state */
+  readonly historyFilter: IHistoryFilter
 
   /** The SHA associated with the most recent history state */
   readonly tip: string | null
