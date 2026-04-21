@@ -210,6 +210,24 @@ export class Dispatcher {
     return this.appStore._removeRepository(repository, moveToTrash)
   }
 
+  /** Add a new worktree to the current repository */
+  public addWorktree(
+    repository: Repository,
+    path: string,
+    branch: string
+  ): Promise<void> {
+    return this.appStore._addWorktree(repository, path, branch)
+  }
+
+  /** Remove a worktree from the current repository */
+  public removeWorktree(
+    repository: Repository,
+    path: string,
+    force: boolean = false
+  ): Promise<void> {
+    return this.appStore._removeWorktree(repository, path, force)
+  }
+
   /** Update the repository's `missing` flag. */
   public async updateRepositoryMissing(
     repository: Repository,
@@ -2352,6 +2370,14 @@ export class Dispatcher {
     newState: Pick<ICompareFormUpdate, K>
   ) {
     return this.appStore._updateCompareForm(repository, newState)
+  }
+
+  /** Update the history filter for the current repository */
+  public updateHistoryFilter(
+    repository: Repository,
+    filter: IHistoryFilter
+  ): Promise<void> {
+    return this.appStore._updateHistoryFilter(repository, filter)
   }
 
   /**

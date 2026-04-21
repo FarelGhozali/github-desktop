@@ -1508,7 +1508,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       }
 
       const { compareState } = this.repositoryStateCache.get(repository)
-      const { formState, commitSHAs } = compareState
+      const { formState, commitSHAs, historyFilter } = compareState
       const previousTip = compareState.tip
 
       const tipIsUnchanged =
@@ -1526,9 +1526,10 @@ export class AppStore extends TypedBaseStore<IAppState> {
         return
       }
 
+      gitStore.updateHistoryFilter(historyFilter)
+
       // load initial group of commits for current branch
       const commits = await gitStore.loadCommitBatch('HEAD', 0)
-
       if (commits === null) {
         return
       }
@@ -1672,6 +1673,20 @@ export class AppStore extends TypedBaseStore<IAppState> {
     })
 
     this.emitUpdate()
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _updateHistoryFilter(
+    repository: Repository,
+    historyFilter: IHistoryFilter
+  ) {
+    this.repositoryStateCache.updateCompareState(repository, () => ({
+      historyFilter,
+      tip: null, // Reset tip to force a refresh in _executeCompare
+    }))
+
+    const { compareState } = this.repositoryStateCache.get(repository)
+    return this._executeCompare(repository, compareState.formState)
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
@@ -6185,6 +6200,32 @@ export class AppStore extends TypedBaseStore<IAppState> {
     } else {
       this._showFoldout({ type: FoldoutType.Repository })
     }
+  }
+
+  public async _addWorktree(
+    repository: Repository,
+    path: string,
+    branch: string
+  ): Promise<void> {
+    const gitStore = this.gitStoreCache.get(repository)
+    await gitStore.performFailableOperation(() =>
+      addWorktree(repository, path, branch)
+    )
+    await gitStore.refreshWorktrees()
+    this.emitUpdate()
+  }
+
+  public async _removeWorktree(
+    repository: Repository,
+    path: string,
+    force: boolean = false
+  ): Promise<void> {
+    const gitStore = this.gitStoreCache.get(repository)
+    await gitStore.performFailableOperation(() =>
+      removeWorktree(repository, path, force)
+    )
+    await gitStore.refreshWorktrees()
+    this.emitUpdate()
   }
 
   public async _cloneAgain(url: string, path: string): Promise<void> {
