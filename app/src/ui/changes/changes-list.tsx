@@ -32,6 +32,9 @@ import {
 } from '../lib/context-menu'
 import { CommitMessage } from './commit-message'
 import { ChangedFile } from './changed-file'
+import { ChangesTreeView } from './changes-tree-view'
+import { buildTrees, flattenTree } from '../../lib/tree-builder'
+import { IDirectoryNode, TreeNodeKind } from '../../models/tree-node'
 import { IAutocompletionProvider } from '../autocompletion'
 import { showContextualMenu } from '../../lib/menu-item'
 import { arrayEquals } from '../../lib/equality'
@@ -226,30 +229,13 @@ interface IChangesListProps {
   readonly accounts: ReadonlyArray<Account>
 }
 
-interface IChangesState {
-  readonly selectedRows: ReadonlyArray<number>
+interface IChangesListState {
   readonly focusedRow: number | null
-}
-
-function getSelectedRowsFromProps(
-  props: IChangesListProps
-): ReadonlyArray<number> {
-  const selectedFileIDs = props.selectedFileIDs
-  const selectedRows = []
-
-  for (const id of selectedFileIDs) {
-    const ix = props.workingDirectory.findFileIndexByID(id)
-    if (ix !== -1) {
-      selectedRows.push(ix)
-    }
-  }
-
-  return selectedRows
 }
 
 export class ChangesList extends React.Component<
   IChangesListProps,
-  IChangesState
+  IChangesListState
 > {
   private headerRef = createObservableRef<HTMLDivElement>()
   private includeAllCheckBoxRef = React.createRef<Checkbox>()
@@ -257,88 +243,17 @@ export class ChangesList extends React.Component<
   public constructor(props: IChangesListProps) {
     super(props)
     this.state = {
-      selectedRows: getSelectedRowsFromProps(props),
       focusedRow: null,
     }
   }
 
   public componentWillReceiveProps(nextProps: IChangesListProps) {
-    // No need to update state unless we haven't done it yet or the
-    // selected file id list has changed.
-    if (
-      !arrayEquals(nextProps.selectedFileIDs, this.props.selectedFileIDs) ||
-      !arrayEquals(
-        nextProps.workingDirectory.files,
-        this.props.workingDirectory.files
-      )
-    ) {
-      this.setState({ selectedRows: getSelectedRowsFromProps(nextProps) })
-    }
+    // Component logic updated to use Trees, no longer needing selectedRows in local state
   }
 
   private onIncludeAllChanged = (event: React.FormEvent<HTMLInputElement>) => {
     const include = event.currentTarget.checked
     this.props.onSelectAll(include)
-  }
-
-  private renderRow = (row: number): JSX.Element => {
-    const {
-      workingDirectory,
-      rebaseConflictState,
-      isCommitting,
-      onIncludeChanged,
-      availableWidth,
-    } = this.props
-
-    const file = workingDirectory.files[row]
-    const selection = file.selection.getSelectionType()
-    const { submoduleStatus } = file.status
-
-    const isUncommittableSubmodule =
-      submoduleStatus !== undefined &&
-      file.status.kind === AppFileStatusKind.Modified &&
-      !submoduleStatus.commitChanged
-
-    const isPartiallyCommittableSubmodule =
-      submoduleStatus !== undefined &&
-      (submoduleStatus.commitChanged ||
-        file.status.kind === AppFileStatusKind.New) &&
-      (submoduleStatus.modifiedChanges || submoduleStatus.untrackedChanges)
-
-    const includeAll =
-      selection === DiffSelectionType.All
-        ? true
-        : selection === DiffSelectionType.None
-        ? false
-        : null
-
-    const include = isUncommittableSubmodule
-      ? false
-      : rebaseConflictState !== null
-      ? file.status.kind !== AppFileStatusKind.Untracked
-      : includeAll
-
-    const disableSelection =
-      isCommitting || rebaseConflictState !== null || isUncommittableSubmodule
-
-    const checkboxTooltip = isUncommittableSubmodule
-      ? 'This submodule change cannot be added to a commit in this repository because it contains changes that have not been committed.'
-      : isPartiallyCommittableSubmodule
-      ? 'Only changes that have been committed within the submodule will be added to this repository. You need to commit any other modified or untracked changes in the submodule before including them in this repository.'
-      : undefined
-
-    return (
-      <ChangedFile
-        file={file}
-        include={isPartiallyCommittableSubmodule && include ? null : include}
-        key={file.id}
-        onIncludeChanged={onIncludeChanged}
-        availableWidth={availableWidth}
-        disableSelection={disableSelection}
-        checkboxTooltip={checkboxTooltip}
-        focused={this.state.focusedRow === row}
-      />
-    )
   }
 
   private onDiscardAllChanges = () => {
@@ -968,6 +883,19 @@ export class ChangesList extends React.Component<
     return
   }
 
+  private onTreeViewContextMenu = (
+    node: ITreeNode,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (node.kind === TreeNodeKind.File) {
+      const file = node.file
+      const index = this.props.workingDirectory.files.findIndex(f => f.id === file.id)
+      if (index !== -1) {
+        this.onItemContextMenu(index, event)
+      }
+    }
+  }
+
   public focus() {
     this.includeAllCheckBoxRef.current?.focus()
   }
@@ -992,6 +920,8 @@ export class ChangesList extends React.Component<
 
     const disableAllCheckbox =
       files.length === 0 || isCommitting || rebaseConflictState !== null
+
+    const { staged, unstaged } = buildTrees(files)
 
     return (
       <>
@@ -1019,34 +949,62 @@ export class ChangesList extends React.Component<
               {selectedChangesDescription}
             </div>
           </div>
-          <List
-            id="changes-list"
-            rowCount={files.length}
-            rowHeight={RowHeight}
-            rowRenderer={this.renderRow}
-            selectedRows={this.state.selectedRows}
-            selectionMode="multi"
-            onSelectionChanged={this.props.onFileSelectionChanged}
-            invalidationProps={{
-              workingDirectory: workingDirectory,
-              isCommitting: isCommitting,
-              focusedRow: this.state.focusedRow,
-            }}
-            onRowClick={this.props.onRowClick}
-            onRowDoubleClick={this.onRowDoubleClick}
-            onRowKeyboardFocus={this.onRowFocus}
-            onRowBlur={this.onRowBlur}
-            onScroll={this.onScroll}
-            setScrollTop={this.props.changesListScrollTop}
-            onRowKeyDown={this.onRowKeyDown}
-            onRowContextMenu={this.onItemContextMenu}
-            ariaLabel={filesDescription}
-          />
+
+          <div className="double-tree-view-container">
+            <div className="tree-section">
+              <div className="section-header">
+                <span>Unstaged Changes</span>
+              </div>
+              <ChangesTreeView
+                root={unstaged}
+                availableWidth={this.props.availableWidth}
+                isCommitting={isCommitting}
+                selectedFileIDs={this.props.selectedFileIDs}
+                onIncludeChanged={this.props.onIncludeChanged}
+                onFileSelectionChanged={this.onTreeViewFileSelectionChanged}
+                onRowClick={this.props.onRowClick}
+                onRowDoubleClick={this.onRowDoubleClick}
+                onRowContextMenu={this.onTreeViewContextMenu}
+                onScroll={this.onScroll}
+                setScrollTop={this.props.changesListScrollTop}
+              />
+            </div>
+            <div className="tree-section">
+              <div className="section-header">
+                <span>Staged Changes</span>
+              </div>
+              <ChangesTreeView
+                root={staged}
+                availableWidth={this.props.availableWidth}
+                isCommitting={isCommitting}
+                selectedFileIDs={this.props.selectedFileIDs}
+                onIncludeChanged={this.props.onIncludeChanged}
+                onFileSelectionChanged={this.onTreeViewFileSelectionChanged}
+                onRowClick={this.props.onRowClick}
+                onRowDoubleClick={this.onRowDoubleClick}
+                onRowContextMenu={this.onTreeViewContextMenu}
+                onScroll={this.onScroll}
+                setScrollTop={this.props.changesListScrollTop}
+              />
+            </div>
+          </div>
         </div>
         {this.renderStashedChanges()}
         {this.renderCommitMessageForm()}
       </>
     )
+  }
+
+  private onTreeViewFileSelectionChanged = (selectedIDs: ReadonlyArray<string>) => {
+    const { files } = this.props.workingDirectory
+    const rows = new Array<number>()
+    for (const id of selectedIDs) {
+      const index = files.findIndex(f => f.id === id)
+      if (index !== -1) {
+        rows.push(index)
+      }
+    }
+    this.props.onFileSelectionChanged(rows)
   }
 
   private onRowFocus = (row: number) => {
