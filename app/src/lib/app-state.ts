@@ -1,3 +1,4 @@
+import { IBisectState } from '../models/bisect'
 import { Account } from '../models/account'
 import { CommitIdentity } from '../models/commit-identity'
 import { IDiff, ImageDiffType } from '../models/diff'
@@ -541,6 +542,12 @@ export interface IRepositoryState {
    * null if no current branch switch operation is in flight.
    */
   readonly checkoutProgress: ICheckoutProgress | null
+
+  /**
+   * The state of an ongoing bisect operation, or null if no bisect is
+   * in progress.
+   */
+  readonly bisectState: IBisectState | null
 
   /**
    * If we're currently working on pushing a branch, fetching

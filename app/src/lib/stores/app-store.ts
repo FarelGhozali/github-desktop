@@ -306,6 +306,14 @@ import {
 import { DragElement } from '../../models/drag-drop'
 import { ILastThankYou } from '../../models/last-thank-you'
 import { squash } from '../git/squash'
+import {
+  getBisectState,
+  startBisect,
+  markBisectGood,
+  markBisectBad,
+  skipBisect,
+  resetBisect,
+} from '../git/bisect'
 import { getTipSha } from '../tip'
 import {
   MultiCommitOperationDetail,
@@ -2592,6 +2600,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
       this._triggerConflictsFlow(repository, status)
     }
 
+    await this._updateBisectState(repository)
+
     this.emitUpdate()
 
     this.updateChangesWorkingDirectoryDiff(repository)
@@ -3554,6 +3564,13 @@ export class AppStore extends TypedBaseStore<IAppState> {
         numEntriesCreatedOutsideDesktop
       )
     }
+  }
+
+  private async _updateBisectState(repository: Repository) {
+    const bisectState = await getBisectState(repository)
+    this.repositoryStateCache.update(repository, state => ({
+      bisectState,
+    }))
   }
 
   /**
@@ -5494,6 +5511,40 @@ export class AppStore extends TypedBaseStore<IAppState> {
     )
 
     return result || RebaseResult.Error
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _startBisect(
+    repository: Repository,
+    badRevision: string,
+    goodRevision?: string
+  ) {
+    await startBisect(repository, badRevision, goodRevision)
+    await this._loadStatus(repository)
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _markBisectGood(repository: Repository, revision?: string) {
+    await markBisectGood(repository, revision)
+    await this._loadStatus(repository)
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _markBisectBad(repository: Repository, revision?: string) {
+    await markBisectBad(repository, revision)
+    await this._loadStatus(repository)
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _skipBisect(repository: Repository, revision?: string) {
+    await skipBisect(repository, revision)
+    await this._loadStatus(repository)
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _resetBisect(repository: Repository) {
+    await resetBisect(repository)
+    await this._loadStatus(repository)
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
