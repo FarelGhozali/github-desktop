@@ -9,6 +9,7 @@ import {
   IDisplayHistory,
 } from '../../lib/app-state'
 import { CommitList } from './commit-list'
+import { HistoryFilter } from './history-filter'
 import { Repository } from '../../models/repository'
 import { Branch } from '../../models/branch'
 import { defaultErrorHandler, Dispatcher } from '../dispatcher'
@@ -72,6 +73,9 @@ interface ICompareSidebarState {
 
   /** Data to be reordered via keyboard */
   readonly keyboardReorderData?: KeyboardInsertionData
+
+  /** Whether the advanced history filter is visible */
+  readonly showAdvancedFilter: boolean
 }
 
 /** If we're within this many rows from the bottom, load the next history batch. */
@@ -91,7 +95,7 @@ export class CompareSidebar extends React.Component<
   public constructor(props: ICompareSidebarProps) {
     super(props)
 
-    this.state = { focusedBranch: null }
+    this.state = { focusedBranch: null, showAdvancedFilter: false }
   }
 
   public componentWillReceiveProps(nextProps: ICompareSidebarProps) {
@@ -158,6 +162,10 @@ export class CompareSidebar extends React.Component<
     })
   }
 
+  private onAdvancedFilterToggled = () => {
+    this.setState({ showAdvancedFilter: !this.state.showAdvancedFilter })
+  }
+
   public render() {
     const { branches, filterText, showBranchList } = this.props.compareState
     const placeholderText = getPlaceholderText(this.props.compareState)
@@ -178,7 +186,22 @@ export class CompareSidebar extends React.Component<
             onKeyDown={this.onBranchFilterKeyDown}
             onSearchCleared={this.handleEscape}
           />
+          <Button
+            className="advanced-filter-button"
+            onClick={this.onAdvancedFilterToggled}
+            tooltip="Advanced history filter"
+          >
+            <Octicon symbol={octicons.filter} />
+          </Button>
         </div>
+
+        {this.state.showAdvancedFilter && (
+          <HistoryFilter
+            repository={this.props.repository}
+            dispatcher={this.props.dispatcher}
+            historyFilter={this.props.compareState.historyFilter}
+          />
+        )}
 
         {showBranchList ? this.renderFilterList() : this.renderCommits()}
       </div>
