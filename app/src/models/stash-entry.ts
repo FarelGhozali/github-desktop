@@ -5,13 +5,19 @@ export interface IStashEntry {
   readonly name: string
 
   /** The name of the branch at the time the entry was created. */
-  readonly branchName: string
+  readonly branchName: string | null
 
   /** The SHA of the commit object created as a result of stashing. */
   readonly stashSha: string
 
   /** The list of files this stash touches */
   readonly files: StashedFileChanges
+
+  /** The summary of the stash entry (message). */
+  readonly summary: string
+
+  /** Whether this stash was created by GitHub Desktop. */
+  readonly isDesktopStash: boolean
 
   readonly tree: string
   readonly parents: ReadonlyArray<string>

@@ -316,6 +316,7 @@ function getInitialRepositoryState(): IRepositoryState {
       showCoAuthoredBy: false,
       conflictState: null,
       stashEntry: null,
+      allStashEntries: [],
       currentBranchProtected: false,
       currentRepoRulesInfo: new RepoRulesInfo(),
     },
