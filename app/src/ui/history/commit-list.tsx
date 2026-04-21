@@ -149,6 +149,9 @@ interface ICommitListProps {
   /* Whether the repository is local (it has no remotes) */
   readonly isLocalRepository: boolean
 
+  /** Callback to fire when the user wants to start an interactive rebase. */
+  readonly onStartInteractiveRebase?: (commit: Commit) => void
+  }
   /* Tags that haven't been pushed yet. This is used to show the unpushed indicator */
   readonly tagsToPush?: ReadonlyArray<string>
 
@@ -661,6 +664,16 @@ export class CommitList extends React.Component<
     }
 
     const items: IMenuItem[] = []
+
+    if (this.props.onStartInteractiveRebase !== undefined) {
+      items.push({
+        label: __DARWIN__
+          ? 'Interactive Rebase from Here…'
+          : 'Interactive rebase from here…',
+        action: () => this.props.onStartInteractiveRebase?.(commit),
+      })
+      items.push({ type: 'separator' })
+    }
 
     if (canBeAmended) {
       items.push({

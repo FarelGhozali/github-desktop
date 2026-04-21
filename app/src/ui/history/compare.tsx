@@ -285,9 +285,18 @@ export class CompareSidebar extends React.Component<
         }
         keyboardReorderData={this.state.keyboardReorderData}
         accounts={this.props.accounts}
+        onStartInteractiveRebase={this.onStartInteractiveRebase}
       />
     )
   }
+
+  private onStartInteractiveRebase = (commit: Commit) => {
+    this.props.dispatcher.startInteractiveRebaseFlow(
+      this.props.repository,
+      commit
+    )
+  }
+
 
   private onCancelKeyboardReorder = () => {
     this.setState({ keyboardReorderData: undefined })
