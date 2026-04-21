@@ -210,11 +210,12 @@ async function getStashEntryMatchingSha(repository: Repository, sha: string) {
  *
  * @param stashSha the SHA that identifies the stash entry
  */
-export async function dropDesktopStashEntry(
+export async function dropStashEntry(
   repository: Repository,
   stashSha: string
 ) {
-  const entryToDelete = await getStashEntryMatchingSha(repository, stashSha)
+  const stash = await getStashes(repository)
+  const entryToDelete = stash.allEntries.find(e => e.stashSha === stashSha) || null
 
   if (entryToDelete !== null) {
     const args = ['stash', 'drop', entryToDelete.name]
@@ -237,7 +238,9 @@ export async function popStashEntry(
   // implementing the stash conflict flow
   const expectedErrors = new Set<DugiteError>([DugiteError.MergeConflicts])
   const successExitCodes = new Set<number>([0, 1])
-  const stashToPop = await getStashEntryMatchingSha(repository, stashSha)
+  
+  const stash = await getStashes(repository)
+  const stashToPop = stash.allEntries.find(e => e.stashSha === stashSha) || null
 
   if (stashToPop !== null) {
     const args = ['stash', 'pop', '--quiet', `${stashToPop.name}`]
@@ -259,7 +262,7 @@ export async function popStashEntry(
         `[popStashEntry] a stash was popped successfully but exit code ${result.exitCode} reported.`
       )
       // bye bye
-      await dropDesktopStashEntry(repository, stashSha)
+      await dropStashEntry(repository, stashSha)
     }
   }
 }
