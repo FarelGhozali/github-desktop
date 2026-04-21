@@ -96,6 +96,7 @@ export enum PopupType {
   UnknownAuthors = 'UnknownAuthors',
   TestIcons = 'TestIcons',
   ConfirmRestart = 'ConfirmRestart',
+  StashManager = 'StashManager',
 }
 
 interface IBasePopup {
@@ -425,5 +426,6 @@ export type PopupDetail =
       type: PopupType.TestIcons
     }
   | { type: PopupType.ConfirmRestart }
+  | { type: PopupType.StashManager; repository: Repository }
 
 export type Popup = IBasePopup & PopupDetail

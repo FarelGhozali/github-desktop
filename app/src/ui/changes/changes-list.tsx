@@ -211,6 +211,8 @@ interface IChangesListProps {
 
   readonly stashEntry: IStashEntry | null
 
+  readonly allStashEntries: ReadonlyArray<IStashEntry>
+
   readonly isShowingStashEntry: boolean
 
   /**
@@ -920,7 +922,8 @@ export class ChangesList extends React.Component<
   }
 
   private renderStashedChanges() {
-    if (this.props.stashEntry === null) {
+    const { stashEntry, allStashEntries } = this.props
+    if (stashEntry === null && allStashEntries.length === 0) {
       return null
     }
 
@@ -929,10 +932,16 @@ export class ChangesList extends React.Component<
       this.props.isShowingStashEntry ? 'selected' : null
     )
 
+    const label =
+      allStashEntries.length > 1
+        ? `Stashed Changes (${allStashEntries.length})`
+        : 'Stashed Changes'
+
     return (
       <button
         className={className}
         onClick={this.onStashEntryClicked}
+        onContextMenu={this.onStashContextMenu}
         tabIndex={0}
         aria-expanded={this.props.isShowingStashEntry}
         aria-controls={
@@ -940,10 +949,23 @@ export class ChangesList extends React.Component<
         }
       >
         <Octicon className="stack-icon" symbol={StashIcon} />
-        <div className="text">Stashed Changes</div>
+        <div className="text">{label}</div>
         <Octicon symbol={octicons.chevronRight} />
       </button>
     )
+  }
+
+  private onStashContextMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    const items: IMenuItem[] = [
+      {
+        label: 'Manage Stashes…',
+        action: () => this.props.dispatcher.showStashManager(this.props.repository),
+      },
+    ]
+
+    showContextualMenu(items)
   }
 
   private onRowDoubleClick = (row: number) => {

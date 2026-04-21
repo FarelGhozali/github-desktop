@@ -108,6 +108,7 @@ import { Banner, BannerType } from '../models/banner'
 import { StashAndSwitchBranch } from './stash-changes/stash-and-switch-branch-dialog'
 import { OverwriteStash } from './stash-changes/overwrite-stashed-changes-dialog'
 import { ConfirmDiscardStashDialog } from './stashing/confirm-discard-stash'
+import { StashManagerDialog } from './stashing/stash-manager-dialog'
 import { ConfirmCheckoutCommitDialog } from './checkout/confirm-checkout-commit'
 import { CreateTutorialRepositoryDialog } from './no-repositories/create-tutorial-repository-dialog'
 import { ConfirmExitTutorial } from './tutorial'
@@ -2668,6 +2669,20 @@ export class App extends React.Component<IAppProps, IAppState> {
       }
       case PopupType.ConfirmRestart: {
         return <ConfirmRestart onDismissed={onPopupDismissedFn} />
+      }
+      case PopupType.StashManager: {
+        return (
+          <StashManagerDialog
+            key="stash-manager"
+            repository={popup.repository}
+            dispatcher={this.props.dispatcher}
+            stashEntries={
+              this.props.repositoryStateManager.get(popup.repository)
+                .changesState.allStashEntries
+            }
+            onDismissed={onPopupDismissedFn}
+          />
+        )
       }
       default:
         return assertNever(popup, `Unknown popup type: ${popup}`)
