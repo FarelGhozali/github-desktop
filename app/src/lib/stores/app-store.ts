@@ -252,7 +252,7 @@ import {
   createDesktopStashEntry,
   getLastDesktopStashEntryForBranch,
   popStashEntry,
-  dropDesktopStashEntry,
+  dropStashEntry,
   moveStashEntry,
 } from '../git/stash'
 import {
@@ -2592,6 +2592,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
     if (this.selectedRepository === repository) {
       this._triggerConflictsFlow(repository, status)
     }
+
+    await gitStore.loadStashEntries()
 
     this.emitUpdate()
 
@@ -6823,7 +6825,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     if (createdStash === true && entry !== null) {
       const { stashSha, branchName } = entry
       await gitStore.performFailableOperation(async () => {
-        await dropDesktopStashEntry(repository, stashSha)
+        await dropStashEntry(repository, stashSha)
         log.info(`Dropped stash '${stashSha}' associated with ${branchName}`)
       })
     }
@@ -6857,7 +6859,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
   ) {
     const gitStore = this.gitStoreCache.get(repository)
     await gitStore.performFailableOperation(() => {
-      return dropDesktopStashEntry(repository, stashEntry.stashSha)
+      return dropStashEntry(repository, stashEntry.stashSha)
     })
     log.info(
       `[AppStore. _dropStashEntry] dropped stash with commit id ${stashEntry.stashSha}`
