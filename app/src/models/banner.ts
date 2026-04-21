@@ -1,3 +1,4 @@
+import { IBisectState } from './bisect'
 import { Emoji } from '../lib/emoji'
 import { Popup } from './popup'
 
@@ -18,6 +19,7 @@ export enum BannerType {
   ConflictsFound = 'ConflictsFound',
   OSVersionNoLongerSupported = 'OSVersionNoLongerSupported',
   AccessibilitySettingsBanner = 'AccessibilitySettingsBanner',
+  Bisect = 'Bisect',
 }
 
 export type Banner =
@@ -126,4 +128,8 @@ export type Banner =
   | {
       readonly type: BannerType.AccessibilitySettingsBanner
       readonly onOpenAccessibilitySettings: () => void
+    }
+  | {
+      readonly type: BannerType.Bisect
+      readonly bisectState: IBisectState
     }

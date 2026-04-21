@@ -3571,6 +3571,27 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.repositoryStateCache.update(repository, state => ({
       bisectState,
     }))
+
+    if (this.selectedRepository === repository) {
+      this._updateBisectBanner(bisectState)
+    }
+  }
+
+  private _updateBisectBanner(bisectState: IBisectState | null) {
+    const displayingBisectBanner =
+      this.currentBanner !== null && this.currentBanner.type === BannerType.Bisect
+
+    if (bisectState === null) {
+      if (displayingBisectBanner) {
+        this._clearBanner(BannerType.Bisect)
+      }
+      return
+    }
+
+    this._setBanner({
+      type: BannerType.Bisect,
+      bisectState,
+    })
   }
 
   /**

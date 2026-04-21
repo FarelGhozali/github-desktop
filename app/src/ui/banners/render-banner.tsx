@@ -20,10 +20,13 @@ import { SuccessBanner } from './success-banner'
 import { ConflictsFoundBanner } from './conflicts-found-banner'
 import { OSVersionNoLongerSupportedBanner } from './os-version-no-longer-supported-banner'
 import { AccessibilitySettingsBanner } from './accessibilty-settings-banner'
+import { BisectBanner } from './bisect-banner'
+import { Repository } from '../../models/repository'
 
 export function renderBanner(
   banner: Banner,
   dispatcher: Dispatcher,
+  repository: Repository | null,
   onDismissed: () => void
 ): JSX.Element {
   switch (banner.type) {
@@ -177,6 +180,18 @@ export function renderBanner(
         <AccessibilitySettingsBanner
           onOpenAccessibilitySettings={banner.onOpenAccessibilitySettings}
           onDismissed={onDismissed}
+        />
+      )
+    case BannerType.Bisect:
+      if (repository === null) {
+        return <React.Fragment />
+      }
+      return (
+        <BisectBanner
+          repository={repository}
+          bisectState={banner.bisectState}
+          dispatcher={dispatcher}
+          key={'bisect'}
         />
       )
     default:

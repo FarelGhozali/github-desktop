@@ -3282,6 +3282,9 @@ export class App extends React.Component<IAppProps, IAppState> {
       banner = renderBanner(
         this.state.currentBanner,
         this.props.dispatcher,
+        this.state.selectedRepository instanceof Repository
+          ? this.state.selectedRepository
+          : null,
         this.onBannerDismissed
       )
     } else if (
