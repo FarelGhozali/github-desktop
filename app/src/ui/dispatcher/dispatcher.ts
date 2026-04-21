@@ -2354,6 +2354,14 @@ export class Dispatcher {
     return this.appStore._updateCompareForm(repository, newState)
   }
 
+  /** Update the history filter for the current repository */
+  public updateHistoryFilter(
+    repository: Repository,
+    filter: IHistoryFilter
+  ): Promise<void> {
+    return this.appStore._updateHistoryFilter(repository, filter)
+  }
+
   /**
    *  update the manual resolution method for a file
    */

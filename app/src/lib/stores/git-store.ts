@@ -22,7 +22,7 @@ import {
   ICommitMessage,
   DefaultCommitMessage,
 } from '../../models/commit-message'
-import { ComparisonMode } from '../app-state'
+import { ComparisonMode, IHistoryFilter } from '../app-state'
 
 import { IAppShell } from '../app-shell'
 import {
@@ -118,6 +118,8 @@ export class GitStore extends BaseStore {
 
   private _history: ReadonlyArray<string> = []
 
+  private _historyFilter: IHistoryFilter = {}
+
   private readonly requestsInFight = new Set<string>()
 
   private _tip: Tip = { kind: TipState.Unknown }
@@ -186,7 +188,14 @@ export class GitStore extends BaseStore {
     const range = revRange('HEAD', mergeBase)
 
     const commits = await this.performFailableOperation(() =>
-      getCommits(this.repository, range, CommitBatchSize)
+      getCommits(
+        this.repository,
+        range,
+        CommitBatchSize,
+        undefined,
+        [],
+        this._historyFilter
+      )
     )
     if (commits == null) {
       return
@@ -227,7 +236,14 @@ export class GitStore extends BaseStore {
     this.requestsInFight.add(requestKey)
 
     const commits = await this.performFailableOperation(() =>
-      getCommits(this.repository, commitish, CommitBatchSize, skip)
+      getCommits(
+        this.repository,
+        commitish,
+        CommitBatchSize,
+        skip,
+        [],
+        this._historyFilter
+      )
     )
 
     this.requestsInFight.delete(requestKey)
@@ -237,6 +253,10 @@ export class GitStore extends BaseStore {
 
     this.storeCommits(commits)
     return commits.map(c => c.sha)
+  }
+
+  public updateHistoryFilter(filter: IHistoryFilter) {
+    this._historyFilter = filter
   }
 
   public async refreshTags() {
