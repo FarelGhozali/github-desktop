@@ -96,6 +96,9 @@ export enum PopupType {
   UnknownAuthors = 'UnknownAuthors',
   TestIcons = 'TestIcons',
   ConfirmRestart = 'ConfirmRestart',
+  Reflog = 'Reflog',
+  ManageWorktree = 'ManageWorktree',
+  AddWorktree = 'AddWorktree',
 }
 
 interface IBasePopup {
@@ -425,5 +428,17 @@ export type PopupDetail =
       type: PopupType.TestIcons
     }
   | { type: PopupType.ConfirmRestart }
+  | {
+      type: PopupType.Reflog
+      repository: Repository
+    }
+  | {
+      type: PopupType.ManageWorktree
+      repository: Repository
+    }
+  | {
+      type: PopupType.AddWorktree
+      repository: Repository
+    }
 
 export type Popup = IBasePopup & PopupDetail

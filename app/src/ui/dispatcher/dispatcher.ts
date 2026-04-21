@@ -959,6 +959,21 @@ export class Dispatcher {
     return this.appStore._revertCommit(repository, commit)
   }
 
+  /** Reset to a given SHA. */
+  public resetToSHA(
+    repository: Repository,
+    sha: string,
+    summary: string,
+    showConfirmationDialog: boolean = true
+  ): Promise<void> {
+    return this.appStore._resetToSHA(
+      repository,
+      sha,
+      summary,
+      showConfirmationDialog
+    )
+  }
+
   /**
    * Set the width of the repository sidebar to the given
    * value. This affects the changes and history sidebar

@@ -6318,6 +6318,27 @@ export class AppStore extends TypedBaseStore<IAppState> {
     })
   }
 
+  public async _resetToSHA(
+    repository: Repository,
+    sha: string,
+    summary: string,
+    showConfirmationDialog: boolean
+  ): Promise<void> {
+    const gitStore = this.gitStoreCache.get(repository)
+
+    // Make sure we show the changes after resetting to the commit
+    await this._changeRepositorySection(
+      repository,
+      RepositorySectionTab.Changes
+    )
+
+    await gitStore.performFailableOperation(() =>
+      reset(repository, GitResetMode.Mixed, sha)
+    )
+
+    return this._refreshRepository(repository)
+  }
+
   public async _installGlobalLFSFilters(force: boolean): Promise<void> {
     try {
       await installGlobalLFSFilters(force)
