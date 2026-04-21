@@ -109,6 +109,13 @@
   padding-right: calc(var(--spacing) + var(--spacing-half));
   padding-left: var(--spacing);
 
+  .commit-graph {
+    flex-shrink: 0;
+    margin-right: var(--spacing);
+    // Align with the commit dot
+    margin-top: 2px;
+  }
+
   .info {
     display: flex;
     flex: 1 1 auto;
