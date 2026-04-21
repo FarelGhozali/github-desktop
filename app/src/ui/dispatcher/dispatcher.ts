@@ -109,6 +109,8 @@ import { sleep } from '../../lib/promise'
 import { DragElement, DragType } from '../../models/drag-drop'
 import { ILastThankYou } from '../../models/last-thank-you'
 import { dragAndDropManager } from '../../lib/drag-and-drop-manager'
+import { IRebaseTodoItem } from '../../models/rebase-todo'
+import { getCommitsInRange } from '../../lib/git/rev-list'
 import {
   CreateBranchStep,
   MultiCommitOperationDetail,
@@ -549,6 +551,91 @@ export class Dispatcher {
     }
 
     await this.rebase(repository, baseBranch, targetBranch)
+  }
+
+  /** Initialize and start an interactive rebase flow */
+  public async startInteractiveRebaseFlow(
+    repository: Repository,
+    baseCommit: Commit
+  ): Promise<void> {
+    const { branchesState } = this.repositoryStateManager.get(repository)
+    const { tip } = branchesState
+
+    if (tip.kind !== TipState.Valid) {
+      return
+    }
+
+    // Get all commits from baseCommit (inclusive if we want, but rebase -i usually starts AFTER the ref)
+    // Actually git rebase -i <ref> rebases everything AFTER <ref>.
+    const commits = await getCommitsInRange(
+      repository,
+      `${baseCommit.sha}..HEAD`
+    )
+
+    if (commits === null || commits.length === 0) {
+      return
+    }
+
+    const fullCommits = new Array<Commit>()
+    for (const c of commits) {
+      const fullCommit = this.repositoryStateManager
+        .get(repository)
+        .commitLookup.get(c.sha)
+      if (fullCommit) {
+        fullCommits.push(fullCommit)
+      }
+    }
+
+    this.appStore._initializeMultiCommitOperation(
+      repository,
+      {
+        kind: MultiCommitOperationKind.InteractiveRebase,
+        commits: fullCommits,
+        currentTip: tip.branch.tip.sha,
+        lastRetainedCommitRef: baseCommit.sha,
+      },
+      tip.branch,
+      commits,
+      tip.branch.tip.sha
+    )
+
+    this.setMultiCommitOperationStep(repository, {
+      kind: MultiCommitOperationStepKind.InteractiveRebaseEditor,
+    })
+
+    this.showPopup({
+      type: PopupType.MultiCommitOperation,
+      repository,
+    })
+  }
+
+  /** Execute an interactive rebase with the provided todo list */
+  public async executeInteractiveRebase(
+    repository: Repository,
+    todoList: ReadonlyArray<IRebaseTodoItem>
+  ): Promise<void> {
+    const { multiCommitOperationState } =
+      this.repositoryStateManager.get(repository)
+
+    if (
+      multiCommitOperationState === null ||
+      multiCommitOperationState.operationDetail.kind !==
+        MultiCommitOperationKind.InteractiveRebase
+    ) {
+      return
+    }
+
+    const { lastRetainedCommitRef } = multiCommitOperationState.operationDetail
+
+    this.setMultiCommitOperationStep(repository, {
+      kind: MultiCommitOperationStepKind.ShowProgress,
+    })
+
+    await this.appStore._interactiveRebase(
+      repository,
+      todoList,
+      lastRetainedCommitRef
+    )
   }
 
   /**
