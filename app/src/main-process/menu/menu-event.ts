@@ -58,3 +58,5 @@ export type MenuEvent =
   | 'show-test-cherry-pick-conflicts-banner'
   | 'show-test-merge-successful-banner'
   | 'show-icon-test-dialog'
+  | 'show-reflog'
+  | 'show-worktrees'

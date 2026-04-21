@@ -320,6 +320,16 @@ export function buildDefaultMenu({
         click: emit('view-repository-on-github'),
       },
       {
+        id: 'view-reflog',
+        label: __DARWIN__ ? 'View Reflog' : 'View &Reflog',
+        click: emit('show-reflog'),
+      },
+      {
+        id: 'manage-worktrees',
+        label: __DARWIN__ ? 'Manage Worktrees' : '&Manage Worktrees',
+        click: emit('show-worktrees'),
+      },
+      {
         label: __DARWIN__
           ? `Open in ${selectedShell ?? 'Shell'}`
           : `O&pen in ${selectedShell ?? 'shell'}`,
