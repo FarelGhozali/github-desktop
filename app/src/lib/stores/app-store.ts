@@ -121,6 +121,7 @@ import {
   RepositorySectionTab,
   SelectionType,
   IRepositoryState,
+  IBranchComparisonState,
   ChangesSelectionKind,
   ChangesWorkingDirectorySelection,
   isRebaseConflictState,
@@ -148,6 +149,8 @@ import {
   getAuthorIdentity,
   getChangedFiles,
   getCommitDiff,
+  getBranchComparisonChangedFiles,
+  getBranchComparisonDiff,
   getMergeBase,
   getRemotes,
   getWorkingDirectoryDiff,
@@ -2916,6 +2919,116 @@ export class AppStore extends TypedBaseStore<IAppState> {
       ) as HTMLButtonElement
       button?.focus()
     }
+  }
+
+  public async _enterBranchComparisonMode(
+    repository: Repository,
+    baseBranch: Branch,
+    comparisonBranch: Branch
+  ): Promise<void> {
+    const { files } = await getBranchComparisonChangedFiles(
+      repository,
+      baseBranch.name,
+      comparisonBranch.name
+    )
+
+    const selectedFile = files[0] || null
+
+    this.repositoryStateCache.update(repository, state => {
+      return {
+        selectedSection: RepositorySectionTab.Comparison,
+        branchComparisonState: {
+          baseBranch,
+          comparisonBranch,
+          files,
+          selectedFile,
+          diff: null,
+        },
+      }
+    })
+
+    this.emitUpdate()
+
+    if (selectedFile !== null) {
+      await this.updateBranchComparisonDiff(repository)
+    }
+  }
+
+  public async _exitBranchComparisonMode(
+    repository: Repository
+  ): Promise<void> {
+    this.repositoryStateCache.update(repository, state => {
+      return {
+        selectedSection: RepositorySectionTab.History,
+        branchComparisonState: null,
+      }
+    })
+
+    this.emitUpdate()
+  }
+
+  public async _changeBranchComparisonFileSelection(
+    repository: Repository,
+    file: CommittedFileChange
+  ): Promise<void> {
+    this.repositoryStateCache.updateBranchComparisonState(repository, state => {
+      return { ...state, selectedFile: file, diff: null }
+    })
+
+    this.emitUpdate()
+    await this.updateBranchComparisonDiff(repository)
+  }
+
+  private async updateBranchComparisonDiff(
+    repository: Repository
+  ): Promise<void> {
+    const state = this.repositoryStateCache.get(repository)
+    const { branchComparisonState } = state
+
+    if (
+      branchComparisonState === null ||
+      branchComparisonState.selectedFile === null
+    ) {
+      return
+    }
+
+    const { baseBranch, comparisonBranch, selectedFile } = branchComparisonState
+
+    const diff = await getBranchComparisonDiff(
+      repository,
+      selectedFile,
+      baseBranch.name,
+      comparisonBranch.name,
+      this.state.hideWhitespaceInHistoryDiff // Re-use this setting
+    )
+
+    this.repositoryStateCache.updateBranchComparisonState(repository, s => {
+      // Check if the selected file is still the same to avoid race conditions
+      if (s.selectedFile?.id === selectedFile.id) {
+        return { ...s, diff }
+      }
+      return s
+    })
+
+    this.emitUpdate()
+  }
+
+  public async _swapBranchComparisonBranches(
+    repository: Repository
+  ): Promise<void> {
+    const state = this.repositoryStateCache.get(repository)
+    const { branchComparisonState } = state
+
+    if (branchComparisonState === null) {
+      return
+    }
+
+    const { baseBranch, comparisonBranch } = branchComparisonState
+    await this._enterBranchComparisonMode(
+      repository,
+      comparisonBranch,
+      baseBranch
+    )
   }
 
   /**
