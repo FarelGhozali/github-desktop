@@ -102,7 +102,8 @@ export async function getCommits(
   revisionRange?: string,
   limit?: number,
   skip?: number,
-  additionalArgs: ReadonlyArray<string> = []
+  additionalArgs: ReadonlyArray<string> = [],
+  path?: string
 ): Promise<ReadonlyArray<Commit>> {
   const { formatArgs, parse } = createLogParser({
     sha: '%H', // SHA
@@ -142,6 +143,11 @@ export async function getCommits(
     ...additionalArgs,
     '--'
   )
+
+  if (path !== undefined) {
+    args.push(path)
+  }
+
   const result = await git(args, repository.path, 'getCommits', {
     successExitCodes: new Set([0, 128]),
   })
@@ -344,4 +350,21 @@ export async function doMergeCommitsExistAfterCommit(
   )
 
   return mergeCommits.length > 0
+}
+
+/**
+ * Get the repository's commits for a specific file or folder.
+ *
+ * @param repository The repository to fetch commits for.
+ * @param path The path to the file or folder.
+ * @param limit The maximum number of commits to return.
+ * @param skip The number of commits to skip.
+ */
+export async function getFileHistory(
+  repository: Repository,
+  path: string,
+  limit?: number,
+  skip?: number
+): Promise<ReadonlyArray<Commit>> {
+  return getCommits(repository, undefined, limit, skip, ['--follow'], path)
 }
