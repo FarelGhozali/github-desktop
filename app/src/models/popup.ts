@@ -96,6 +96,8 @@ export enum PopupType {
   UnknownAuthors = 'UnknownAuthors',
   TestIcons = 'TestIcons',
   ConfirmRestart = 'ConfirmRestart',
+  SubmoduleManager = 'SubmoduleManager',
+  AddSubmodule = 'AddSubmodule',
 }
 
 interface IBasePopup {
@@ -425,5 +427,13 @@ export type PopupDetail =
       type: PopupType.TestIcons
     }
   | { type: PopupType.ConfirmRestart }
+  | {
+      type: PopupType.SubmoduleManager
+      repository: Repository
+    }
+  | {
+      type: PopupType.AddSubmodule
+      repository: Repository
+    }
 
 export type Popup = IBasePopup & PopupDetail
