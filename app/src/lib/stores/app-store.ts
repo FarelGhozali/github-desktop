@@ -146,6 +146,8 @@ import {
   checkoutBranch,
   createCommit,
   getAuthorIdentity,
+  getBooleanConfigValue,
+  getConfigValue,
   getChangedFiles,
   getCommitDiff,
   getMergeBase,
@@ -3238,7 +3240,13 @@ export class AppStore extends TypedBaseStore<IAppState> {
     return this.withIsCommitting(repository, async () => {
       const result = await gitStore.performFailableOperation(async () => {
         const message = await formatCommitMessage(repository, context)
-        return createCommit(repository, message, selectedFiles, context.amend)
+        return createCommit(
+          repository,
+          message,
+          selectedFiles,
+          context.amend,
+          context.sign
+        )
       })
 
       if (result !== undefined) {
@@ -3487,6 +3495,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
     // further work
     const status = await this._loadStatus(repository)
     this.updateSidebarIndicator(repository, status)
+
+    await this.refreshGitSigningConfig(repository)
 
     if (status === null) {
       await this._updateRepositoryMissing(repository, true)
@@ -3768,6 +3778,24 @@ export class AppStore extends TypedBaseStore<IAppState> {
       commitAuthor,
     }))
     this.emitUpdate()
+  }
+
+  /**
+   * Refresh the git signing configuration for the repository.
+   */
+  private async refreshGitSigningConfig(repository: Repository) {
+    const gpgSign = await getBooleanConfigValue(repository, 'commit.gpgsign')
+    const signingKey = await getConfigValue(repository, 'user.signingkey')
+
+    // If commit.gpgsign is true, or a signing key is explicitly set, we consider it configured.
+    // Git might still fail if gpgSign is true but no key is found, but this is a good enough heuristic
+    // for enabling the checkbox.
+    const isGitSigningConfigured = gpgSign === true || signingKey !== null
+
+    this.repositoryStateCache.updateChangesState(repository, () => ({
+      isGitSigningConfigured,
+      isGitSigningEnabled: gpgSign === true,
+    }))
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */

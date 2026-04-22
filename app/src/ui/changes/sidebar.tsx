@@ -445,6 +445,8 @@ export class ChangesSidebar extends React.Component<IChangesSidebarProps, {}> {
           currentRepoRulesInfo={currentRepoRulesInfo}
           aheadBehind={this.props.aheadBehind}
           accounts={this.props.accounts}
+          isGitSigningConfigured={this.props.changes.isGitSigningConfigured}
+          isGitSigningEnabled={this.props.changes.isGitSigningEnabled}
         />
         {this.renderUndoCommit(rebaseConflictState)}
       </div>

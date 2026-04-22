@@ -318,6 +318,8 @@ function getInitialRepositoryState(): IRepositoryState {
       stashEntry: null,
       currentBranchProtected: false,
       currentRepoRulesInfo: new RepoRulesInfo(),
+      isGitSigningConfigured: false,
+      isGitSigningEnabled: false,
     },
     selectedSection: RepositorySectionTab.Changes,
     branchesState: {
