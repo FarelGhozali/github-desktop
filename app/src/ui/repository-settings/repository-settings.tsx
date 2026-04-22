@@ -13,7 +13,7 @@ import {
 } from '../../models/repository'
 import { Dialog, DialogError, DialogFooter } from '../dialog'
 import { NoRemote } from './no-remote'
-import { readGitIgnoreAtRoot } from '../../lib/git'
+import { readGitIgnoreAtRoot, getTrackedIgnoredFiles } from '../../lib/git'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 import { ForkSettings } from './fork-settings'
 import { ForkContributionTarget } from '../../models/workflow-preferences'
@@ -319,6 +319,17 @@ export class RepositorySettings extends React.Component<
           this.props.repository,
           this.state.ignoreText
         )
+
+        const trackedIgnoredFiles = await getTrackedIgnoredFiles(
+          this.props.repository
+        )
+        if (trackedIgnoredFiles.length > 0) {
+          this.props.dispatcher.showPopup({
+            type: PopupType.ConfirmUntrackFiles,
+            repository: this.props.repository,
+            files: trackedIgnoredFiles,
+          })
+        }
       } catch (e) {
         log.error(
           `RepositorySettings: unable to save gitignore at ${this.props.repository.path}`,
