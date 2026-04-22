@@ -26,6 +26,8 @@ import {
   getBlobImage,
   getBinaryPaths,
   getBranchMergeBaseChangedFiles,
+  getBranchComparisonChangedFiles,
+  getBranchComparisonDiff,
   getBranchMergeBaseDiff,
   git,
 } from '../../../src/lib/git'
@@ -699,6 +701,28 @@ describe('git/diff', () => {
 
       expect(diff.text).not.toContain('bar')
       expect(diff.text).toContain('feature')
+    })
+  })
+
+  describe('getBranchComparisonChangedFiles', () => {
+    it('returns changed files between two branches', async () => {
+      const repo = await setupEmptyRepository()
+      await writeFile(path.join(repo.path, 'foo.md'), 'foo')
+      await makeCommit(repo, { entries: [{ path: 'foo.md' }] })
+
+      await git(['branch', 'feature-branch'], repo.path, 'create branch')
+      await switchTo(repo, 'feature-branch')
+      await writeFile(path.join(repo.path, 'bar.md'), 'bar')
+      await makeCommit(repo, { entries: [{ path: 'bar.md' }] })
+
+      const { files } = await getBranchComparisonChangedFiles(
+        repo,
+        'master',
+        'feature-branch'
+      )
+      expect(files).toHaveLength(1)
+      expect(files[0].path).toBe('bar.md')
+      expect(files[0].status.kind).toBe(AppFileStatusKind.New)
     })
   })
 })
