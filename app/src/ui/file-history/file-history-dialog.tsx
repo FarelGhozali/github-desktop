@@ -2,13 +2,13 @@ import * as React from 'react'
 import { Repository } from '../../models/repository'
 import { Dispatcher } from '../dispatcher'
 import { Commit } from '../../models/commit'
-import { getFileHistory } from '../../lib/git'
+import { getFileHistory, IFileCommit } from '../../lib/git'
 import { Dialog, DialogFooter } from '../dialog'
 import { CommitList } from '../history/commit-list'
 import { Account } from '../../models/account'
 import { Emoji } from '../../lib/emoji'
 import { SeamlessDiffSwitcher } from '../diff/seamless-diff-switcher'
-import { CommittedFileChange, AppFileStatusKind } from '../../models/status'
+import { CommittedFileChange } from '../../models/status'
 import { IDiff, ImageDiffType } from '../../models/diff'
 import { getCommitDiff } from '../../lib/git/diff'
 
@@ -22,7 +22,7 @@ interface IFileHistoryDialogProps {
 }
 
 interface IFileHistoryDialogState {
-  readonly commits: ReadonlyArray<Commit>
+  readonly fileCommits: ReadonlyArray<IFileCommit>
   readonly commitLookup: Map<string, Commit>
   readonly selectedSHA: string | null
   readonly currentDiff: IDiff | null
@@ -37,7 +37,7 @@ export class FileHistoryDialog extends React.Component<
     super(props)
 
     this.state = {
-      commits: [],
+      fileCommits: [],
       commitLookup: new Map(),
       selectedSHA: null,
       currentDiff: null,
@@ -46,21 +46,24 @@ export class FileHistoryDialog extends React.Component<
   }
 
   public async componentDidMount() {
-    const commits = await getFileHistory(this.props.repository, this.props.path)
+    const fileCommits = await getFileHistory(
+      this.props.repository,
+      this.props.path
+    )
     const commitLookup = new Map<string, Commit>()
-    for (const commit of commits) {
-      commitLookup.set(commit.sha, commit)
+    for (const fc of fileCommits) {
+      commitLookup.set(fc.commit.sha, fc.commit)
     }
 
     this.setState({
-      commits,
+      fileCommits,
       commitLookup,
       isLoading: false,
-      selectedSHA: commits.length > 0 ? commits[0].sha : null,
+      selectedSHA: fileCommits.length > 0 ? fileCommits[0].commit.sha : null,
     })
 
-    if (commits.length > 0) {
-      this.loadDiff(commits[0].sha)
+    if (fileCommits.length > 0) {
+      this.loadDiff(fileCommits[0])
     }
   }
 
@@ -71,23 +74,21 @@ export class FileHistoryDialog extends React.Component<
     if (commits.length > 0) {
       const sha = commits[0].sha
       this.setState({ selectedSHA: sha })
-      this.loadDiff(sha)
+      const fileCommit = this.state.fileCommits.find(fc => fc.commit.sha === sha)
+      if (fileCommit) {
+        this.loadDiff(fileCommit)
+      }
     }
   }
 
-  private async loadDiff(sha: string) {
-    const { repository, path } = this.props
-    
-    // Create a fake CommittedFileChange for the diff
-    // In a real implementation, we might want to get the actual status
-    const file = new CommittedFileChange(
-      path,
-      { kind: AppFileStatusKind.Modified },
-      sha
-    )
+  private async loadDiff(fileCommit: IFileCommit) {
+    const { repository } = this.props
+    const { commit, path, status } = fileCommit
+
+    const file = new CommittedFileChange(path, status, commit.sha)
 
     try {
-      const diff = await getCommitDiff(repository, file, sha)
+      const diff = await getCommitDiff(repository, file, commit.sha)
       this.setState({ currentDiff: diff })
     } catch (e) {
       console.error('Failed to load diff', e)
@@ -96,7 +97,7 @@ export class FileHistoryDialog extends React.Component<
   }
 
   public render() {
-    const commitSHAs = this.state.commits.map(c => c.sha)
+    const commitSHAs = this.state.fileCommits.map(fc => fc.commit.sha)
     const selectedSHAs = this.state.selectedSHA ? [this.state.selectedSHA] : []
 
     return (
@@ -119,9 +120,7 @@ export class FileHistoryDialog extends React.Component<
               accounts={this.props.accounts}
             />
           </div>
-          <div className="diff-container">
-            {this.renderDiff()}
-          </div>
+          <div className="diff-container">{this.renderDiff()}</div>
         </div>
       </Dialog>
     )
@@ -132,11 +131,17 @@ export class FileHistoryDialog extends React.Component<
       return <div className="no-diff">No commit selected</div>
     }
 
-    // We need to provide a FileChange for the SeamlessDiffSwitcher
+    const fileCommit = this.state.fileCommits.find(
+      fc => fc.commit.sha === this.state.selectedSHA
+    )
+    if (!fileCommit) {
+      return null
+    }
+
     const file = new CommittedFileChange(
-      this.props.path,
-      { kind: AppFileStatusKind.Modified },
-      this.state.selectedSHA
+      fileCommit.path,
+      fileCommit.status,
+      fileCommit.commit.sha
     )
 
     return (

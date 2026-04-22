@@ -353,7 +353,16 @@ export async function doMergeCommitsExistAfterCommit(
 }
 
 /**
- * Get the repository's commits for a specific file or folder.
+ * Detailed information about a commit for a specific file.
+ */
+export interface IFileCommit {
+  readonly commit: Commit
+  readonly path: string
+  readonly status: AppFileStatus
+}
+
+/**
+ * Get the repository's commits for a specific file or folder, including file status at that commit.
  *
  * @param repository The repository to fetch commits for.
  * @param path The path to the file or folder.
@@ -365,6 +374,110 @@ export async function getFileHistory(
   path: string,
   limit?: number,
   skip?: number
-): Promise<ReadonlyArray<Commit>> {
-  return getCommits(repository, undefined, limit, skip, ['--follow'], path)
+): Promise<ReadonlyArray<IFileCommit>> {
+  const { formatArgs, parse } = createLogParser({
+    sha: '%H',
+    shortSha: '%h',
+    summary: '%s',
+    body: '%b',
+    author: '%an <%ae> %ad',
+    committer: '%cn <%ce> %cd',
+    parents: '%P',
+    trailers: '%(trailers:unfold,only)',
+    refs: '%D',
+  })
+
+  const args = ['log']
+  args.push('--date=raw', '--follow', '--name-status', '-z')
+
+  if (limit !== undefined) {
+    args.push(`--max-count=${limit}`)
+  }
+
+  if (skip !== undefined) {
+    args.push(`--skip=${skip}`)
+  }
+
+  args.push(...formatArgs, '--no-show-signature', '--no-color', '--', path)
+
+  const { stdout } = await git(args, repository.path, 'getFileHistory')
+
+  const results = new Array<IFileCommit>()
+  const records = stdout.split('\0')
+
+  let i = 0
+  const keysCount = 9 // number of fields in createLogParser above
+  while (i < records.length - keysCount) {
+    const commitData: any = {}
+    commitData.sha = records[i++]
+    commitData.shortSha = records[i++]
+    commitData.summary = records[i++]
+    commitData.body = records[i++]
+    commitData.author = records[i++]
+    commitData.committer = records[i++]
+    commitData.parents = records[i++]
+    commitData.trailers = records[i++]
+    commitData.refs = records[i++]
+
+    const tags = commitData.refs
+      .split(', ')
+      .flatMap((ref: string) => (ref.startsWith('tag: ') ? ref.substring(5) : []))
+
+    const commit = new Commit(
+      commitData.sha,
+      commitData.shortSha,
+      commitData.summary,
+      commitData.body,
+      CommitIdentity.parseIdentity(commitData.author),
+      CommitIdentity.parseIdentity(commitData.committer),
+      commitData.parents.length > 0 ? commitData.parents.split(' ') : [],
+      parseRawUnfoldedTrailers(commitData.trailers, ':'),
+      tags
+    )
+
+    // After the commit fields, git log -z --name-status adds:
+    // \n\0<status>\0<path>\0
+    // or if it's a rename:
+    // \n\0<status>\0<old-path>\0<new-path>\0
+
+    let statusLine = records[i++]
+    if (statusLine.startsWith('\n')) {
+      statusLine = statusLine.substring(1)
+    }
+
+    if (statusLine === '') {
+      // Sometimes there's an extra empty record, skip it
+      statusLine = records[i++]
+    }
+
+    const status = statusLine
+    let oldPath: string | undefined
+    let currentPath: string | undefined
+
+    if (status.startsWith('R') || status.startsWith('C')) {
+      oldPath = records[i++]
+      currentPath = records[i++]
+    } else {
+      currentPath = records[i++]
+    }
+
+    // Note: in --follow mode, the path we care about for "current" at this commit
+    // is actually the one that was renamed TO (if it's the rename commit)
+    // or just the path if it wasn't a rename.
+    // Actually, if we want to show the diff for this commit, we need the path
+    // it had IN this commit.
+
+    results.push({
+      commit,
+      path: currentPath || path,
+      status: mapStatus(status, oldPath, '100644', '100644'), // Default modes as they aren't provided by name-status
+    })
+
+    // There is a trailing newline record between commits when using -z with log
+    if (records[i] === '\n' || records[i] === '') {
+      i++
+    }
+  }
+
+  return results
 }
