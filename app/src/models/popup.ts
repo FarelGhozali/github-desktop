@@ -428,6 +428,7 @@ export type PopupDetail =
   | {
       type: PopupType.TagManager
       repository: Repository
+      targetCommitSha: string
     }
   | { type: PopupType.ConfirmRestart }
 

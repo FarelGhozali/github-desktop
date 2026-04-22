@@ -6,11 +6,16 @@ import { ITagDetails } from '../../models/tag'
 import { FilterList } from '../lib/filter-list'
 import { TagListItem } from './tag-list-item'
 import { IMatches } from '../../lib/fuzzy-find'
+import { Button } from '../lib/button'
+import { Octicon } from '../octicons'
+import * as OcticonSymbol from '../octicons/octicons.generated'
+import { TipState } from '../../models/tip'
 
 interface ITagManagerProps {
   readonly dispatcher: Dispatcher
   readonly repository: Repository
   readonly tags: ReadonlyArray<ITagDetails>
+  readonly targetCommitSha: string
   readonly onDismissed: () => void
 }
 
@@ -39,6 +44,12 @@ export class TagManager extends React.Component<ITagManagerProps, ITagManagerSta
         onSubmit={this.props.onDismissed}
       >
         <DialogContent className="tag-manager-content">
+          <div className="tag-manager-header">
+            <Button onClick={this.onCreateTag}>
+              <Octicon symbol={OcticonSymbol.plus} />
+              Create Tag
+            </Button>
+          </div>
           <FilterList<ITagDetails>
             items={this.props.tags}
             filterText={this.state.filterText}
@@ -80,6 +91,14 @@ export class TagManager extends React.Component<ITagManagerProps, ITagManagerSta
         isDeleting={this.state.deletingTags.has(tag.name)}
       />
     )
+  }
+
+  private onCreateTag = () => {
+    const { dispatcher, repository, targetCommitSha } = this.props
+    const localTags = new Map(this.props.tags.map(t => [t.name, t.commitSha]))
+
+    this.props.onDismissed()
+    dispatcher.showCreateTagDialog(repository, targetCommitSha, localTags)
   }
 
   private onPushTag = async (tag: ITagDetails) => {

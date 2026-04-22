@@ -1450,7 +1450,16 @@ export class App extends React.Component<IAppProps, IAppState> {
     if (!repository || repository instanceof CloningRepository) {
       return
     }
-    this.props.dispatcher.showTagManager(repository)
+
+    const state = this.state.localRepositoryStateLookup.get(repository.id)
+    if (state === undefined || state.branchesState.tip.kind !== TipState.Valid) {
+      return
+    }
+
+    this.props.dispatcher.showTagManager(
+      repository,
+      state.branchesState.tip.branch.tip.sha
+    )
   }
 
   /**
@@ -2249,6 +2258,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             dispatcher={this.props.dispatcher}
             repository={popup.repository}
             tags={tagsDetails}
+            targetCommitSha={popup.targetCommitSha}
             onDismissed={onPopupDismissedFn}
           />
         )

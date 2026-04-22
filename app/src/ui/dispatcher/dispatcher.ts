@@ -692,10 +692,14 @@ export class Dispatcher {
   /**
    * Show the tag manager dialog.
    */
-  public showTagManager(repository: Repository): Promise<void> {
+  public showTagManager(
+    repository: Repository,
+    targetCommitSha: string
+  ): Promise<void> {
     return this.showPopup({
       type: PopupType.TagManager,
       repository,
+      targetCommitSha,
     })
   }
 
