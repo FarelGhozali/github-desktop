@@ -1,0 +1,121 @@
+.submodule-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: var(--color-attention-subtle);
+  border-bottom: 1px solid var(--base-border-color);
+  font-size: var(--font-size-small);
+
+  .octicon {
+    color: var(--color-attention-fg);
+  }
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.submodule-manager-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--base-border-color);
+}
+
+.submodule-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.submodule-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid var(--base-border-color);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.submodule-status {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+
+  .octicon {
+    &.status-up-to-date {
+      color: var(--color-success-fg);
+    }
+    &.status-not-initialized {
+      color: var(--color-fg-muted);
+    }
+    &.status-out-of-sync {
+      color: var(--color-attention-fg);
+    }
+    &.status-conflict {
+      color: var(--color-danger-fg);
+    }
+  }
+}
+
+.submodule-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .submodule-path-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .octicon {
+      color: var(--color-fg-muted);
+    }
+  }
+
+  .submodule-path {
+    font-weight: var(--font-weight-bold);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .submodule-url {
+    font-size: var(--font-size-small);
+    color: var(--color-fg-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .submodule-sha-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-small);
+    color: var(--color-fg-muted);
+
+    .submodule-sha {
+      font-family: var(--font-family-mono);
+    }
+
+    .submodule-describe {
+      font-style: italic;
+    }
+  }
+}
+
+.submodule-actions {
+  margin-left: 10px;
+}
+
+.no-submodules {
+  padding: 20px;
+  text-align: center;
+  color: var(--color-fg-muted);
+}

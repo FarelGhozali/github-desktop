@@ -97,6 +97,8 @@ import { UpstreamAlreadyExists } from './upstream-already-exists'
 import { ReleaseNotes } from './release-notes'
 import { DeletePullRequest } from './delete-branch/delete-pull-request-dialog'
 import { CommitConflictsWarning } from './merge-conflicts'
+import { SubmoduleManager } from './submodules/submodule-manager-dialog'
+import { AddSubmodule } from './submodules/add-submodule-dialog'
 import { AppTheme } from './app-theme'
 import { ApplicationTheme } from './lib/application-theme'
 import { RepositoryStateCache } from '../lib/stores/repository-state-cache'
@@ -477,6 +479,8 @@ export class App extends React.Component<IAppProps, IAppState> {
       case 'rebase-branch':
         this.props.dispatcher.incrementMetric('rebaseCurrentBranchMenuCount')
         return this.showRebaseDialog()
+      case 'manage-submodules':
+        return this.showSubmoduleManager()
       case 'show-repository-settings':
         return this.showRepositorySettings()
       case 'view-repository-on-github':
@@ -1427,6 +1431,14 @@ export class App extends React.Component<IAppProps, IAppState> {
     }
 
     this.props.dispatcher.showRebaseDialog(repository)
+  }
+
+  private showSubmoduleManager() {
+    const repository = this.getRepository()
+    this.props.dispatcher.showPopup({
+      type: PopupType.SubmoduleManager,
+      repository,
+    })
   }
 
   private showRepositorySettings() {
@@ -2669,10 +2681,29 @@ export class App extends React.Component<IAppProps, IAppState> {
       case PopupType.ConfirmRestart: {
         return <ConfirmRestart onDismissed={onPopupDismissedFn} />
       }
+      case PopupType.SubmoduleManager:
+        return (
+          <SubmoduleManager
+            key="submodule-manager"
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      case PopupType.AddSubmodule:
+        return (
+          <AddSubmodule
+            key="add-submodule"
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
       default:
-        return assertNever(popup, `Unknown popup type: ${popup}`)
-    }
-  }
+        return assertNever(popup, `Unknown popup type: ${popup.type}`)
+      }
+      }
+
 
   private getPullRequestState() {
     const { selectedState } = this.state
