@@ -479,6 +479,8 @@ export class App extends React.Component<IAppProps, IAppState> {
         return this.showRebaseDialog()
       case 'show-repository-settings':
         return this.showRepositorySettings()
+      case 'manage-tags':
+        return this.showTagManager()
       case 'view-repository-on-github':
         return this.viewRepositoryOnGitHub()
       case 'compare-on-github':
@@ -1439,6 +1441,15 @@ export class App extends React.Component<IAppProps, IAppState> {
       type: PopupType.RepositorySettings,
       repository,
     })
+  }
+
+  private showTagManager() {
+    const repository = this.getRepository()
+
+    if (!repository || repository instanceof CloningRepository) {
+      return
+    }
+    this.props.dispatcher.showTagManager(repository)
   }
 
   /**
