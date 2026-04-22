@@ -442,6 +442,8 @@ const customShellKey = 'custom-shell'
 export const underlineLinksKey = 'underline-links'
 export const underlineLinksDefault = true
 
+const commitTemplatesKey = 'commit-templates'
+
 export const showDiffCheckMarksDefault = true
 export const showDiffCheckMarksKey = 'diff-check-marks-visible'
 
@@ -593,6 +595,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
   private cachedRepoRulesets = new Map<number, IAPIRepoRuleset>()
 
   private underlineLinks: boolean = underlineLinksDefault
+
+  private commitTemplates: ReadonlyArray<ICommitTemplate> = []
 
   public constructor(
     private readonly gitHubUserStore: GitHubUserStore,
@@ -1080,7 +1084,33 @@ export class AppStore extends TypedBaseStore<IAppState> {
       cachedRepoRulesets: this.cachedRepoRulesets,
       underlineLinks: this.underlineLinks,
       showDiffCheckMarks: this.showDiffCheckMarks,
+      commitTemplates: this.commitTemplates,
     }
+  }
+
+  public async _setCommitTemplates(
+    templates: ReadonlyArray<ICommitTemplate>
+  ): Promise<void> {
+    this.commitTemplates = templates
+    localStorage.setItem(commitTemplatesKey, JSON.stringify(templates))
+    this.emitUpdate()
+  }
+
+  public async _addCommitTemplate(template: ICommitTemplate): Promise<void> {
+    const templates = [...this.commitTemplates, template]
+    return this._setCommitTemplates(templates)
+  }
+
+  public async _removeCommitTemplate(id: string): Promise<void> {
+    const templates = this.commitTemplates.filter(t => t.id !== id)
+    return this._setCommitTemplates(templates)
+  }
+
+  public async _updateCommitTemplate(template: ICommitTemplate): Promise<void> {
+    const templates = this.commitTemplates.map(t =>
+      t.id === template.id ? template : t
+    )
+    return this._setCommitTemplates(templates)
   }
 
   private onGitStoreUpdated(repository: Repository, gitStore: GitStore) {
@@ -2297,6 +2327,15 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
     // Always false if the feature flag is disabled.
     this.underlineLinks = getBoolean(underlineLinksKey, underlineLinksDefault)
+
+    const commitTemplatesRaw = localStorage.getItem(commitTemplatesKey)
+    if (commitTemplatesRaw) {
+      try {
+        this.commitTemplates = JSON.parse(commitTemplatesRaw)
+      } catch (e) {
+        log.error('Failed to parse commit templates', e)
+      }
+    }
 
     this.showDiffCheckMarks = getBoolean(
       showDiffCheckMarksKey,
