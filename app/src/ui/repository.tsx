@@ -16,6 +16,7 @@ import {
   ChangesSelectionKind,
   IConstrainedValue,
 } from '../lib/app-state'
+import { CompareView } from './comparison/compare-view'
 import { Dispatcher } from './dispatcher'
 import { IssuesStore, GitHubUserStore } from '../lib/stores'
 import { assertNever } from '../lib/fatal-error'
@@ -399,9 +400,41 @@ export class RepositoryView extends React.Component<
           onOpenInExternalEditor={this.props.onOpenInExternalEditor}
         />
       )
+    } else if (selectedSection === RepositorySectionTab.Comparison) {
+      return this.renderComparison()
     }
 
     return null
+  }
+
+  private renderComparison(): JSX.Element | null {
+    const { branchComparisonState, branchesState } = this.props.state
+    if (branchComparisonState === null) {
+      return null
+    }
+
+    const { tip, allBranches, recentBranches, defaultBranch } = branchesState
+    const currentBranch = tip.kind === TipState.Valid ? tip.branch : null
+
+    return (
+      <CompareView
+        repository={this.props.repository}
+        dispatcher={this.props.dispatcher}
+        state={branchComparisonState}
+        emoji={this.props.emoji}
+        accounts={this.props.accounts}
+        imageDiffType={this.props.imageDiffType}
+        hideWhitespaceInDiff={this.props.hideWhitespaceInHistoryDiff}
+        showSideBySideDiff={this.props.showSideBySideDiff}
+        sidebarWidth={this.props.sidebarWidth}
+        allBranches={allBranches}
+        recentBranches={recentBranches}
+        defaultBranch={defaultBranch}
+        currentBranch={currentBranch}
+        externalEditorLabel={this.props.externalEditorLabel}
+        onOpenInExternalEditor={this.props.onOpenInExternalEditor}
+      />
+    )
   }
 
   private onHideWhitespaceInDiffChanged = (hideWhitespaceInDiff: boolean) => {
@@ -579,6 +612,10 @@ export class RepositoryView extends React.Component<
   }
 
   public render() {
+    if (this.props.state.selectedSection === RepositorySectionTab.Comparison) {
+      return <UiView id="repository">{this.renderContent()}</UiView>
+    }
+
     return (
       <UiView id="repository">
         {this.renderSidebar()}
