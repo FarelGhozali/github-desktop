@@ -225,6 +225,7 @@ interface IChangesListProps {
   readonly showCommitLengthWarning: boolean
 
   readonly accounts: ReadonlyArray<Account>
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 }
 
 interface IChangesState {
@@ -862,7 +863,10 @@ export class ChangesList extends React.Component<
         onStopAmending={this.onStopAmending}
         onShowCreateForkDialog={this.onShowCreateForkDialog}
         accounts={this.props.accounts}
-        commitTemplates={ConventionalCommitTemplates}
+        commitTemplates={[
+          ...ConventionalCommitTemplates,
+          ...this.props.commitTemplates,
+        ]}
       />
     )
   }

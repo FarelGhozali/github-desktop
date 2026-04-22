@@ -1763,6 +1763,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             onOpenFileInExternalEditor={this.openFileInExternalEditor}
             underlineLinks={this.state.underlineLinks}
             showDiffCheckMarks={this.state.showDiffCheckMarks}
+            commitTemplates={this.state.commitTemplates}
           />
         )
       case PopupType.RepositorySettings: {
@@ -2335,6 +2336,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             onSubmitCommitMessage={popup.onSubmitCommitMessage}
             repositoryAccount={repositoryAccount}
             accounts={this.state.accounts}
+            commitTemplates={this.state.commitTemplates}
           />
         )
       case PopupType.MultiCommitOperation: {
@@ -3408,6 +3410,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             state.askForConfirmationOnCheckoutCommit
           }
           accounts={state.accounts}
+          commitTemplates={state.commitTemplates}
           isExternalEditorAvailable={
             state.useCustomEditor || state.selectedExternalEditor !== null
           }

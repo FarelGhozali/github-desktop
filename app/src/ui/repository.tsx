@@ -34,6 +34,7 @@ import { DragType } from '../models/drag-drop'
 import { PullRequestSuggestedNextAction } from '../models/pull-request'
 import { clamp } from '../lib/clamp'
 import { Emoji } from '../lib/emoji'
+import { ICommitTemplate } from '../models/commit-template'
 
 interface IRepositoryViewProps {
   readonly repository: Repository
@@ -58,6 +59,7 @@ interface IRepositoryViewProps {
   readonly commitSpellcheckEnabled: boolean
   readonly showCommitLengthWarning: boolean
   readonly accounts: ReadonlyArray<Account>
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 
   /**
    * A value indicating whether or not the application is currently presenting
@@ -262,6 +264,7 @@ export class RepositoryView extends React.Component<
         }
         commitSpellcheckEnabled={this.props.commitSpellcheckEnabled}
         showCommitLengthWarning={this.props.showCommitLengthWarning}
+        commitTemplates={this.props.commitTemplates}
       />
     )
   }

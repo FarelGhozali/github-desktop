@@ -31,6 +31,7 @@ import { isConflictedFile, hasUnresolvedConflicts } from '../../lib/status'
 import { getAccountForRepository } from '../../lib/get-account-for-repository'
 import { IAheadBehind } from '../../models/branch'
 import { Emoji } from '../../lib/emoji'
+import { ICommitTemplate } from '../../models/commit-template'
 
 /**
  * The timeout for the animation of the enter/leave animation for Undo.
@@ -85,6 +86,8 @@ interface IChangesSidebarProps {
   readonly commitSpellcheckEnabled: boolean
 
   readonly showCommitLengthWarning: boolean
+
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 }
 
 export class ChangesSidebar extends React.Component<IChangesSidebarProps, {}> {
@@ -445,6 +448,7 @@ export class ChangesSidebar extends React.Component<IChangesSidebarProps, {}> {
           currentRepoRulesInfo={currentRepoRulesInfo}
           aheadBehind={this.props.aheadBehind}
           accounts={this.props.accounts}
+          commitTemplates={this.props.commitTemplates}
         />
         {this.renderUndoCommit(rebaseConflictState)}
       </div>

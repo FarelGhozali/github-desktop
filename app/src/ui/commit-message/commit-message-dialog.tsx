@@ -96,7 +96,9 @@ interface ICommitMessageDialogProps {
 
   readonly repositoryAccount: Account | null
   readonly accounts: ReadonlyArray<Account>
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 }
+
 
 interface ICommitMessageDialogState {
   readonly showCoAuthoredBy: boolean
@@ -164,7 +166,10 @@ export class CommitMessageDialog extends React.Component<
             onStopAmending={this.onStopAmending}
             onShowCreateForkDialog={this.onShowCreateForkDialog}
             accounts={this.props.accounts}
-            commitTemplates={ConventionalCommitTemplates}
+            commitTemplates={[
+              ...ConventionalCommitTemplates,
+              ...this.props.commitTemplates,
+            ]}
           />
         </DialogContent>
       </Dialog>
