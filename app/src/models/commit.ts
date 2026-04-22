@@ -1,6 +1,7 @@
 import { CommitIdentity } from './commit-identity'
 import { ITrailer, isCoAuthoredByTrailer } from '../lib/git/interpret-trailers'
 import { GitAuthor } from './git-author'
+import { ICommitSignature } from './commit-signature'
 
 /** Shortens a given SHA. */
 export function shortenSHA(sha: string) {
@@ -25,6 +26,10 @@ export interface ICommitContext {
    * An optional array of commit trailers (for example Co-Authored-By trailers) which will be appended to the commit message in accordance with the Git trailer configuration.
    */
   readonly trailers?: ReadonlyArray<ITrailer>
+  /**
+   * Whether or not to sign the commit (optional, default: false)
+   */
+  readonly sign?: boolean
 }
 
 /**
@@ -110,6 +115,7 @@ export class Commit {
    * @param trailers Parsed, unfolded trailers from the commit message body,
    *                 if any, as interpreted by `git interpret-trailers`
    * @param tags Tags associated with this commit.
+   * @param signature Information about the commit's signature.
    */
   public constructor(
     public readonly sha: string,
@@ -120,7 +126,8 @@ export class Commit {
     public readonly committer: CommitIdentity,
     public readonly parentSHAs: ReadonlyArray<string>,
     public readonly trailers: ReadonlyArray<ITrailer>,
-    public readonly tags: ReadonlyArray<string>
+    public readonly tags: ReadonlyArray<string>,
+    public readonly signature: ICommitSignature | null = null
   ) {
     this.coAuthors = extractCoAuthors(trailers)
 
@@ -133,3 +140,4 @@ export class Commit {
     this.isMergeCommit = parentSHAs.length > 1
   }
 }
+
