@@ -72,6 +72,7 @@ import { AppMenuBar } from './app-menu'
 import { UpdateAvailable, renderBanner } from './banners'
 import { Preferences } from './preferences'
 import { ConfirmRestart } from './preferences/confirm-restart'
+import { UntrackFilesDialog } from './untrack-files/untrack-files-dialog'
 import { RepositorySettings } from './repository-settings'
 import { AppError } from './app-error'
 import { MissingRepository } from './missing-repository'
@@ -2666,8 +2667,18 @@ export class App extends React.Component<IAppProps, IAppState> {
           />
         )
       }
-      case PopupType.ConfirmRestart: {
+      case PopupType.ConfirmRestart:
         return <ConfirmRestart onDismissed={onPopupDismissedFn} />
+      case PopupType.ConfirmUntrackFiles:
+        return (
+          <UntrackFilesDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            files={popup.files}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+
       }
       default:
         return assertNever(popup, `Unknown popup type: ${popup}`)
