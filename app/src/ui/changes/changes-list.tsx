@@ -58,6 +58,7 @@ import { TooltippedContent } from '../lib/tooltipped-content'
 import { RepoRulesInfo } from '../../models/repo-rules'
 import { IAheadBehind } from '../../models/branch'
 import { StashDiffViewerId } from '../stashing'
+import { ConventionalCommitTemplates } from '../../models/commit-template'
 
 const RowHeight = 29
 const StashIcon: OcticonSymbolVariant = {
@@ -861,6 +862,7 @@ export class ChangesList extends React.Component<
         onStopAmending={this.onStopAmending}
         onShowCreateForkDialog={this.onShowCreateForkDialog}
         accounts={this.props.accounts}
+        commitTemplates={ConventionalCommitTemplates}
       />
     )
   }

@@ -17,6 +17,7 @@ import { Foldout } from '../../lib/app-state'
 import { Account } from '../../models/account'
 import { RepoRulesInfo } from '../../models/repo-rules'
 import { IAheadBehind } from '../../models/branch'
+import { ConventionalCommitTemplates } from '../../models/commit-template'
 
 interface ICommitMessageDialogProps {
   /**
@@ -163,6 +164,7 @@ export class CommitMessageDialog extends React.Component<
             onStopAmending={this.onStopAmending}
             onShowCreateForkDialog={this.onShowCreateForkDialog}
             accounts={this.props.accounts}
+            commitTemplates={ConventionalCommitTemplates}
           />
         </DialogContent>
       </Dialog>

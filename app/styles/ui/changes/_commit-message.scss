@@ -162,6 +162,10 @@
     }
 
     .action-bar {
+      display: flex;
+      flex-direction: row;
+      column-gap: var(--spacing-half);
+
       padding: var(--spacing-half);
       background: var(--box-background-color);
 
@@ -182,6 +186,7 @@
       }
     }
 
+    .commit-template-selector,
     .co-authors-toggle {
       // button reset styles
       border: none;
@@ -210,9 +215,28 @@
       }
 
       svg {
+        height: 14px;
+        width: 14px;
+        pointer-events: none;
+      }
+    }
+
+    .commit-template-selector {
+      color: var(--text-secondary-color);
+
+      &:hover {
+        color: var(--text-color);
+      }
+
+      &:focus {
+        outline-offset: 2px;
+      }
+    }
+
+    .co-authors-toggle {
+      svg {
         height: 13px;
         width: 18px;
-        pointer-events: none;
       }
     }
   }
