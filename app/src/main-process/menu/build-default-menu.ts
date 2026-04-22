@@ -382,6 +382,11 @@ export function buildDefaultMenu({
       accelerator: 'CmdOrCtrl+Shift+D',
       click: emit('delete-branch'),
     },
+    {
+      label: __DARWIN__ ? 'Compare with Branch…' : 'Compare with &branch…',
+      id: 'compare-with-branch',
+      click: emit('compare-with-branch'),
+    },
     separator,
     {
       label: __DARWIN__ ? 'Discard All Changes…' : 'Discard all changes…',
