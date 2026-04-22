@@ -3,6 +3,7 @@ import * as FS from 'fs'
 import { Repository } from '../../models/repository'
 import { getConfigValue } from './config'
 import { writeFile } from 'fs/promises'
+import { git } from './core'
 
 /**
  * Read the contents of the repository .gitignore.
@@ -31,8 +32,44 @@ export async function readGitIgnoreAtRoot(
   })
 }
 
+
 /**
- * Persist the given content to the repository root .gitignore.
+ * Get the list of files that are both tracked and ignored by the repository.
+ *
+ * This is useful for identifying files that should be removed from the index.
+ */
+export async function getTrackedIgnoredFiles(
+  repository: Repository
+): Promise<ReadonlyArray<string>> {
+  const result = await git(
+    ['ls-files', '--ignored', '--exclude-standard', '--cached'],
+    repository.path,
+    'getTrackedIgnoredFiles'
+  )
+
+  const output = result.stdout
+  if (output.length === 0) {
+    return []
+  }
+
+  return output.split(/\r?\n/).filter(line => line.length > 0)
+}
+
+/**
+ * Remove the given files from the Git index (but keep them on disk).
+ *
+ * Equivalent to `git rm --cached <files>`.
+ */
+export async function untrackFiles(
+  repository: Repository,
+  paths: ReadonlyArray<string>
+): Promise<void> {
+  if (paths.length === 0) {
+    return
+  }
+
+  await git(['rm', '-r', '--cached', '--', ...paths], repository.path, 'untrackFiles')
+}
  *
  * If the repository root doesn't contain a .gitignore file one
  * will be created, otherwise the current file will be overwritten.
