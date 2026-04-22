@@ -122,6 +122,7 @@ import {
 } from '../models/github-repository'
 import { CreateTag } from './create-tag'
 import { DeleteTag } from './delete-tag'
+import { TagManager } from './tags/tag-manager-dialog'
 import { ChooseForkSettings } from './choose-fork-settings'
 import { DiscardSelection } from './discard-changes/discard-selection-dialog'
 import { LocalChangesOverwrittenDialog } from './local-changes-overwritten/local-changes-overwritten-dialog'
@@ -2234,6 +2235,21 @@ export class App extends React.Component<IAppProps, IAppState> {
             onDismissed={onPopupDismissedFn}
             dispatcher={this.props.dispatcher}
             tagName={popup.tagName}
+          />
+        )
+      }
+      case PopupType.TagManager: {
+        const repositoryState = this.state.localRepositoryStateLookup.get(
+          popup.repository.id
+        )
+        const tagsDetails = repositoryState?.tagsDetails ?? []
+        return (
+          <TagManager
+            key="tag-manager"
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            tags={tagsDetails}
+            onDismissed={onPopupDismissedFn}
           />
         )
       }
