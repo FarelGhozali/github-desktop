@@ -3496,6 +3496,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     // loadBranches needs the default remote to determine the default branch
     await gitStore.loadRemotes()
     await gitStore.loadBranches()
+    await gitStore.initializeCommitMessageFromTemplate()
 
     const section = state.selectedSection
     let refreshSectionPromise: Promise<void>
