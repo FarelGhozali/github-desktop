@@ -1,6 +1,7 @@
 import { git } from './core'
 import { Repository } from '../../models/repository'
 import { normalize } from 'path'
+import * as FSE from 'fs-extra'
 
 /**
  * Look up a config value by name in the repository.
@@ -294,4 +295,27 @@ async function removeConfigValueInPath(
   flags.push('--unset-all', name)
 
   await git(flags, path || __dirname, 'removeConfigValueInPath', options)
+}
+
+/**
+ * Get the commit template from the repository's configuration.
+ *
+ * This will look up the `commit.template` configuration value and, if it
+ * exists, read the contents of the file at that path.
+ */
+export async function getCommitTemplate(
+  repository: Repository
+): Promise<string | null> {
+  const path = await getConfigValue(repository, 'commit.template')
+  if (!path || path.length === 0) {
+    return null
+  }
+
+  try {
+    const template = await FSE.readFile(path, 'utf8')
+    return template
+  } catch (e) {
+    log.error(`Unable to read commit template at ${path}`, e)
+    return null
+  }
 }
