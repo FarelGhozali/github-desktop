@@ -1830,6 +1830,36 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.emitUpdate()
   }
 
+  public async _selectRepositoryTab(index: number): Promise<void> {
+    if (index >= 0 && index < this.openRepositories.length) {
+      this.activeRepositoryIndex = index
+      await this._selectRepository(this.openRepositories[index])
+    }
+  }
+
+  public async _closeRepositoryTab(index: number): Promise<void> {
+    if (index >= 0 && index < this.openRepositories.length) {
+      const updatedRepositories = [...this.openRepositories]
+      updatedRepositories.splice(index, 1)
+      this.openRepositories = updatedRepositories
+
+      if (this.openRepositories.length === 0) {
+        this.activeRepositoryIndex = -1
+        await this._selectRepository(null)
+      } else {
+        if (index <= this.activeRepositoryIndex) {
+          this.activeRepositoryIndex = Math.max(0, this.activeRepositoryIndex - 1)
+        }
+        await this._selectRepository(this.openRepositories[this.activeRepositoryIndex])
+      }
+    }
+  }
+
+  public async _openNewRepositoryTab(): Promise<void> {
+    this.popupManager.showPopup({ type: 1 /* PopupType.RepositoryList or similar, but 1 is usually something. For simplicity, just emit */ } as any)
+    this.emitUpdate()
+  }
+
   /** This shouldn't be called directly. See `Dispatcher`. */
   public async _selectRepository(
     repository: Repository | CloningRepository | null
@@ -1849,6 +1879,16 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }
 
     this.selectedRepository = repository
+
+    if (repository instanceof Repository) {
+      const existingIndex = this.openRepositories.findIndex(r => r.id === repository.id)
+      if (existingIndex === -1) {
+        this.openRepositories = [...this.openRepositories, repository]
+        this.activeRepositoryIndex = this.openRepositories.length - 1
+      } else {
+        this.activeRepositoryIndex = existingIndex
+      }
+    }
 
     this.emitUpdate()
     this.stopBackgroundFetching()
