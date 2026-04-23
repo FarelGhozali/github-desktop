@@ -1,3 +1,5 @@
+import * as fs from 'fs'
+import * as Path from 'path'
 import { getFilesWithConflictMarkers } from './diff-check'
 import {
   WorkingDirectoryStatus,
@@ -28,6 +30,12 @@ import { getRebaseInternalState } from './rebase'
 import { RebaseInternalState } from '../../models/rebase'
 import { isCherryPickHeadFound } from './cherry-pick'
 import { coerceToString, git } from '.'
+import { isTrackedByLFS } from './lfs'
+
+/**
+ * The threshold for Git LFS warning (50MB).
+ */
+const LFS_THRESHOLD_BYTES = 50 * 1024 * 1024
 
 /**
  * V8 has a limit on the size of string it can create (~256MB), and unless we want to
@@ -239,10 +247,22 @@ export async function getStatus(
   )
 
   // Map of files keyed on their paths.
-  const files = entries.reduce(
-    (files, entry) => buildStatusMap(files, entry, conflictDetails),
-    new Map<string, WorkingDirectoryFileChange>()
-  )
+  const files = new Map<string, WorkingDirectoryFileChange>()
+
+  for (const entry of entries) {
+    const file = await buildStatusMap(
+      repository,
+      entry,
+      conflictDetails
+    )
+
+    if (file !== null) {
+      if (file.status.kind === AppFileStatusKind.Untracked) {
+        files.delete(file.path)
+      }
+      files.set(file.path, file)
+    }
+  }
 
   const {
     currentBranch,
@@ -279,17 +299,13 @@ export async function getStatus(
 }
 
 /**
- *
  * Update map of working directory changes with a file status entry.
- * Reducer(ish).
- *
- * (Map is used here to maintain insertion order.)
  */
-function buildStatusMap(
-  files: Map<string, WorkingDirectoryFileChange>,
+async function buildStatusMap(
+  repository: Repository,
   entry: IStatusEntry,
   conflictDetails: ConflictFilesDetails
-): Map<string, WorkingDirectoryFileChange> {
+): Promise<WorkingDirectoryFileChange | null> {
   const status = mapStatus(entry.statusCode, entry.submoduleStatusCode)
 
   if (status.kind === 'ordinary') {
@@ -300,16 +316,8 @@ function buildStatusMap(
       status.index === GitStatusEntry.Added &&
       status.workingTree === GitStatusEntry.Deleted
     ) {
-      return files
+      return null
     }
-  }
-
-  if (status.kind === 'untracked') {
-    // when a delete has been staged, but an untracked file exists with the
-    // same path, we should ensure that we only draw one entry in the
-    // changes list - see if an entry already exists for this path and
-    // remove it if found
-    files.delete(entry.path)
   }
 
   // for now we just poke at the existing summary
@@ -329,11 +337,28 @@ function buildStatusMap(
 
   const selection = DiffSelection.fromInitialSelection(initialSelectionType)
 
-  files.set(
+  let exceedsLFSThreshold = false
+  if (appStatus.kind !== AppFileStatusKind.Deleted) {
+    try {
+      const fullPath = Path.join(repository.path, entry.path)
+      const stats = await fs.promises.stat(fullPath)
+      if (stats.size > LFS_THRESHOLD_BYTES) {
+        const isTracked = await isTrackedByLFS(repository, entry.path)
+        if (!isTracked) {
+          exceedsLFSThreshold = true
+        }
+      }
+    } catch (e) {
+      // If we can't stat the file, just assume it doesn't exceed the threshold
+    }
+  }
+
+  return new WorkingDirectoryFileChange(
     entry.path,
-    new WorkingDirectoryFileChange(entry.path, appStatus, selection)
+    appStatus,
+    selection,
+    exceedsLFSThreshold
   )
-  return files
 }
 
 /**
