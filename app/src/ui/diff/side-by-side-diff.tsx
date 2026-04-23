@@ -148,6 +148,9 @@ interface ISideBySideDiffProps {
   /** Whether or not to show the diff check marks indicating inclusion in a commit */
   readonly showDiffCheckMarks: boolean
 
+  /** Whether syntax highlighting is enabled */
+  readonly syntaxHighlightingEnabled: boolean
+
   /** Called when the user changes the hide whitespace in diffs setting. */
   readonly onHideWhitespaceInDiffChanged: (checked: boolean) => void
 }
@@ -977,6 +980,14 @@ export class SideBySideDiff extends React.Component<
   }
 
   private async initDiffSyntaxMode() {
+    if (!this.props.syntaxHighlightingEnabled) {
+      this.setState({
+        beforeTokens: {},
+        afterTokens: {},
+      })
+      return
+    }
+
     const contents = this.props.fileContents
 
     if (contents === null) {
@@ -1748,7 +1759,9 @@ function highlightParametersEqual(
   return (
     (newProps === prevProps ||
       (newProps.file.id === prevProps.file.id &&
-        newProps.showSideBySideDiff === prevProps.showSideBySideDiff)) &&
+        newProps.showSideBySideDiff === prevProps.showSideBySideDiff &&
+        newProps.syntaxHighlightingEnabled ===
+          prevProps.syntaxHighlightingEnabled)) &&
     newState.diff.text === prevState.diff.text &&
     prevProps.fileContents?.file.id === newProps.fileContents?.file.id
   )

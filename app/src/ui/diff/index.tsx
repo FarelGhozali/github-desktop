@@ -77,6 +77,9 @@ interface IDiffProps {
   /** Whether or not to show the diff check marks indicating inclusion in a commit */
   readonly showDiffCheckMarks: boolean
 
+  /** Whether syntax highlighting is enabled */
+  readonly syntaxHighlightingEnabled: boolean
+
   /**
    * Called when the user requests to open a binary file in an the
    * system-assigned application for said file type.
@@ -287,6 +290,7 @@ export class Diff extends React.Component<IDiffProps, IDiffState> {
         }
         onHideWhitespaceInDiffChanged={this.props.onHideWhitespaceInDiffChanged}
         showDiffCheckMarks={this.props.showDiffCheckMarks}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
       />
     )
   }
