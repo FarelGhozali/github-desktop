@@ -454,6 +454,9 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
   private selectedRepository: Repository | CloningRepository | null = null
 
+  private openRepositories: ReadonlyArray<Repository> = []
+  private activeRepositoryIndex: number = -1
+
   /** The background fetcher for the currently selected repository. */
   private currentBackgroundFetcher: BackgroundFetcher | null = null
 
@@ -1007,6 +1010,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
     return {
       accounts: this.accounts,
       repositories,
+      openRepositories: this.openRepositories,
+      activeRepositoryIndex: this.activeRepositoryIndex,
       recentRepositories: this.recentRepositories,
       localRepositoryStateLookup: this.localRepositoryStateLookup,
       windowState: this.windowState,
