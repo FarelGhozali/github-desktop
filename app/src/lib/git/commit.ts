@@ -10,13 +10,16 @@ import { stageManualConflictResolution } from './stage'
  * @param repository repository to execute merge in
  * @param message commit message
  * @param files files to commit
+ * @param amend whether to amend the previous commit
+ * @param noVerify whether to skip git hooks
  * @returns the commit SHA
  */
 export async function createCommit(
   repository: Repository,
   message: string,
   files: ReadonlyArray<WorkingDirectoryFileChange>,
-  amend: boolean = false
+  amend: boolean = false,
+  noVerify: boolean = false
 ): Promise<string> {
   // Clear the staging area, our diffs reflect the difference between the
   // working directory and the last commit (if any) so our commits should
@@ -31,14 +34,13 @@ export async function createCommit(
     args.push('--amend')
   }
 
-  const result = await git(
-    ['commit', ...args],
-    repository.path,
-    'createCommit',
-    {
-      stdin: message,
-    }
-  )
+  if (noVerify) {
+    args.push('--no-verify')
+  }
+
+  const result = await git(['commit', ...args], repository.path, 'createCommit', {
+    stdin: message,
+  })
   return parseCommitSHA(result)
 }
 
@@ -49,11 +51,13 @@ export async function createCommit(
  *
  * @param repository repository to execute merge in
  * @param files files to commit
+ * @param noVerify whether to skip git hooks
  */
 export async function createMergeCommit(
   repository: Repository,
   files: ReadonlyArray<WorkingDirectoryFileChange>,
-  manualResolutions: ReadonlyMap<string, ManualConflictResolution> = new Map()
+  manualResolutions: ReadonlyMap<string, ManualConflictResolution> = new Map(),
+  noVerify: boolean = false
 ): Promise<string> {
   // apply manual conflict resolutions
   for (const [path, resolution] of manualResolutions) {
@@ -70,38 +74,41 @@ export async function createMergeCommit(
   const otherFiles = files.filter(f => !manualResolutions.has(f.path))
 
   await stageFiles(repository, otherFiles)
-  const result = await git(
-    [
-      'commit',
-      // no-edit here ensures the app does not accidentally invoke the user's editor
-      '--no-edit',
-      // By default Git merge commits do not contain any commentary (which
-      // are lines prefixed with `#`). This works because the Git CLI will
-      // prompt the user to edit the file in `.git/COMMIT_MSG` before
-      // committing, and then it will run `--cleanup=strip`.
-      //
-      // This clashes with our use of `--no-edit` above as Git will now change
-      // it's behavior to invoke `--cleanup=whitespace` as it did not ask
-      // the user to edit the COMMIT_MSG as part of creating a commit.
-      //
-      // From the docs on git-commit (https://git-scm.com/docs/git-commit) I'll
-      // quote the relevant section:
-      // --cleanup=<mode>
-      //     strip
-      //        Strip leading and trailing empty lines, trailing whitespace,
-      //        commentary and collapse consecutive empty lines.
-      //     whitespace
-      //        Same as `strip` except #commentary is not removed.
-      //     default
-      //        Same as `strip` if the message is to be edited. Otherwise `whitespace`.
-      //
-      // We should emulate the behavior in this situation because we don't
-      // let the user view or change the commit message before making the
-      // commit.
-      '--cleanup=strip',
-    ],
-    repository.path,
-    'createMergeCommit'
-  )
+
+  const args = [
+    'commit',
+    // no-edit here ensures the app does not accidentally invoke the user's editor
+    '--no-edit',
+    // By default Git merge commits do not contain any commentary (which
+    // are lines prefixed with `#`). This works because the Git CLI will
+    // prompt the user to edit the file in `.git/COMMIT_MSG` before
+    // committing, and then it will run `--cleanup=strip`.
+    //
+    // This clashes with our use of `--no-edit` above as Git will now change
+    // it's behavior to invoke `--cleanup=whitespace` as it did not ask
+    // the user to edit the COMMIT_MSG as part of creating a commit.
+    //
+    // From the docs on git-commit (https://git-scm.com/docs/git-commit) I'll
+    // quote the relevant section:
+    // --cleanup=<mode>
+    //     strip
+    //        Strip leading and trailing empty lines, trailing whitespace,
+    //        commentary and collapse consecutive empty lines.
+    //     whitespace
+    //        Same as `strip` except #commentary is not removed.
+    //     default
+    //        Same as `strip` if the message is to be edited. Otherwise `whitespace`.
+    //
+    // We should emulate the behavior in this situation because we don't
+    // let the user view or change the commit message before making the
+    // commit.
+    '--cleanup=strip',
+  ]
+
+  if (noVerify) {
+    args.push('--no-verify')
+  }
+
+  const result = await git(args, repository.path, 'createMergeCommit')
   return parseCommitSHA(result)
 }

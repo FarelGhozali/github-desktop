@@ -20,6 +20,9 @@ export type PushOptions = {
 
   /** A branch to push instead of the current branch */
   readonly branch?: Branch
+
+  /** Whether to skip git hooks */
+  readonly noVerify?: boolean
 }
 
 /**
@@ -70,6 +73,10 @@ export async function push(
     args.push('--set-upstream')
   } else if (options.forceWithLease === true) {
     args.push('--force-with-lease')
+  }
+
+  if (options.noVerify === true) {
+    args.push('--no-verify')
   }
 
   const expectedErrors = new Set<DugiteError>(AuthenticationErrors)
