@@ -102,7 +102,8 @@ export async function getCommits(
   revisionRange?: string,
   limit?: number,
   skip?: number,
-  additionalArgs: ReadonlyArray<string> = []
+  additionalArgs: ReadonlyArray<string> = [],
+  firstParentOnly?: boolean
 ): Promise<ReadonlyArray<Commit>> {
   const { formatArgs, parse } = createLogParser({
     sha: '%H', // SHA
@@ -126,6 +127,10 @@ export async function getCommits(
   }
 
   args.push('--date=raw')
+
+  if (firstParentOnly) {
+    args.push('--first-parent')
+  }
 
   if (limit !== undefined) {
     args.push(`--max-count=${limit}`)
