@@ -3238,8 +3238,23 @@ export class AppStore extends TypedBaseStore<IAppState> {
     return this.withIsCommitting(repository, async () => {
       const result = await gitStore.performFailableOperation(async () => {
         const message = await formatCommitMessage(repository, context)
-        return createCommit(repository, message, selectedFiles, context.amend)
+        return createCommit(
+          repository,
+          message,
+          selectedFiles,
+          context.amend,
+          context.noVerify
+        )
       })
+
+      if (result === undefined) {
+        const retryAction: RetryAction = {
+          type: RetryActionType.Commit,
+          repository,
+          context,
+        }
+        gitStore.setLastAction({ retryAction })
+      }
 
       if (result !== undefined) {
         await this._recordCommitStats(

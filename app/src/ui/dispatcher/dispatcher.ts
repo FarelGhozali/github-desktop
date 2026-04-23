@@ -2074,7 +2074,10 @@ export class Dispatcher {
   public async performRetry(retryAction: RetryAction): Promise<void> {
     switch (retryAction.type) {
       case RetryActionType.Push:
-        return this.push(retryAction.repository)
+        return this.push(retryAction.repository, {
+          forceWithLease: false,
+          noVerify: retryAction.noVerify,
+        })
 
       case RetryActionType.Pull:
         return this.pull(retryAction.repository)
@@ -2140,6 +2143,11 @@ export class Dispatcher {
           retryAction.files,
           false
         )
+      case RetryActionType.Commit:
+        return this.commitIncludedChanges(retryAction.repository, {
+          ...retryAction.context,
+          noVerify: retryAction.noVerify,
+        }).then(() => {})
       default:
         return assertNever(retryAction, `Unknown retry action: ${retryAction}`)
     }

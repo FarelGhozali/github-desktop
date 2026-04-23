@@ -18,11 +18,16 @@ export enum RetryActionType {
   Squash,
   Reorder,
   DiscardChanges,
+  Commit,
 }
 
 /** The retriable actions and their associated data. */
 export type RetryAction =
-  | { type: RetryActionType.Push; repository: Repository }
+  | {
+      type: RetryActionType.Push
+      repository: Repository
+      noVerify?: boolean
+    }
   | { type: RetryActionType.Pull; repository: Repository }
   | { type: RetryActionType.Fetch; repository: Repository }
   | {
@@ -84,4 +89,10 @@ export type RetryAction =
       type: RetryActionType.DiscardChanges
       repository: Repository
       files: ReadonlyArray<WorkingDirectoryFileChange>
+    }
+  | {
+      type: RetryActionType.Commit
+      repository: Repository
+      context: ICommitContext
+      noVerify?: boolean
     }
