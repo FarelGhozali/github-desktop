@@ -2453,6 +2453,10 @@ export class Dispatcher {
   public setSelectedTabSize(tabSize: number) {
     return this.appStore._setSelectedTabSize(tabSize)
   }
+
+  public setSyntaxHighlightingEnabled(enabled: boolean) {
+    return this.appStore._setSyntaxHighlightingEnabled(enabled)
+  }
   /*
    * Set the title bar style for the application
    */
