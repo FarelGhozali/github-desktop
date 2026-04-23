@@ -18,6 +18,7 @@ import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 import { ForkSettings } from './fork-settings'
 import { ForkContributionTarget } from '../../models/workflow-preferences'
 import { GitConfigLocation, GitConfig } from './git-config'
+import { GitLFS } from './git-lfs'
 import {
   getConfigValue,
   getGlobalConfigValue,
@@ -46,6 +47,7 @@ export enum RepositorySettingsTab {
   IgnoredFiles,
   GitConfig,
   ForkSettings,
+  GitLFS,
 }
 
 interface IRepositorySettingsState {
@@ -201,6 +203,10 @@ export class RepositorySettings extends React.Component<
                 {__DARWIN__ ? 'Fork Behavior' : 'Fork behavior'}
               </span>
             )}
+            <span>
+              <Octicon className="icon" symbol={octicons.fileBinary} />
+              Git LFS
+            </span>
           </TabBar>
 
           <div className="active-tab">{this.renderActiveTab()}</div>
@@ -269,6 +275,15 @@ export class RepositorySettings extends React.Component<
             onNameChanged={this.onCommitterNameChanged}
             onEmailChanged={this.onCommitterEmailChanged}
             isLoadingGitConfig={this.state.isLoadingGitConfig}
+          />
+        )
+      }
+
+      case RepositorySettingsTab.GitLFS: {
+        return (
+          <GitLFS
+            repository={this.props.repository}
+            dispatcher={this.props.dispatcher}
           />
         )
       }
