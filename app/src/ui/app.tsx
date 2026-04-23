@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { TabBar } from './tab-bar/tab-bar'
 import * as Path from 'path'
 
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
@@ -2847,6 +2848,19 @@ export class App extends React.Component<IAppProps, IAppState> {
     })
   }
 
+  private renderTabBar() {
+    if (this.state.openRepositories && this.state.openRepositories.length > 0) {
+      return (
+        <TabBar
+          dispatcher={this.props.dispatcher}
+          openRepositories={this.state.openRepositories}
+          activeRepositoryIndex={this.state.activeRepositoryIndex}
+        />
+      )
+    }
+    return null
+  }
+
   private renderApp() {
     return (
       <div
@@ -2854,6 +2868,7 @@ export class App extends React.Component<IAppProps, IAppState> {
         className={this.getDesktopAppContentsClassNames()}
       >
         {this.renderToolbar()}
+        {this.renderTabBar()}
         {this.renderBanner()}
         {this.renderRepository()}
         {this.renderPopups()}
