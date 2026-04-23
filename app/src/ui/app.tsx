@@ -3408,6 +3408,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             state.askForConfirmationOnCheckoutCommit
           }
           accounts={state.accounts}
+          isHistoryFocusModeActive={state.isHistoryFocusModeActive}
           isExternalEditorAvailable={
             state.useCustomEditor || state.selectedExternalEditor !== null
           }
