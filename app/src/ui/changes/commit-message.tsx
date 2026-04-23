@@ -55,6 +55,7 @@ import { RepoRulesetsForBranchLink } from '../repository-rules/repo-rulesets-for
 import { RepoRulesMetadataFailureList } from '../repository-rules/repo-rules-failure-list'
 import { formatCommitMessage } from '../../lib/format-commit-message'
 import { useRepoRulesLogic } from '../../lib/helpers/repo-rules'
+import { Checkbox, CheckboxValue } from '../lib/checkbox'
 
 const addAuthorIcon: OcticonSymbolVariant = {
   w: 18,
@@ -190,6 +191,8 @@ interface ICommitMessageState {
   readonly repoRuleCommitMessageFailures: RepoRulesMetadataFailures
   readonly repoRuleCommitAuthorFailures: RepoRulesMetadataFailures
   readonly repoRuleBranchNameFailures: RepoRulesMetadataFailures
+
+  readonly noVerify: boolean
 }
 
 function findCommitMessageAutoCompleteProvider(
@@ -246,6 +249,7 @@ export class CommitMessage extends React.Component<
       repoRuleCommitMessageFailures: new RepoRulesMetadataFailures(),
       repoRuleCommitAuthorFailures: new RepoRulesMetadataFailures(),
       repoRuleBranchNameFailures: new RepoRulesMetadataFailures(),
+      noVerify: false,
     }
   }
 
@@ -460,7 +464,7 @@ export class CommitMessage extends React.Component<
   }
 
   private clearCommitMessage() {
-    this.setState({ summary: '', description: null })
+    this.setState({ summary: '', description: null, noVerify: false })
   }
 
   private focusSummary() {
@@ -525,11 +529,12 @@ export class CommitMessage extends React.Component<
 
     const trailers = this.getCoAuthorTrailers()
 
-    const commitContext = {
+    const commitContext: ICommitContext = {
       summary: this.summaryOrPlaceholder,
       description,
       trailers,
       amend: this.props.commitToAmend !== null,
+      noVerify: this.state.noVerify,
     }
 
     const timer = startTimer('create commit', this.props.repository)
@@ -847,19 +852,36 @@ export class CommitMessage extends React.Component<
    * Whether or not there's anything to render in the action bar
    */
   private get isActionBarEnabled() {
-    return this.isCoAuthorInputEnabled
+    return true
+  }
+
+  private onNoVerifyChanged = (event: React.FormEvent<HTMLInputElement>) => {
+    this.setState({ noVerify: event.currentTarget.checked })
+  }
+
+  private renderNoVerifyCheckbox() {
+    return (
+      <Checkbox
+        label="Skip Git hooks"
+        value={this.state.noVerify ? CheckboxValue.On : CheckboxValue.Off}
+        onChange={this.onNoVerifyChanged}
+        disabled={this.props.isCommitting === true}
+        tooltip="Skip execution of pre-commit and commit-msg hooks (--no-verify)"
+      />
+    )
   }
 
   private renderActionBar() {
-    if (!this.isCoAuthorInputEnabled) {
-      return null
-    }
-
     const className = classNames('action-bar', {
       disabled: this.props.isCommitting === true,
     })
 
-    return <div className={className}>{this.renderCoAuthorToggleButton()}</div>
+    return (
+      <div className={className}>
+        {this.renderNoVerifyCheckbox()}
+        {this.renderCoAuthorToggleButton()}
+      </div>
+    )
   }
 
   private renderAmendCommitNotice() {
