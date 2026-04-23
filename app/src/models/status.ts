@@ -279,11 +279,13 @@ export class WorkingDirectoryFileChange extends FileChange {
    * @param status The status of the change to the file.
    * @param selection Contains the selection details for this file - all, nothing or partial.
    * @param oldPath The original path in the case of a renamed file.
+   * @param exceedsLFSThreshold Whether the file exceeds the 50MB threshold and is not tracked by LFS.
    */
   public constructor(
     path: string,
     status: AppFileStatus,
-    public readonly selection: DiffSelection
+    public readonly selection: DiffSelection,
+    public readonly exceedsLFSThreshold: boolean = false
   ) {
     super(path, status)
   }
@@ -299,7 +301,22 @@ export class WorkingDirectoryFileChange extends FileChange {
 
   /** Create a new WorkingDirectoryFileChange with the given diff selection. */
   public withSelection(selection: DiffSelection): WorkingDirectoryFileChange {
-    return new WorkingDirectoryFileChange(this.path, this.status, selection)
+    return new WorkingDirectoryFileChange(
+      this.path,
+      this.status,
+      selection,
+      this.exceedsLFSThreshold
+    )
+  }
+
+  /** Create a new WorkingDirectoryFileChange with the given LFS threshold state. */
+  public withLFSThreshold(exceeds: boolean): WorkingDirectoryFileChange {
+    return new WorkingDirectoryFileChange(
+      this.path,
+      this.status,
+      this.selection,
+      exceeds
+    )
   }
 }
 
