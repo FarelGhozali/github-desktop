@@ -372,6 +372,9 @@ export interface IAppState {
   readonly cachedRepoRulesets: ReadonlyMap<number, IAPIRepoRuleset>
 
   readonly underlineLinks: boolean
+
+  /** Whether the History tab is in single branch focus view (first-parent only) */
+  readonly isHistoryFocusModeActive: boolean
 }
 
 export enum FoldoutType {
