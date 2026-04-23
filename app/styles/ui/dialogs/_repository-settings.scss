@@ -45,4 +45,116 @@
   textarea.gitignore {
     height: 130px;
   }
+
+  .lfs-settings {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .track-pattern-container {
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 20px;
+
+      .text-box-component {
+        flex: 1;
+        margin-right: 10px;
+      }
+    }
+
+    .lfs-section-header {
+      font-size: var(--font-size-double);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .tracked-patterns-list {
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid var(--box-border-color);
+      border-radius: 3px;
+      padding: 10px;
+
+      .lfs-pattern-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .lfs-pattern-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 5px 0;
+
+          &:not(:last-child) {
+            border-bottom: 1px solid var(--box-border-color);
+          }
+
+          .lfs-pattern-info {
+            display: flex;
+            align-items: center;
+
+            .octicon {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .lfs-files-list {
+      flex: 1;
+      overflow-y: auto;
+      margin-top: 10px;
+
+      .lfs-files-table-container {
+        border: 1px solid var(--box-border-color);
+        border-radius: 3px;
+
+        .lfs-files-table {
+          width: 100%;
+          border-collapse: collapse;
+
+          th {
+            text-align: left;
+            padding: 8px;
+            background-color: var(--background-color-secondary);
+            border-bottom: 1px solid var(--box-border-color);
+          }
+
+          td {
+            padding: 8px;
+            border-bottom: 1px solid var(--box-border-color);
+
+            &.lfs-file-sha {
+              font-family: var(--font-family-mono);
+              color: var(--text-color-secondary);
+            }
+          }
+
+          tr:last-child td {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  .lfs-init-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+
+    p {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.lfs-threshold-warning {
+  color: var(--warning-color);
+  margin: 0 5px;
 }
