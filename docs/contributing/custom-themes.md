@@ -12,6 +12,9 @@ GitHub Desktop supports multiple built-in themes. This document explains how the
 | High Contrast | dark | Maximum contrast for accessibility (WCAG AAA) |
 | Solarized Light | light | Ethan Schoonover's Solarized palette, light variant |
 | Solarized Dark | dark | Ethan Schoonover's Solarized palette, dark variant |
+| Nord | dark | Arctic Ice Studio's Nord color palette, cool blue-toned |
+| Monokai | dark | Classic Monokai color scheme by Wimer Hazenberg |
+| One Dark | dark | Atom's iconic One Dark color scheme |
 
 ## Architecture
 
@@ -29,6 +32,9 @@ export enum ApplicationTheme {
   HighContrast = 'high-contrast',
   SolarizedLight = 'solarized-light',
   SolarizedDark = 'solarized-dark',
+  Nord = 'nord',
+  Monokai = 'monokai',
+  OneDark = 'one-dark',
 }
 ```
 
@@ -43,7 +49,10 @@ app/styles/
     ├── _dark.scss            # body.theme-dark overrides
     ├── _high-contrast.scss   # body.theme-high-contrast overrides
     ├── _solarized-light.scss # body.theme-solarized-light overrides
-    └── _solarized-dark.scss  # body.theme-solarized-dark overrides
+    ├── _solarized-dark.scss  # body.theme-solarized-dark overrides
+    ├── _nord.scss            # body.theme-nord overrides
+    ├── _monokai.scss         # body.theme-monokai overrides
+    └── _one-dark.scss        # body.theme-one-dark overrides
 ```
 
 ### 3. Theme Application (`app/src/ui/app-theme.tsx`)
