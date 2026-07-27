@@ -1,0 +1,393 @@
+// Variables
+//
+// Catppuccin Mocha theme
+// Based on the Catppuccin Mocha palette
+// https://github.com/catppuccin/catppuccin
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Catppuccin Mocha palette
+$cat-crust:    #11111b;
+$cat-mantle:   #181825;
+$cat-base:     #1e1e2e;
+$cat-surface0: #313244;
+$cat-surface1: #45475a;
+$cat-surface2: #585b70;
+$cat-overlay0: #6c7086;
+$cat-overlay1: #7f849c;
+$cat-overlay2: #9399b2;
+$cat-text:     #cdd6f4;
+$cat-subtext0: #a6adc8;
+$cat-subtext1: #bac2de;
+
+$cat-blue:     #89b4fa;
+$cat-lavender: #b4befe;
+$cat-sapphire: #74c7ec;
+$cat-sky:      #89dceb;
+$cat-teal:     #94e2d5;
+$cat-green:    #a6e3a1;
+$cat-yellow:   #f9e2af;
+$cat-peach:    #fab387;
+$cat-maroon:   #eba0ac;
+$cat-red:      #f38ba8;
+$cat-mauve:    #cba6f7;
+$cat-pink:     #f5c2e7;
+$cat-flamingo: #f2cdcd;
+$cat-rosewater:#f5e0dc;
+
+body.theme-catppuccin-mocha {
+  --color-new: #{$cat-green};
+  --color-deleted: #{$cat-red};
+  --color-modified: #{$cat-yellow};
+  --color-renamed: #{$cat-blue};
+  --color-conflicted: #{$cat-peach};
+
+  --text-color: #{$cat-text};
+  --text-secondary-color: #{$cat-subtext0};
+  --text-secondary-color-muted: #{$cat-overlay2};
+  --background-color: #{$cat-base};
+
+  --button-background: #{$cat-mauve};
+  --button-hover-background: #{lighten($cat-mauve, 5%)};
+  --button-text-color: #{$cat-base};
+  --button-focus-border-color: #{lighten($cat-mauve, 15%)};
+
+  --link-button-color: #{$cat-blue};
+  --link-button-hover-color: #{lighten($cat-blue, 10%)};
+  --link-button-selected-hover-color: #{$cat-blue};
+
+  --secondary-button-background: #{$cat-surface0};
+  --secondary-button-border-color: #{$cat-surface1};
+  --secondary-button-hover-border-color: #{$cat-overlay0};
+  --secondary-button-hover-background: #{lighten($cat-surface0, 3%)};
+  --secondary-button-text-color: #{$cat-text};
+  --secondary-button-focus-shadow-color: #{rgba($cat-mauve, 0.35)};
+  --secondary-button-focus-border-color: #{$cat-mauve};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$cat-base};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$cat-yellow};
+  --input-icon-error-color: #{$cat-red};
+  --input-icon-hover-background-color: #{$cat-surface0};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($cat-overlay0, 0.4)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($cat-overlay1, 0.6)};
+
+  // Box
+
+  --box-background-color: #{$cat-base};
+  --box-alt-background-color: #{$cat-mantle};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$cat-surface0};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(30, 30, 46, 0) 0%, rgba(30, 30, 46, 0.5) 50%, rgba(30, 30, 46, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$cat-surface0};
+
+  --box-border-contrast-color: #{$cat-surface1};
+  --box-border-accent-color: #{$cat-mauve};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$cat-surface0};
+
+  --box-hover-text-color: #{$cat-text};
+  --box-hover-background-color: #{$cat-surface0};
+
+  --box-selected-text-color: #{$cat-text};
+  --box-selected-border-color: #{$cat-overlay0};
+
+  --box-selected-active-background-color: #{$cat-mauve};
+  --box-selected-active-text-color: #{$cat-base};
+  --box-selected-active-border-color: #{$cat-surface0};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($cat-base, 0) 0%, rgba($cat-base, 1) 90%, rgba($cat-base, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($cat-base, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $cat-base)};
+  --top-shadow: #{linear-gradient(0deg, rgba($cat-base, 0) 0%, rgba($cat-crust, 0.4) 90%, rgba($cat-crust, 0.6) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($cat-base, 0) 0%, rgba($cat-crust, 0.4) 90%, rgba($cat-crust, 0.6) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$cat-overlay0};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($cat-mauve, 35%)};
+  --co-author-tag-border-color: #{darken($cat-mauve, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$cat-base};
+  --commit-warning-badge-border-color: #{$cat-surface1};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba($cat-crust, 0.5)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{$cat-crust};
+  --toolbar-border-color: #{$cat-mantle};
+  --toolbar-text-color: #{$cat-text};
+  --toolbar-text-secondary-color: #{$cat-subtext0};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$cat-surface0};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$cat-text};
+  --toolbar-button-hover-background-color: #{$cat-surface0};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$cat-surface0};
+
+  --toolbar-button-active-color: #{$cat-text};
+  --toolbar-button-active-background-color: #{$cat-base};
+  --toolbar-button-active-border-color: #{$cat-base};
+
+  --toolbar-button-progress-color: #{$cat-surface0};
+  --toolbar-button-focus-progress-color: #{$cat-surface1};
+  --toolbar-button-hover-progress-color: #{$cat-surface1};
+  --toolbar-dropdown-open-progress-color: #{$cat-text};
+  --toolbar-dropdown-text-warning-color: #{$cat-yellow};
+  --toolbar-dropdown-text-hover-color: #{$cat-text};
+
+  --toolbar-tooltip-background-color: #{$cat-surface1};
+  --toolbar-tooltip-shadow-color: $cat-crust;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$cat-text};
+  --app-menu-button-active-background-color: #{$cat-surface0};
+  --app-menu-pane-color: #{$cat-text};
+  --app-menu-pane-secondary-color: #{$cat-subtext0};
+  --app-menu-pane-background-color: #{$cat-surface0};
+  --app-menu-divider-color: #{$cat-surface1};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$cat-surface1};
+  --toolbar-badge-active-background-color: #{$cat-surface1};
+
+  --tab-bar-active-color: #{$cat-mauve};
+  --tab-bar-background-color: #{$cat-base};
+  --tab-bar-hover-background-color: #{$cat-mantle};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$cat-text};
+  --tab-bar-count-background-color: #{$cat-surface0};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$cat-text};
+  --list-item-badge-background-color: #{$cat-surface0};
+  --list-item-selected-badge-color: #{$cat-text};
+  --list-item-selected-badge-background-color: #{$cat-surface1};
+  --list-item-selected-active-badge-color: #{$cat-base};
+  --list-item-selected-active-badge-background-color: #{$cat-text};
+  --list-item-hover-background-color: #{$cat-surface0};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$cat-text};
+  --toast-notification-background-color: #{rgba($cat-crust, 0.9)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$cat-mauve};
+  --diff-linenumber-focus-color: #{lighten($cat-mauve, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($cat-mauve, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($cat-mauve, 35%)};
+  --primary-suggested-action-border-color: #{darken($cat-mauve, 15%)};
+  --suggested-action-icon-color: #{$cat-mauve};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$cat-text};
+  --diff-border-color: #{$cat-surface0};
+  --diff-gutter-color: #{$cat-surface0};
+  --diff-gutter-background-color: #{$cat-base};
+
+  --diff-line-number-color: #{$cat-overlay0};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($cat-mauve, 35%)};
+  --diff-selected-border-color: #{darken($cat-mauve, 15%)};
+  --diff-selected-gutter-color: #{darken($cat-mauve, 15%)};
+  --diff-selected-text-color: #{$cat-text};
+
+  --diff-add-background-color: #{rgba($cat-green, 0.1)};
+  --diff-add-border-color: #{rgba($cat-green, 0.2)};
+  --diff-add-gutter-color: #{rgba($cat-green, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($cat-green, 0.15)};
+  --diff-add-inner-background-color: #{rgba($cat-green, 0.25)};
+  --diff-add-text-color: #{$cat-text};
+
+  --diff-delete-background-color: #{rgba($cat-red, 0.1)};
+  --diff-delete-border-color: #{rgba($cat-red, 0.2)};
+  --diff-delete-gutter-color: #{rgba($cat-red, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($cat-red, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($cat-red, 0.25)};
+  --diff-delete-text-color: #{$cat-text};
+
+  --diff-hunk-background-color: #{rgba($cat-lavender, 0.08)};
+  --diff-hunk-border-color: #{rgba($cat-lavender, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($cat-lavender, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($cat-lavender, 0.12)};
+  --diff-hunk-text-color: #{$cat-overlay0};
+
+  --diff-hover-background-color: #{$cat-mauve};
+  --diff-hover-border-color: #{lighten($cat-mauve, 10%)};
+  --diff-hover-gutter-color: #{lighten($cat-mauve, 10%)};
+  --diff-hover-text-color: #{$cat-base};
+
+  --diff-add-hover-background-color: #{rgba($cat-green, 0.3)};
+  --diff-add-hover-border-color: #{$cat-green};
+  --diff-add-hover-gutter-color: #{$cat-green};
+  --diff-add-hover-text-color: #{$cat-text};
+
+  --diff-delete-hover-background-color: #{rgba($cat-red, 0.3)};
+  --diff-delete-hover-border-color: #{$cat-red};
+  --diff-delete-hover-gutter-color: #{$cat-red};
+  --diff-delete-hover-text-color: #{$cat-text};
+
+  --diff-empty-row-background-color: #{darken($cat-base, 1%)};
+  --diff-empty-row-gutter-background-color: #{$cat-base};
+  --diff-empty-hunk-handle: #{$cat-surface1};
+
+  // Syntax highlighting text colors (Catppuccin Mocha palette)
+  --syntax-variable-color: #{$cat-text};
+  --syntax-alt-variable-color: #{$cat-text};
+  --syntax-keyword-color: #{$cat-mauve};
+  --syntax-atom-color: #{$cat-lavender};
+  --syntax-string-color: #{$cat-green};
+  --syntax-qualifier-color: #{$cat-yellow};
+  --syntax-type-color: #{$cat-yellow};
+  --syntax-comment-color: #{$cat-overlay0};
+  --syntax-tag-color: #{$cat-blue};
+  --syntax-attribute-color: #{$cat-yellow};
+  --syntax-link-color: #{$cat-rosewater};
+  --syntax-header-color: #{$cat-peach};
+  --syntax-quote-color: #{$cat-green};
+
+  // Colors for form errors
+  --error-color: #{$cat-red};
+  --form-error-background: #{rgba($cat-red, 0.15)};
+  --form-error-border-color: #{rgba($cat-red, 0.3)};
+  --form-error-text-color: #{lighten($cat-red, 10%)};
+
+  --dialog-banner-success-background: #{rgba($cat-green, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($cat-green, 0.3)};
+  --dialog-banner-success-text-color: #{$cat-green};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($cat-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba($cat-crust, 0.7)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$cat-yellow};
+  --dialog-information-color: #{$cat-blue};
+  --dialog-error-color: #{$cat-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($cat-yellow, 0.12)};
+  --file-warning-color: #{$cat-yellow};
+  --file-warning-border-color: #{rgba($cat-yellow, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$cat-surface1};
+  --tooltip-color: #{$cat-text};
+  --tooltip-shadow-color: $cat-crust;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$cat-surface0};
+  --path-segment-background-focus: #{lighten($cat-surface0, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$cat-yellow};
+  --status-error-color: #{$cat-red};
+  --status-success-color: #{$cat-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$cat-green};
+  --pr-draft-icon-color: #{$cat-overlay0};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$cat-surface0};
+  --pr-changes-requested-icon-color: #{$cat-base};
+  --pr-changes-requested-icon-background-color: #{$cat-red};
+  --pr-approved-icon-color: #{$cat-base};
+  --pr-approved-icon-background-color: #{$cat-green};
+  --pr-commented-icon-color: #{$cat-overlay0};
+  --pr-commented-icon-background-color: #{$cat-surface0};
+
+  --call-to-action-bubble-border-color: #{$cat-blue};
+  --call-to-action-bubble-color: #{$cat-blue};
+
+  --title-tool-tip-background-color: #{$cat-surface1};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$cat-surface1};
+  --md-border-muted-color: #{$cat-surface0};
+  --md-canvas-default-color: #{$cat-base};
+  --md-canvas-subtle-color: #{$cat-mantle};
+  --md-fg-default-color: #{$cat-text};
+  --md-fg-muted-color: #{$cat-subtext0};
+  --md-danger-fg-color: #{$cat-red};
+  --md-neutral-muted-color: #{rgba($cat-subtext0, 0.3)};
+  --md-accent-emphasis-color: #{$cat-mauve};
+  --md-accent-fg-color: #{$cat-mauve};
+}
+
+body.theme-catppuccin-mocha .CodeMirror-cursor {
+  border-left-color: #{$cat-text};
+}
