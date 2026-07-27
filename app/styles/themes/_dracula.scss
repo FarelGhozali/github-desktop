@@ -1,0 +1,377 @@
+// Variables
+//
+// Dracula theme
+// Based on the Dracula color theme by Zeno Rocha
+// https://draculatheme.com/
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Dracula palette
+$dracula-bg:         #282a36;
+$dracula-bg-light:   #44475a;
+$dracula-fg:         #f8f8f2;
+$dracula-fg-dim:     #6272a4;
+$dracula-cyan:       #8be9fd;
+$dracula-green:      #50fa7b;
+$dracula-orange:     #ffb86c;
+$dracula-pink:       #ff79c6;
+$dracula-purple:     #bd93f9;
+$dracula-red:        #ff5555;
+$dracula-yellow:     #f1fa8c;
+
+body.theme-dracula {
+  --color-new: #{$dracula-green};
+  --color-deleted: #{$dracula-red};
+  --color-modified: #{$dracula-yellow};
+  --color-renamed: #{$dracula-cyan};
+  --color-conflicted: #{$dracula-orange};
+
+  --text-color: #{$dracula-fg};
+  --text-secondary-color: #{$dracula-fg-dim};
+  --text-secondary-color-muted: #{darken($dracula-fg-dim, 10%)};
+  --background-color: #{$dracula-bg};
+
+  --button-background: #{$dracula-purple};
+  --button-hover-background: #{lighten($dracula-purple, 5%)};
+  --button-text-color: #{$dracula-bg};
+  --button-focus-border-color: #{lighten($dracula-purple, 15%)};
+
+  --link-button-color: #{$dracula-cyan};
+  --link-button-hover-color: #{lighten($dracula-cyan, 10%)};
+  --link-button-selected-hover-color: #{$dracula-cyan};
+
+  --secondary-button-background: #{$dracula-bg-light};
+  --secondary-button-border-color: #{$dracula-bg-light};
+  --secondary-button-hover-border-color: #{$dracula-fg-dim};
+  --secondary-button-hover-background: #{lighten($dracula-bg-light, 3%)};
+  --secondary-button-text-color: #{$dracula-fg};
+  --secondary-button-focus-shadow-color: #{rgba($dracula-purple, 0.35)};
+  --secondary-button-focus-border-color: #{$dracula-purple};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$dracula-fg};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$dracula-yellow};
+  --input-icon-error-color: #{$dracula-red};
+  --input-icon-hover-background-color: #{$dracula-bg-light};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($dracula-fg, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($dracula-fg, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$dracula-bg};
+  --box-alt-background-color: #{$dracula-bg-light};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{darken($dracula-bg-light, 5%)};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(40, 42, 54, 0) 0%, rgba(40, 42, 54, 0.5) 50%, rgba(40, 42, 54, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{darken($dracula-bg-light, 5%)};
+
+  --box-border-contrast-color: #{$dracula-bg-light};
+  --box-border-accent-color: #{$dracula-purple};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{darken($dracula-bg-light, 5%)};
+
+  --box-hover-text-color: #{$dracula-fg};
+  --box-hover-background-color: #{$dracula-bg-light};
+
+  --box-selected-text-color: #{$dracula-fg};
+  --box-selected-border-color: #{$dracula-fg-dim};
+
+  --box-selected-active-background-color: #{$dracula-purple};
+  --box-selected-active-text-color: #{$dracula-bg};
+  --box-selected-active-border-color: #{$dracula-bg-light};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($dracula-bg, 0) 0%, rgba($dracula-bg, 1) 90%, rgba($dracula-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($dracula-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $dracula-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($dracula-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($dracula-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$dracula-fg-dim};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($dracula-purple, 30%)};
+  --co-author-tag-border-color: #{darken($dracula-purple, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$dracula-bg};
+  --commit-warning-badge-border-color: #{$dracula-bg-light};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.35)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($dracula-bg, 2%)};
+  --toolbar-border-color: #{darken($dracula-bg-light, 5%)};
+  --toolbar-text-color: #{$dracula-fg};
+  --toolbar-text-secondary-color: #{$dracula-fg-dim};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{darken($dracula-bg-light, 5%)};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$dracula-fg};
+  --toolbar-button-hover-background-color: #{$dracula-bg-light};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$dracula-bg-light};
+
+  --toolbar-button-active-color: #{$dracula-fg};
+  --toolbar-button-active-background-color: #{$dracula-bg};
+  --toolbar-button-active-border-color: #{$dracula-bg};
+
+  --toolbar-button-progress-color: #{$dracula-bg-light};
+  --toolbar-button-focus-progress-color: #{darken($dracula-bg-light, 5%)};
+  --toolbar-button-hover-progress-color: #{darken($dracula-bg-light, 5%)};
+  --toolbar-dropdown-open-progress-color: #{$dracula-fg};
+  --toolbar-dropdown-text-warning-color: #{$dracula-orange};
+  --toolbar-dropdown-text-hover-color: #{$dracula-fg};
+
+  --toolbar-tooltip-background-color: #{$dracula-bg-light};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$dracula-fg};
+  --app-menu-button-active-background-color: #{$dracula-bg-light};
+  --app-menu-pane-color: #{$dracula-fg};
+  --app-menu-pane-secondary-color: #{$dracula-fg-dim};
+  --app-menu-pane-background-color: #{$dracula-bg-light};
+  --app-menu-divider-color: #{darken($dracula-bg-light, 5%)};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{darken($dracula-bg-light, 5%)};
+  --toolbar-badge-active-background-color: #{darken($dracula-bg-light, 5%)};
+
+  --tab-bar-active-color: #{$dracula-purple};
+  --tab-bar-background-color: #{$dracula-bg};
+  --tab-bar-hover-background-color: #{$dracula-bg-light};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$dracula-fg};
+  --tab-bar-count-background-color: #{darken($dracula-bg-light, 5%)};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$dracula-fg};
+  --list-item-badge-background-color: #{darken($dracula-bg-light, 5%)};
+  --list-item-selected-badge-color: #{$dracula-fg};
+  --list-item-selected-badge-background-color: #{$dracula-fg-dim};
+  --list-item-selected-active-badge-color: #{$dracula-bg};
+  --list-item-selected-active-badge-background-color: #{$dracula-fg};
+  --list-item-hover-background-color: #{$dracula-bg-light};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$dracula-fg};
+  --toast-notification-background-color: #{rgba(black, 0.75)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$dracula-purple};
+  --diff-linenumber-focus-color: #{lighten($dracula-purple, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($dracula-purple, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($dracula-purple, 30%)};
+  --primary-suggested-action-border-color: #{darken($dracula-purple, 10%)};
+  --suggested-action-icon-color: #{$dracula-purple};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$dracula-fg};
+  --diff-border-color: #{darken($dracula-bg-light, 5%)};
+  --diff-gutter-color: #{darken($dracula-bg-light, 5%)};
+  --diff-gutter-background-color: #{$dracula-bg};
+
+  --diff-line-number-color: #{$dracula-fg-dim};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($dracula-purple, 20%)};
+  --diff-selected-border-color: #{darken($dracula-purple, 5%)};
+  --diff-selected-gutter-color: #{darken($dracula-purple, 5%)};
+  --diff-selected-text-color: #{$dracula-fg};
+
+  --diff-add-background-color: #{rgba($dracula-green, 0.1)};
+  --diff-add-border-color: #{rgba($dracula-green, 0.2)};
+  --diff-add-gutter-color: #{rgba($dracula-green, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($dracula-green, 0.15)};
+  --diff-add-inner-background-color: #{rgba($dracula-green, 0.25)};
+  --diff-add-text-color: #{$dracula-fg};
+
+  --diff-delete-background-color: #{rgba($dracula-red, 0.1)};
+  --diff-delete-border-color: #{rgba($dracula-red, 0.2)};
+  --diff-delete-gutter-color: #{rgba($dracula-red, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($dracula-red, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($dracula-red, 0.25)};
+  --diff-delete-text-color: #{$dracula-fg};
+
+  --diff-hunk-background-color: #{rgba($dracula-cyan, 0.08)};
+  --diff-hunk-border-color: #{rgba($dracula-cyan, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($dracula-cyan, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($dracula-cyan, 0.12)};
+  --diff-hunk-text-color: #{$dracula-fg-dim};
+
+  --diff-hover-background-color: #{$dracula-purple};
+  --diff-hover-border-color: #{lighten($dracula-purple, 10%)};
+  --diff-hover-gutter-color: #{lighten($dracula-purple, 10%)};
+  --diff-hover-text-color: #{$dracula-bg};
+
+  --diff-add-hover-background-color: #{rgba($dracula-green, 0.3)};
+  --diff-add-hover-border-color: #{$dracula-green};
+  --diff-add-hover-gutter-color: #{$dracula-green};
+  --diff-add-hover-text-color: #{$dracula-fg};
+
+  --diff-delete-hover-background-color: #{rgba($dracula-red, 0.3)};
+  --diff-delete-hover-border-color: #{$dracula-red};
+  --diff-delete-hover-gutter-color: #{$dracula-red};
+  --diff-delete-hover-text-color: #{$dracula-fg};
+
+  --diff-empty-row-background-color: #{darken($dracula-bg, 1%)};
+  --diff-empty-row-gutter-background-color: #{$dracula-bg};
+  --diff-empty-hunk-handle: #{darken($dracula-bg-light, 5%)};
+
+  // Syntax highlighting text colors (Dracula palette)
+  --syntax-variable-color: #{$dracula-fg};
+  --syntax-alt-variable-color: #{$dracula-fg};
+  --syntax-keyword-color: #{$dracula-pink};
+  --syntax-atom-color: #{$dracula-purple};
+  --syntax-string-color: #{$dracula-yellow};
+  --syntax-qualifier-color: #{$dracula-cyan};
+  --syntax-type-color: #{$dracula-cyan};
+  --syntax-comment-color: #{$dracula-fg-dim};
+  --syntax-tag-color: #{$dracula-pink};
+  --syntax-attribute-color: #{$dracula-green};
+  --syntax-link-color: #{$dracula-cyan};
+  --syntax-header-color: #{$dracula-purple};
+  --syntax-quote-color: #{$dracula-yellow};
+
+  // Colors for form errors
+  --error-color: #{$dracula-red};
+  --form-error-background: #{rgba($dracula-red, 0.15)};
+  --form-error-border-color: #{rgba($dracula-red, 0.3)};
+  --form-error-text-color: #{lighten($dracula-red, 10%)};
+
+  --dialog-banner-success-background: #{rgba($dracula-green, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($dracula-green, 0.3)};
+  --dialog-banner-success-text-color: #{$dracula-green};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($dracula-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$dracula-orange};
+  --dialog-information-color: #{$dracula-cyan};
+  --dialog-error-color: #{$dracula-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($dracula-orange, 0.12)};
+  --file-warning-color: #{$dracula-orange};
+  --file-warning-border-color: #{rgba($dracula-orange, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$dracula-bg-light};
+  --tooltip-color: #{$dracula-fg};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{darken($dracula-bg-light, 5%)};
+  --path-segment-background-focus: #{lighten($dracula-bg-light, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$dracula-orange};
+  --status-error-color: #{$dracula-red};
+  --status-success-color: #{$dracula-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$dracula-green};
+  --pr-draft-icon-color: #{$dracula-fg-dim};
+
+  // PR review colors
+  --pr-timeline-line-color: #{darken($dracula-bg-light, 5%)};
+  --pr-changes-requested-icon-color: #{$dracula-fg};
+  --pr-changes-requested-icon-background-color: #{$dracula-red};
+  --pr-approved-icon-color: #{$dracula-bg};
+  --pr-approved-icon-background-color: #{$dracula-green};
+  --pr-commented-icon-color: #{$dracula-fg-dim};
+  --pr-commented-icon-background-color: #{darken($dracula-bg-light, 5%)};
+
+  --call-to-action-bubble-border-color: #{$dracula-purple};
+  --call-to-action-bubble-color: #{$dracula-purple};
+
+  --title-tool-tip-background-color: #{$dracula-bg-light};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{darken($dracula-bg-light, 5%)};
+  --md-border-muted-color: #{darken($dracula-bg-light, 8%)};
+  --md-canvas-default-color: #{$dracula-bg};
+  --md-canvas-subtle-color: #{$dracula-bg-light};
+  --md-fg-default-color: #{$dracula-fg};
+  --md-fg-muted-color: #{$dracula-fg-dim};
+  --md-danger-fg-color: #{$dracula-red};
+  --md-neutral-muted-color: #{rgba($dracula-fg-dim, 0.3)};
+  --md-accent-emphasis-color: #{$dracula-purple};
+  --md-accent-fg-color: #{$dracula-purple};
+}
+
+body.theme-dracula .CodeMirror-cursor {
+  border-left-color: #{$dracula-fg};
+}
