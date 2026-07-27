@@ -132,6 +132,27 @@ export class Appearance extends React.Component<
             <span className="theme-value-label">System</span>
           </span>
         )
+      case ApplicationTheme.HighContrast:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">High Contrast</span>
+          </span>
+        )
+      case ApplicationTheme.SolarizedLight:
+        return (
+          <span>
+            <img src={lightThemeImage} alt="" />
+            <span className="theme-value-label">Solarized Light</span>
+          </span>
+        )
+      case ApplicationTheme.SolarizedDark:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Solarized Dark</span>
+          </span>
+        )
     }
   }
 
@@ -169,6 +190,9 @@ export class Appearance extends React.Component<
       ApplicationTheme.Light,
       ApplicationTheme.Dark,
       ...(supportsSystemThemeChanges() ? [ApplicationTheme.System] : []),
+      ApplicationTheme.HighContrast,
+      ApplicationTheme.SolarizedLight,
+      ApplicationTheme.SolarizedDark,
     ]
 
     return (
