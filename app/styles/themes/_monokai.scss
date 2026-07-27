@@ -1,0 +1,379 @@
+// Variables
+//
+// Monokai theme
+// Based on the classic Monokai color scheme by Wimer Hazenberg
+// https://monokai.pro/
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Monokai palette
+$monokai-bg:        #272822;
+$monokai-bg-light:  #3e3d32;
+$monokai-bg-lighter:#49483e;
+$monokai-fg:        #f8f8f2;
+$monokai-fg-dim:    #75715e;
+$monokai-yellow:    #e6db74;
+$monokai-orange:    #fd971f;
+$monokai-red:       #f92672;
+$monokai-magenta:   #fd5ff0;
+$monokai-violet:    #ae81ff;
+$monokai-blue:      #66d9ef;
+$monokai-cyan:      #a1efe4;
+$monokai-green:     #a6e22e;
+
+body.theme-monokai {
+  --color-new: #{$monokai-green};
+  --color-deleted: #{$monokai-red};
+  --color-modified: #{$monokai-orange};
+  --color-renamed: #{$monokai-blue};
+  --color-conflicted: #{$monokai-orange};
+
+  --text-color: #{$monokai-fg};
+  --text-secondary-color: #{$monokai-fg-dim};
+  --text-secondary-color-muted: #{darken($monokai-fg-dim, 12%)};
+  --background-color: #{$monokai-bg};
+
+  --button-background: #{$monokai-blue};
+  --button-hover-background: #{lighten($monokai-blue, 8%)};
+  --button-text-color: #{$monokai-bg};
+  --button-focus-border-color: #{lighten($monokai-blue, 15%)};
+
+  --link-button-color: #{$monokai-blue};
+  --link-button-hover-color: #{lighten($monokai-blue, 10%)};
+  --link-button-selected-hover-color: #{$monokai-blue};
+
+  --secondary-button-background: #{$monokai-bg-light};
+  --secondary-button-border-color: #{$monokai-bg-lighter};
+  --secondary-button-hover-border-color: #{$monokai-fg-dim};
+  --secondary-button-hover-background: #{lighten($monokai-bg-light, 5%)};
+  --secondary-button-text-color: #{$monokai-fg};
+  --secondary-button-focus-shadow-color: #{rgba($monokai-blue, 0.35)};
+  --secondary-button-focus-border-color: #{$monokai-blue};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$monokai-fg};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$monokai-yellow};
+  --input-icon-error-color: #{$monokai-red};
+  --input-icon-hover-background-color: #{$monokai-bg-light};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($monokai-fg, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($monokai-fg, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$monokai-bg};
+  --box-alt-background-color: #{$monokai-bg-light};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$monokai-bg-lighter};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(39, 40, 34, 0) 0%, rgba(39, 40, 34, 0.5) 50%, rgba(39, 40, 34, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$monokai-bg-light};
+
+  --box-border-contrast-color: #{$monokai-bg-lighter};
+  --box-border-accent-color: #{$monokai-blue};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$monokai-bg-lighter};
+
+  --box-hover-text-color: #{$monokai-fg};
+  --box-hover-background-color: #{$monokai-bg-light};
+
+  --box-selected-text-color: #{$monokai-fg};
+  --box-selected-border-color: #{$monokai-fg-dim};
+
+  --box-selected-active-background-color: #{$monokai-blue};
+  --box-selected-active-text-color: #{$monokai-bg};
+  --box-selected-active-border-color: #{$monokai-bg-lighter};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($monokai-bg, 0) 0%, rgba($monokai-bg, 1) 90%, rgba($monokai-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($monokai-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $monokai-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($monokai-bg, 0) 0%, rgba(black, 0.4) 90%, rgba(black, 0.6) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($monokai-bg, 0) 0%, rgba(black, 0.4) 90%, rgba(black, 0.6) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$monokai-fg-dim};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($monokai-blue, 35%)};
+  --co-author-tag-border-color: #{darken($monokai-blue, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$monokai-bg};
+  --commit-warning-badge-border-color: #{$monokai-bg-lighter};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.4)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($monokai-bg, 3%)};
+  --toolbar-border-color: #{$monokai-bg-light};
+  --toolbar-text-color: #{$monokai-fg};
+  --toolbar-text-secondary-color: #{$monokai-fg-dim};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$monokai-bg-light};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$monokai-fg};
+  --toolbar-button-hover-background-color: #{$monokai-bg-light};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$monokai-bg-light};
+
+  --toolbar-button-active-color: #{$monokai-fg};
+  --toolbar-button-active-background-color: #{$monokai-bg};
+  --toolbar-button-active-border-color: #{$monokai-bg};
+
+  --toolbar-button-progress-color: #{$monokai-bg-light};
+  --toolbar-button-focus-progress-color: #{$monokai-bg-lighter};
+  --toolbar-button-hover-progress-color: #{$monokai-bg-lighter};
+  --toolbar-dropdown-open-progress-color: #{$monokai-fg};
+  --toolbar-dropdown-text-warning-color: #{$monokai-orange};
+  --toolbar-dropdown-text-hover-color: #{$monokai-fg};
+
+  --toolbar-tooltip-background-color: #{$monokai-bg-light};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$monokai-fg};
+  --app-menu-button-active-background-color: #{$monokai-bg-light};
+  --app-menu-pane-color: #{$monokai-fg};
+  --app-menu-pane-secondary-color: #{$monokai-fg-dim};
+  --app-menu-pane-background-color: #{$monokai-bg-light};
+  --app-menu-divider-color: #{$monokai-bg-lighter};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$monokai-bg-lighter};
+  --toolbar-badge-active-background-color: #{$monokai-bg-lighter};
+
+  --tab-bar-active-color: #{$monokai-blue};
+  --tab-bar-background-color: #{$monokai-bg};
+  --tab-bar-hover-background-color: #{$monokai-bg-light};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$monokai-fg};
+  --tab-bar-count-background-color: #{$monokai-bg-lighter};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$monokai-fg};
+  --list-item-badge-background-color: #{$monokai-bg-lighter};
+  --list-item-selected-badge-color: #{$monokai-fg};
+  --list-item-selected-badge-background-color: #{$monokai-fg-dim};
+  --list-item-selected-active-badge-color: #{$monokai-bg};
+  --list-item-selected-active-badge-background-color: #{$monokai-fg};
+  --list-item-hover-background-color: #{$monokai-bg-light};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$monokai-fg};
+  --toast-notification-background-color: #{rgba(black, 0.8)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$monokai-blue};
+  --diff-linenumber-focus-color: #{lighten($monokai-blue, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($monokai-blue, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($monokai-blue, 35%)};
+  --primary-suggested-action-border-color: #{darken($monokai-blue, 15%)};
+  --suggested-action-icon-color: #{$monokai-blue};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$monokai-fg};
+  --diff-border-color: #{$monokai-bg-light};
+  --diff-gutter-color: #{$monokai-bg-light};
+  --diff-gutter-background-color: #{$monokai-bg};
+
+  --diff-line-number-color: #{$monokai-fg-dim};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($monokai-blue, 25%)};
+  --diff-selected-border-color: #{darken($monokai-blue, 10%)};
+  --diff-selected-gutter-color: #{darken($monokai-blue, 10%)};
+  --diff-selected-text-color: #{$monokai-fg};
+
+  --diff-add-background-color: #{rgba($monokai-green, 0.1)};
+  --diff-add-border-color: #{rgba($monokai-green, 0.2)};
+  --diff-add-gutter-color: #{rgba($monokai-green, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($monokai-green, 0.15)};
+  --diff-add-inner-background-color: #{rgba($monokai-green, 0.25)};
+  --diff-add-text-color: #{$monokai-fg};
+
+  --diff-delete-background-color: #{rgba($monokai-red, 0.1)};
+  --diff-delete-border-color: #{rgba($monokai-red, 0.2)};
+  --diff-delete-gutter-color: #{rgba($monokai-red, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($monokai-red, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($monokai-red, 0.25)};
+  --diff-delete-text-color: #{$monokai-fg};
+
+  --diff-hunk-background-color: #{rgba($monokai-violet, 0.08)};
+  --diff-hunk-border-color: #{rgba($monokai-violet, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($monokai-violet, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($monokai-violet, 0.12)};
+  --diff-hunk-text-color: #{$monokai-fg-dim};
+
+  --diff-hover-background-color: #{$monokai-blue};
+  --diff-hover-border-color: #{lighten($monokai-blue, 10%)};
+  --diff-hover-gutter-color: #{lighten($monokai-blue, 10%)};
+  --diff-hover-text-color: #{$monokai-bg};
+
+  --diff-add-hover-background-color: #{rgba($monokai-green, 0.3)};
+  --diff-add-hover-border-color: #{$monokai-green};
+  --diff-add-hover-gutter-color: #{$monokai-green};
+  --diff-add-hover-text-color: #{$monokai-fg};
+
+  --diff-delete-hover-background-color: #{rgba($monokai-red, 0.3)};
+  --diff-delete-hover-border-color: #{$monokai-red};
+  --diff-delete-hover-gutter-color: #{$monokai-red};
+  --diff-delete-hover-text-color: #{$monokai-fg};
+
+  --diff-empty-row-background-color: #{darken($monokai-bg, 1%)};
+  --diff-empty-row-gutter-background-color: #{$monokai-bg};
+  --diff-empty-hunk-handle: #{$monokai-fg-dim};
+
+  // Syntax highlighting text colors (Monokai palette)
+  --syntax-variable-color: #{$monokai-blue};
+  --syntax-alt-variable-color: #{$monokai-fg};
+  --syntax-keyword-color: #{$monokai-red};
+  --syntax-atom-color: #{$monokai-violet};
+  --syntax-string-color: #{$monokai-yellow};
+  --syntax-qualifier-color: #{$monokai-green};
+  --syntax-type-color: #{$monokai-blue};
+  --syntax-comment-color: #{$monokai-fg-dim};
+  --syntax-tag-color: #{$monokai-red};
+  --syntax-attribute-color: #{$monokai-green};
+  --syntax-link-color: #{$monokai-blue};
+  --syntax-header-color: #{$monokai-red};
+  --syntax-quote-color: #{$monokai-yellow};
+
+  // Colors for form errors
+  --error-color: #{$monokai-red};
+  --form-error-background: #{rgba($monokai-red, 0.15)};
+  --form-error-border-color: #{rgba($monokai-red, 0.3)};
+  --form-error-text-color: #{lighten($monokai-red, 15%)};
+
+  --dialog-banner-success-background: #{rgba($monokai-green, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($monokai-green, 0.3)};
+  --dialog-banner-success-text-color: #{$monokai-green};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($monokai-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$monokai-orange};
+  --dialog-information-color: #{$monokai-blue};
+  --dialog-error-color: #{$monokai-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($monokai-orange, 0.12)};
+  --file-warning-color: #{$monokai-orange};
+  --file-warning-border-color: #{rgba($monokai-orange, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$monokai-bg-light};
+  --tooltip-color: #{$monokai-fg};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$monokai-bg-lighter};
+  --path-segment-background-focus: #{lighten($monokai-bg-lighter, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$monokai-orange};
+  --status-error-color: #{$monokai-red};
+  --status-success-color: #{$monokai-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$monokai-green};
+  --pr-draft-icon-color: #{$monokai-fg-dim};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$monokai-bg-lighter};
+  --pr-changes-requested-icon-color: #{$monokai-fg};
+  --pr-changes-requested-icon-background-color: #{$monokai-red};
+  --pr-approved-icon-color: #{$monokai-bg};
+  --pr-approved-icon-background-color: #{$monokai-green};
+  --pr-commented-icon-color: #{$monokai-fg-dim};
+  --pr-commented-icon-background-color: #{$monokai-bg-lighter};
+
+  --call-to-action-bubble-border-color: #{$monokai-green};
+  --call-to-action-bubble-color: #{$monokai-green};
+
+  --title-tool-tip-background-color: #{$monokai-bg-light};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$monokai-bg-lighter};
+  --md-border-muted-color: #{$monokai-bg-light};
+  --md-canvas-default-color: #{$monokai-bg};
+  --md-canvas-subtle-color: #{$monokai-bg-light};
+  --md-fg-default-color: #{$monokai-fg};
+  --md-fg-muted-color: #{$monokai-fg-dim};
+  --md-danger-fg-color: #{$monokai-red};
+  --md-neutral-muted-color: #{rgba($monokai-fg-dim, 0.3)};
+  --md-accent-emphasis-color: #{$monokai-blue};
+  --md-accent-fg-color: #{$monokai-blue};
+}
+
+body.theme-monokai .CodeMirror-cursor {
+  border-left-color: #{$monokai-fg};
+}
