@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {
   ApplicationTheme,
-  getThemeName,
+  getThemeClassName,
   getCurrentlyAppliedTheme,
 } from './lib/application-theme'
 
@@ -41,7 +41,7 @@ export class AppTheme extends React.PureComponent<IAppThemeProps> {
       themeToDisplay = await getCurrentlyAppliedTheme()
     }
 
-    const newThemeClassName = `theme-${getThemeName(themeToDisplay)}`
+    const newThemeClassName = getThemeClassName(themeToDisplay)
 
     if (!document.body.classList.contains(newThemeClassName)) {
       this.clearThemes()
@@ -51,7 +51,11 @@ export class AppTheme extends React.PureComponent<IAppThemeProps> {
   }
 
   private updateColorScheme = () => {
-    const isDarkTheme = document.body.classList.contains('theme-dark')
+    const body = document.body
+    const isDarkTheme =
+      body.classList.contains('theme-dark') ||
+      body.classList.contains('theme-high-contrast') ||
+      body.classList.contains('theme-solarized-dark')
     const rootStyle = document.documentElement.style
 
     rootStyle.colorScheme = isDarkTheme ? 'dark' : 'light'
