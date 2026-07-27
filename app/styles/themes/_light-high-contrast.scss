@@ -1,0 +1,308 @@
+// Variables
+//
+// Light High Contrast theme
+// Based on GitHub's Light High Contrast theme
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Light High Contrast palette
+$hc-light-bg:         #ffffff;
+$hc-light-bg-alt:     #f6f8fa;
+$hc-light-border:     #24292f;
+$hc-light-fg:         #0e1116;
+$hc-light-fg-dim:     #24292f;
+$hc-light-blue:       #0349b4;
+$hc-light-blue-bg:    #c2e0ff;
+$hc-light-green:      #055d20;
+$hc-light-green-bg:   #b4f1b4;
+$hc-light-red:        #a0111f;
+$hc-light-red-bg:     #ffc8c6;
+$hc-light-yellow:     #7d4e00;
+$hc-light-yellow-bg:  #fae17d;
+
+body.theme-light-high-contrast {
+  --color-new: #{$hc-light-green};
+  --color-deleted: #{$hc-light-red};
+  --color-modified: #{$hc-light-yellow};
+  --color-renamed: #{$hc-light-blue};
+  --color-conflicted: #{$hc-light-yellow};
+
+  --text-color: #{$hc-light-fg};
+  --text-secondary-color: #{$hc-light-fg-dim};
+  --text-secondary-color-muted: #{$hc-light-fg-dim};
+  --background-color: #{$hc-light-bg};
+
+  --button-background: #{$hc-light-blue};
+  --button-hover-background: #{darken($hc-light-blue, 5%)};
+  --button-text-color: #ffffff;
+  --button-focus-border-color: #{$hc-light-blue};
+
+  --link-button-color: #{$hc-light-blue};
+  --link-button-hover-color: #{darken($hc-light-blue, 10%)};
+  --link-button-selected-hover-color: #{$hc-light-blue};
+
+  --secondary-button-background: #{$hc-light-bg-alt};
+  --secondary-button-border-color: #{$hc-light-border};
+  --secondary-button-hover-border-color: #{$hc-light-border};
+  --secondary-button-hover-background: #{darken($hc-light-bg-alt, 5%)};
+  --secondary-button-text-color: #{$hc-light-fg};
+  --secondary-button-focus-shadow-color: #{rgba($hc-light-blue, 0.4)};
+  --secondary-button-focus-border-color: #{$hc-light-blue};
+
+  --badge-icon-color: #ffffff;
+
+  --input-icon-warning-color: #{$hc-light-yellow};
+  --input-icon-error-color: #{$hc-light-red};
+  --input-icon-hover-background-color: #{$hc-light-bg-alt};
+
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  --scroll-bar-thumb-background-color: #{rgba($hc-light-border, 0.4)};
+  --scroll-bar-thumb-background-color-active: #{rgba($hc-light-border, 0.6)};
+
+  --box-background-color: #{$hc-light-bg};
+  --box-alt-background-color: #{$hc-light-bg-alt};
+
+  --box-skeleton-background-color: #{$hc-light-bg-alt};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+
+  --box-border-color: #{$hc-light-border};
+  --box-border-contrast-color: #{$hc-light-border};
+  --box-border-accent-color: #{$hc-light-blue};
+
+  --box-selected-background-color: #{$hc-light-blue-bg};
+
+  --box-hover-text-color: #{$hc-light-fg};
+  --box-hover-background-color: #{$hc-light-bg-alt};
+
+  --box-selected-text-color: #{$hc-light-fg};
+  --box-selected-border-color: #{$hc-light-border};
+
+  --box-selected-active-background-color: #{$hc-light-blue};
+  --box-selected-active-text-color: #ffffff;
+  --box-selected-active-border-color: #{$hc-light-border};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($hc-light-bg, 0) 0%, rgba($hc-light-bg, 1) 90%, rgba($hc-light-bg, 1) 100%)};
+  --no-shadow-top: #{linear-gradient($hc-light-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $hc-light-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($hc-light-bg, 0) 0%, rgba(black, 0.2) 90%, rgba(black, 0.3) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($hc-light-bg, 0) 0%, rgba(black, 0.2) 90%, rgba(black, 0.3) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$hc-light-fg-dim};
+
+  --co-author-tag-background-color: #{$hc-light-blue-bg};
+  --co-author-tag-border-color: #{$hc-light-blue};
+
+  --commit-warning-badge-background-color: #{$hc-light-bg};
+  --commit-warning-badge-border-color: #{$hc-light-border};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.2)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{$hc-light-bg-alt};
+  --toolbar-border-color: #{$hc-light-border};
+  --toolbar-text-color: #{$hc-light-fg};
+  --toolbar-text-secondary-color: #{$hc-light-fg-dim};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$hc-light-border};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$hc-light-fg};
+  --toolbar-button-hover-background-color: #{$hc-light-bg-alt};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$hc-light-bg-alt};
+
+  --toolbar-button-active-color: #{$hc-light-fg};
+  --toolbar-button-active-background-color: #{$hc-light-bg};
+  --toolbar-button-active-border-color: #{$hc-light-border};
+
+  --toolbar-button-progress-color: #{$hc-light-bg-alt};
+  --toolbar-button-focus-progress-color: #{darken($hc-light-bg-alt, 5%)};
+  --toolbar-button-hover-progress-color: #{darken($hc-light-bg-alt, 5%)};
+  --toolbar-dropdown-open-progress-color: #{$hc-light-fg};
+  --toolbar-dropdown-text-warning-color: #{$hc-light-yellow};
+  --toolbar-dropdown-text-hover-color: #{$hc-light-fg};
+
+  --toolbar-tooltip-background-color: #{$hc-light-border};
+  --toolbar-tooltip-color: #ffffff;
+  --toolbar-tooltip-shadow-color: #{rgba(black, 0.3)};
+
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$hc-light-fg};
+  --app-menu-button-active-background-color: #{$hc-light-bg-alt};
+  --app-menu-pane-color: #{$hc-light-fg};
+  --app-menu-pane-secondary-color: #{$hc-light-fg-dim};
+  --app-menu-pane-background-color: #{$hc-light-bg};
+  --app-menu-divider-color: #{$hc-light-border};
+
+  --toolbar-badge-background-color: #{$hc-light-border};
+  --toolbar-badge-active-background-color: #{$hc-light-border};
+
+  --tab-bar-active-color: #{$hc-light-blue};
+  --tab-bar-background-color: #{$hc-light-bg};
+  --tab-bar-hover-background-color: #{$hc-light-bg-alt};
+
+  --tab-bar-count-color: #ffffff;
+  --tab-bar-count-background-color: #{$hc-light-border};
+
+  --list-item-badge-color: #ffffff;
+  --list-item-badge-background-color: #{$hc-light-border};
+  --list-item-selected-badge-color: #ffffff;
+  --list-item-selected-badge-background-color: #{$hc-light-border};
+  --list-item-selected-active-badge-color: #{$hc-light-blue};
+  --list-item-selected-active-badge-background-color: #ffffff;
+  --list-item-hover-background-color: #{$hc-light-bg-alt};
+
+  --toast-notification-color: #ffffff;
+  --toast-notification-background-color: #{$hc-light-border};
+
+  --focus-color: #{$hc-light-blue};
+  --diff-linenumber-focus-color: #{$hc-light-blue};
+
+  --text-field-focus-shadow-color: #{rgba($hc-light-blue, 0.4)};
+
+  --primary-suggested-action-background: #{$hc-light-blue-bg};
+  --primary-suggested-action-border-color: #{$hc-light-blue};
+  --suggested-action-icon-color: #{$hc-light-blue};
+
+  --diff-text-color: #{$hc-light-fg};
+  --diff-border-color: #{$hc-light-border};
+  --diff-gutter-color: #{$hc-light-border};
+  --diff-gutter-background-color: #{$hc-light-bg-alt};
+
+  --diff-line-number-color: #{$hc-light-fg-dim};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{$hc-light-blue-bg};
+  --diff-selected-border-color: #{$hc-light-blue};
+  --diff-selected-gutter-color: #{$hc-light-blue};
+  --diff-selected-text-color: #{$hc-light-fg};
+
+  --diff-add-background-color: #{$hc-light-green-bg};
+  --diff-add-border-color: #{$hc-light-green};
+  --diff-add-gutter-color: #{$hc-light-green};
+  --diff-add-gutter-background-color: #{darken($hc-light-green-bg, 5%)};
+  --diff-add-inner-background-color: #{darken($hc-light-green-bg, 15%)};
+  --diff-add-text-color: #{$hc-light-fg};
+
+  --diff-delete-background-color: #{$hc-light-red-bg};
+  --diff-delete-border-color: #{$hc-light-red};
+  --diff-delete-gutter-color: #{$hc-light-red};
+  --diff-delete-gutter-background-color: #{darken($hc-light-red-bg, 5%)};
+  --diff-delete-inner-background-color: #{darken($hc-light-red-bg, 15%)};
+  --diff-delete-text-color: #{$hc-light-fg};
+
+  --diff-hunk-background-color: #{$hc-light-blue-bg};
+  --diff-hunk-border-color: #{$hc-light-blue};
+  --diff-hunk-gutter-color: #{$hc-light-blue};
+  --diff-hunk-gutter-background-color: #{darken($hc-light-blue-bg, 5%)};
+  --diff-hunk-text-color: #{$hc-light-fg-dim};
+
+  --diff-hover-background-color: #{$hc-light-blue-bg};
+  --diff-hover-border-color: #{$hc-light-blue};
+  --diff-hover-gutter-color: #{$hc-light-blue};
+  --diff-hover-text-color: #{$hc-light-fg};
+
+  --diff-add-hover-background-color: #{darken($hc-light-green-bg, 10%)};
+  --diff-add-hover-border-color: #{$hc-light-green};
+  --diff-add-hover-gutter-color: #{$hc-light-green};
+  --diff-add-hover-text-color: #{$hc-light-fg};
+
+  --diff-delete-hover-background-color: #{darken($hc-light-red-bg, 10%)};
+  --diff-delete-hover-border-color: #{$hc-light-red};
+  --diff-delete-hover-gutter-color: #{$hc-light-red};
+  --diff-delete-hover-text-color: #{$hc-light-fg};
+
+  --diff-empty-row-background-color: #{$hc-light-bg};
+  --diff-empty-row-gutter-background-color: #{$hc-light-bg-alt};
+  --diff-empty-hunk-handle: #{$hc-light-border};
+
+  --syntax-variable-color: #{$hc-light-fg};
+  --syntax-alt-variable-color: #{$hc-light-fg};
+  --syntax-keyword-color: #{$hc-light-red};
+  --syntax-atom-color: #{$hc-light-blue};
+  --syntax-string-color: #{$hc-light-blue};
+  --syntax-qualifier-color: #{$hc-light-blue};
+  --syntax-type-color: #{$hc-light-blue};
+  --syntax-comment-color: #{$hc-light-fg-dim};
+  --syntax-tag-color: #{$hc-light-green};
+  --syntax-attribute-color: #{$hc-light-blue};
+  --syntax-link-color: #{$hc-light-blue};
+  --syntax-header-color: #{$hc-light-blue};
+  --syntax-quote-color: #{$hc-light-green};
+
+  --error-color: #{$hc-light-red};
+  --form-error-background: #{$hc-light-red-bg};
+  --form-error-border-color: #{$hc-light-red};
+  --form-error-text-color: #{$hc-light-red};
+
+  --dialog-banner-success-background: #{$hc-light-green-bg};
+  --dialog-banner-success-border-color: #{$hc-light-green};
+  --dialog-banner-success-text-color: #{$hc-light-green};
+
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{$hc-light-red};
+
+  --overlay-background-color: #{rgba(black, 0.4)};
+
+  --dialog-warning-color: #{$hc-light-yellow};
+  --dialog-information-color: #{$hc-light-blue};
+  --dialog-error-color: #{$hc-light-red};
+
+  --file-warning-background-color: #{$hc-light-yellow-bg};
+  --file-warning-color: #{$hc-light-yellow};
+  --file-warning-border-color: #{$hc-light-yellow};
+
+  --tooltip-background-color: #{$hc-light-border};
+  --tooltip-color: #ffffff;
+  --tooltip-shadow-color: #{rgba(black, 0.3)};
+
+  --path-segment-background: #{$hc-light-bg-alt};
+  --path-segment-background-focus: #{darken($hc-light-bg-alt, 10%)};
+
+  --status-pending-color: #{$hc-light-yellow};
+  --status-error-color: #{$hc-light-red};
+  --status-success-color: #{$hc-light-green};
+
+  --pr-open-icon-color: #{$hc-light-green};
+  --pr-draft-icon-color: #{$hc-light-fg-dim};
+
+  --pr-timeline-line-color: #{$hc-light-border};
+  --pr-changes-requested-icon-color: #ffffff;
+  --pr-changes-requested-icon-background-color: #{$hc-light-red};
+  --pr-approved-icon-color: #ffffff;
+  --pr-approved-icon-background-color: #{$hc-light-green};
+  --pr-commented-icon-color: #ffffff;
+  --pr-commented-icon-background-color: #{$hc-light-border};
+
+  --call-to-action-bubble-border-color: #{$hc-light-blue};
+  --call-to-action-bubble-color: #{$hc-light-blue};
+
+  --title-tool-tip-background-color: #{$hc-light-border};
+  --title-tool-tip-shadow: none;
+
+  --md-border-default-color: #{$hc-light-border};
+  --md-border-muted-color: #{$hc-light-border};
+  --md-canvas-default-color: #{$hc-light-bg};
+  --md-canvas-subtle-color: #{$hc-light-bg-alt};
+  --md-fg-default-color: #{$hc-light-fg};
+  --md-fg-muted-color: #{$hc-light-fg-dim};
+  --md-danger-fg-color: #{$hc-light-red};
+  --md-neutral-muted-color: #{$hc-light-fg-dim};
+  --md-accent-emphasis-color: #{$hc-light-blue};
+  --md-accent-fg-color: #{$hc-light-blue};
+}
+
+body.theme-light-high-contrast .CodeMirror-cursor {
+  border-left-color: #{$hc-light-fg};
+}
