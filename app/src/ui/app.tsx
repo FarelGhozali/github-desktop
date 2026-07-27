@@ -1051,7 +1051,7 @@ export class App extends React.Component<IAppProps, IAppState> {
       return
     }
 
-    const { branchesState } = state.repositoryState
+    const { branchesState } = state.state
     const { tip, defaultBranch, allBranches } = branchesState
     const currentBranch = tip.kind === TipState.Valid ? tip.branch : null
 
@@ -1064,7 +1064,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     const comparisonBranch =
       defaultBranch && defaultBranch.name !== currentBranch.name
         ? defaultBranch
-        : allBranches.find(b => b.name !== currentBranch.name) || currentBranch
+        : allBranches.find((b: any) => b.name !== currentBranch.name) || currentBranch
 
     this.props.dispatcher.enterBranchComparisonMode(
       repository,

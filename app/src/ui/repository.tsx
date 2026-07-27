@@ -176,7 +176,7 @@ export class RepositoryView extends React.Component<
       this.props.state.changesState.workingDirectory.files.length
 
     if (filesChangedCount <= 0) {
-      return null
+      return <></>
     }
 
     return <FilesChangedBadge filesChangedCount={filesChangedCount} />
@@ -329,6 +329,8 @@ export class RepositoryView extends React.Component<
       return this.renderChangesSidebar()
     } else if (selectedSection === RepositorySectionTab.History) {
       return this.renderCompareSidebar()
+    } else if (selectedSection === RepositorySectionTab.Comparison) {
+      return <></>
     } else {
       return assertNever(selectedSection, 'Unknown repository section')
     }
@@ -400,7 +402,7 @@ export class RepositoryView extends React.Component<
           onOpenInExternalEditor={this.props.onOpenInExternalEditor}
         />
       )
-    } else if (selectedSection === RepositorySectionTab.Comparison) {
+    } else if (this.props.state.selectedSection === RepositorySectionTab.Comparison) {
       return this.renderComparison()
     }
 
@@ -606,6 +608,8 @@ export class RepositoryView extends React.Component<
       return this.renderContentForChanges()
     } else if (selectedSection === RepositorySectionTab.History) {
       return this.renderContentForHistory()
+    } else if (selectedSection === RepositorySectionTab.Comparison) {
+      return null
     } else {
       return assertNever(selectedSection, 'Unknown repository section')
     }

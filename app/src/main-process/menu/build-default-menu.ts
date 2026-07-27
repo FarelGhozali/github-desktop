@@ -383,7 +383,7 @@ export function buildDefaultMenu({
       click: emit('delete-branch'),
     },
     {
-      label: __DARWIN__ ? 'Compare with Branch…' : 'Compare with &branch…',
+      label: __DARWIN__ ? 'Compare with Branch…' : 'Compare &with branch…',
       id: 'compare-with-branch',
       click: emit('compare-with-branch'),
     },

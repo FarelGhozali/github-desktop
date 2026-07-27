@@ -851,30 +851,30 @@ export interface ICompareState {
    * GitHub Desktop users are able to configure the `init.defaultBranch` Git
    * setting in preferences.
    /**
-    * GitHub.com users are able to change their default branch in the web UI.
-    */
-   readonly defaultBranch: Branch | null
-   }
+   * GitHub.com users are able to change their default branch in the web UI.
+   */
+  readonly defaultBranch: Branch | null
+}
 
-   /** State for the branch comparison view */
-   export interface IBranchComparisonState {
-   /** The base branch to compare from */
-   readonly baseBranch: Branch
+/** State for the branch comparison view */
+export interface IBranchComparisonState {
+  /** The base branch to compare from */
+  readonly baseBranch: Branch
 
-   /** The comparison branch to compare to */
-   readonly comparisonBranch: Branch
+  /** The comparison branch to compare to */
+  readonly comparisonBranch: Branch
 
-   /** The list of files that differ between the two branches */
-   readonly files: ReadonlyArray<CommittedFileChange>
+  /** The list of files that differ between the two branches */
+  readonly files: ReadonlyArray<CommittedFileChange>
 
-   /** The currently selected file in the comparison list */
-   readonly selectedFile: CommittedFileChange | null
+  /** The currently selected file in the comparison list */
+  readonly selectedFile: CommittedFileChange | null
 
-   /** The diff for the currently selected file */
-   readonly diff: IDiff | null
-   }
+  /** The diff for the currently selected file */
+  readonly diff: IDiff | null
+}
 
-   export interface ICompareFormUpdate {
+export interface ICompareFormUpdate {
   /** The updated filter text to set */
   readonly filterText: string
 

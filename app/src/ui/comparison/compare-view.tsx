@@ -1,10 +1,7 @@
 import * as React from 'react'
 import { Repository } from '../../models/repository'
 import { Dispatcher } from '../dispatcher'
-import {
-  IBranchComparisonState,
-  RepositorySectionTab,
-} from '../../lib/app-state'
+import { IBranchComparisonState } from '../../lib/app-state'
 import { Branch } from '../../models/branch'
 import { CommittedFileChange } from '../../models/status'
 import { ImageDiffType } from '../../models/diff'
@@ -70,7 +67,7 @@ export class CompareView extends React.Component<ICompareViewProps> {
   }
 
   public render() {
-    const { state, repository, dispatcher, emoji, accounts } = this.props
+    const { state, repository } = this.props
     const { baseBranch, comparisonBranch, files, selectedFile, diff } = state
 
     return (
@@ -115,27 +112,30 @@ export class CompareView extends React.Component<ICompareViewProps> {
           <Resizable
             width={this.props.sidebarWidth.value}
             onResize={this.onResize}
+            onReset={() => {}}
           >
             <FileList
+              onRowDoubleClick={() => {}}
               files={files}
-              onFileSelected={this.onFileSelected}
-              selectedFile={selectedFile}
+              onSelectedFileChanged={this.onFileSelected as any}
+              selectedFile={selectedFile as any}
               availableWidth={this.props.sidebarWidth.value}
-              externalEditorLabel={this.props.externalEditorLabel}
-              onOpenInExternalEditor={this.props.onOpenInExternalEditor}
+
             />
           </Resizable>
 
           <SeamlessDiffSwitcher
             repository={repository}
-            dispatcher={dispatcher}
-            file={selectedFile}
+            file={selectedFile as any}
             diff={diff}
-            emoji={emoji}
             imageDiffType={this.props.imageDiffType}
-            hideWhitespace={this.props.hideWhitespaceInDiff}
-            showSideBySide={this.props.showSideBySideDiff}
-            accounts={accounts}
+            hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
+            showSideBySideDiff={this.props.showSideBySideDiff}
+            readOnly={true}
+            onOpenBinaryFile={() => {}}
+            onChangeImageDiffType={() => {}}
+            showDiffCheckMarks={false}
+            onHideWhitespaceInDiffChanged={() => {}}
           />
         </div>
       </div>

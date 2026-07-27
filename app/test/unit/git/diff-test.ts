@@ -27,7 +27,6 @@ import {
   getBinaryPaths,
   getBranchMergeBaseChangedFiles,
   getBranchComparisonChangedFiles,
-  getBranchComparisonDiff,
   getBranchMergeBaseDiff,
   git,
 } from '../../../src/lib/git'
@@ -708,12 +707,12 @@ describe('git/diff', () => {
     it('returns changed files between two branches', async () => {
       const repo = await setupEmptyRepository()
       await writeFile(path.join(repo.path, 'foo.md'), 'foo')
-      await makeCommit(repo, { entries: [{ path: 'foo.md' }] })
+      await makeCommit(repo, { entries: [{ path: 'foo.md', contents: 'foo' }] })
 
       await git(['branch', 'feature-branch'], repo.path, 'create branch')
       await switchTo(repo, 'feature-branch')
       await writeFile(path.join(repo.path, 'bar.md'), 'bar')
-      await makeCommit(repo, { entries: [{ path: 'bar.md' }] })
+      await makeCommit(repo, { entries: [{ path: 'bar.md', contents: 'bar' }] })
 
       const { files } = await getBranchComparisonChangedFiles(
         repo,

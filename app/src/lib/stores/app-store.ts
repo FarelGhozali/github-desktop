@@ -121,7 +121,6 @@ import {
   RepositorySectionTab,
   SelectionType,
   IRepositoryState,
-  IBranchComparisonState,
   ChangesSelectionKind,
   ChangesWorkingDirectorySelection,
   isRebaseConflictState,
@@ -2999,7 +2998,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       selectedFile,
       baseBranch.name,
       comparisonBranch.name,
-      this.state.hideWhitespaceInHistoryDiff // Re-use this setting
+      this.getState().hideWhitespaceInHistoryDiff // Re-use this setting
     )
 
     this.repositoryStateCache.updateBranchComparisonState(repository, s => {
@@ -3620,6 +3619,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
         includingStatus: false,
         clearPartialState: false,
       })
+    } else if (section === 2 /* RepositorySectionTab.Comparison */) {
+      refreshSectionPromise = Promise.resolve()
     } else {
       return assertNever(section, `Unknown section: ${section}`)
     }

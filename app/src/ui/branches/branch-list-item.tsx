@@ -118,9 +118,9 @@ export class BranchListItem extends React.Component<
           <HighlightText text={name} highlight={this.props.matches.title} />
         </TooltippedContent>
         {onCompareClick && !isCurrentBranch && (
-          <a className="compare-icon" onClick={this.onCompareClick}>
+          <button className="compare-icon" onClick={this.onCompareClick}>
             <Octicon symbol={octicons.diff} />
-          </a>
+          </button>
         )}
         {lastCommitDate && (
           <RelativeTime
@@ -133,7 +133,7 @@ export class BranchListItem extends React.Component<
     )
   }
 
-  private onCompareClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  private onCompareClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     event.stopPropagation()
     this.props.onCompareClick?.(this.props.name)
