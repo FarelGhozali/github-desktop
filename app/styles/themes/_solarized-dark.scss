@@ -1,0 +1,383 @@
+// Variables
+//
+// Solarized Dark theme
+// Based on Ethan Schoonover's Solarized color palette
+// https://ethanschoonover.com/solarized/
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Solarized palette
+$sol-base03:  #002b36;
+$sol-base02:  #073642;
+$sol-base01:  #586e75;
+$sol-base00:  #657b83;
+$sol-base0:   #839496;
+$sol-base1:   #93a1a1;
+$sol-base2:   #eee8d5;
+$sol-base3:   #fdf6e3;
+$sol-yellow:  #b58900;
+$sol-orange:  #cb4b16;
+$sol-red:     #dc322f;
+$sol-magenta: #d33682;
+$sol-violet:  #6c71c4;
+$sol-blue:    #268bd2;
+$sol-cyan:    #2aa198;
+$sol-green:   #859900;
+
+body.theme-solarized-dark {
+  --color-new: #{$sol-green};
+  --color-deleted: #{$sol-red};
+  --color-modified: #{$sol-yellow};
+  --color-renamed: #{$sol-blue};
+  --color-conflicted: #{$sol-orange};
+
+  --text-color: #{$sol-base0};
+  --text-secondary-color: #{$sol-base01};
+  --text-secondary-color-muted: #{darken($sol-base01, 10%)};
+  --background-color: #{$sol-base03};
+
+  --button-background: #{$sol-blue};
+  --button-hover-background: #{lighten($sol-blue, 5%)};
+  --button-text-color: #{$sol-base3};
+  --button-focus-border-color: #{lighten($sol-blue, 15%)};
+
+  --link-button-color: #{$sol-blue};
+  --link-button-hover-color: #{lighten($sol-blue, 10%)};
+  --link-button-selected-hover-color: #{$sol-blue};
+
+  --secondary-button-background: #{$sol-base02};
+  --secondary-button-border-color: #{$sol-base01};
+  --secondary-button-hover-border-color: #{$sol-base0};
+  --secondary-button-hover-background: #{lighten($sol-base02, 3%)};
+  --secondary-button-text-color: #{$sol-base0};
+  --secondary-button-focus-shadow-color: #{rgba($sol-blue, 0.35)};
+  --secondary-button-focus-border-color: #{$sol-blue};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$sol-base1};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$sol-yellow};
+  --input-icon-error-color: #{$sol-red};
+  --input-icon-hover-background-color: #{$sol-base02};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($sol-base0, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($sol-base0, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$sol-base03};
+  --box-alt-background-color: #{$sol-base02};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$sol-base02};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(0, 43, 54, 0) 0%, rgba(0, 43, 54, 0.5) 50%, rgba(0, 43, 54, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{lighten($sol-base02, 5%)};
+
+  --box-border-contrast-color: #{$sol-base01};
+  --box-border-accent-color: #{$sol-blue};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$sol-base02};
+
+  --box-hover-text-color: #{$sol-base1};
+  --box-hover-background-color: #{$sol-base02};
+
+  --box-selected-text-color: #{$sol-base1};
+  --box-selected-border-color: #{$sol-base01};
+
+  --box-selected-active-background-color: #{$sol-blue};
+  --box-selected-active-text-color: #{$sol-base3};
+  --box-selected-active-border-color: #{$sol-base01};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($sol-base03, 0) 0%, rgba($sol-base03, 1) 90%, rgba($sol-base03, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($sol-base03, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $sol-base03)};
+  --top-shadow: #{linear-gradient(0deg, rgba($sol-base03, 0) 0%, rgba(black, 0.4) 90%, rgba(black, 0.6) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($sol-base03, 0) 0%, rgba(black, 0.4) 90%, rgba(black, 0.6) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$sol-base01};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($sol-blue, 30%)};
+  --co-author-tag-border-color: #{darken($sol-blue, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$sol-base03};
+  --commit-warning-badge-border-color: #{$sol-base01};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.4)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($sol-base03, 2%)};
+  --toolbar-border-color: #{lighten($sol-base02, 5%)};
+  --toolbar-text-color: #{$sol-base0};
+  --toolbar-text-secondary-color: #{$sol-base01};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{lighten($sol-base02, 5%)};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$sol-base1};
+  --toolbar-button-hover-background-color: #{$sol-base02};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$sol-base02};
+
+  --toolbar-button-active-color: #{$sol-base0};
+  --toolbar-button-active-background-color: #{$sol-base03};
+  --toolbar-button-active-border-color: #{$sol-base03};
+
+  --toolbar-button-progress-color: #{$sol-base02};
+  --toolbar-button-focus-progress-color: #{darken($sol-base02, 3%)};
+  --toolbar-button-hover-progress-color: #{darken($sol-base02, 3%)};
+  --toolbar-dropdown-open-progress-color: #{$sol-base0};
+  --toolbar-dropdown-text-warning-color: #{$sol-orange};
+  --toolbar-dropdown-text-hover-color: #{$sol-base1};
+
+  --toolbar-tooltip-background-color: #{$sol-base02};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$sol-base0};
+  --app-menu-button-active-background-color: #{$sol-base02};
+  --app-menu-pane-color: #{$sol-base0};
+  --app-menu-pane-secondary-color: #{$sol-base01};
+  --app-menu-pane-background-color: #{$sol-base02};
+  --app-menu-divider-color: #{$sol-base01};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$sol-base01};
+  --toolbar-badge-active-background-color: #{$sol-base01};
+
+  --tab-bar-active-color: #{$sol-blue};
+  --tab-bar-background-color: #{$sol-base03};
+  --tab-bar-hover-background-color: #{$sol-base02};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$sol-base0};
+  --tab-bar-count-background-color: #{$sol-base02};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$sol-base0};
+  --list-item-badge-background-color: #{$sol-base01};
+  --list-item-selected-badge-color: #{$sol-base1};
+  --list-item-selected-badge-background-color: #{$sol-base00};
+  --list-item-selected-active-badge-color: #{$sol-base03};
+  --list-item-selected-active-badge-background-color: #{$sol-base1};
+  --list-item-hover-background-color: #{$sol-base02};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$sol-base0};
+  --toast-notification-background-color: #{rgba(black, 0.75)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$sol-blue};
+  --diff-linenumber-focus-color: #{lighten($sol-blue, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($sol-blue, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($sol-blue, 30%)};
+  --primary-suggested-action-border-color: #{darken($sol-blue, 15%)};
+  --suggested-action-icon-color: #{$sol-blue};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$sol-base0};
+  --diff-border-color: #{$sol-base02};
+  --diff-gutter-color: #{$sol-base02};
+  --diff-gutter-background-color: #{$sol-base03};
+
+  --diff-line-number-color: #{$sol-base01};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($sol-blue, 15%)};
+  --diff-selected-border-color: #{$sol-blue};
+  --diff-selected-gutter-color: #{$sol-blue};
+  --diff-selected-text-color: #{$sol-base1};
+
+  --diff-add-background-color: #{rgba($sol-green, 0.1)};
+  --diff-add-border-color: #{rgba($sol-green, 0.2)};
+  --diff-add-gutter-color: #{rgba($sol-green, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($sol-green, 0.15)};
+  --diff-add-inner-background-color: #{rgba($sol-green, 0.25)};
+  --diff-add-text-color: #{$sol-base0};
+
+  --diff-delete-background-color: #{rgba($sol-red, 0.1)};
+  --diff-delete-border-color: #{rgba($sol-red, 0.2)};
+  --diff-delete-gutter-color: #{rgba($sol-red, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($sol-red, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($sol-red, 0.25)};
+  --diff-delete-text-color: #{$sol-base0};
+
+  --diff-hunk-background-color: #{rgba($sol-violet, 0.08)};
+  --diff-hunk-border-color: #{rgba($sol-violet, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($sol-violet, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($sol-violet, 0.12)};
+  --diff-hunk-text-color: #{$sol-base01};
+
+  --diff-hover-background-color: #{$sol-blue};
+  --diff-hover-border-color: #{lighten($sol-blue, 10%)};
+  --diff-hover-gutter-color: #{lighten($sol-blue, 10%)};
+  --diff-hover-text-color: #{$sol-base3};
+
+  --diff-add-hover-background-color: #{rgba($sol-green, 0.3)};
+  --diff-add-hover-border-color: #{$sol-green};
+  --diff-add-hover-gutter-color: #{$sol-green};
+  --diff-add-hover-text-color: #{$sol-base1};
+
+  --diff-delete-hover-background-color: #{rgba($sol-red, 0.3)};
+  --diff-delete-hover-border-color: #{$sol-red};
+  --diff-delete-hover-gutter-color: #{$sol-red};
+  --diff-delete-hover-text-color: #{$sol-base1};
+
+  --diff-empty-row-background-color: #{darken($sol-base03, 1%)};
+  --diff-empty-row-gutter-background-color: #{$sol-base03};
+  --diff-empty-hunk-handle: #{$sol-base01};
+
+  // Syntax highlighting text colors (Solarized palette)
+  --syntax-variable-color: #{$sol-blue};
+  --syntax-alt-variable-color: #{$sol-base0};
+  --syntax-keyword-color: #{$sol-green};
+  --syntax-atom-color: #{$sol-cyan};
+  --syntax-string-color: #{$sol-cyan};
+  --syntax-qualifier-color: #{$sol-orange};
+  --syntax-type-color: #{$sol-yellow};
+  --syntax-comment-color: #{$sol-base01};
+  --syntax-tag-color: #{$sol-blue};
+  --syntax-attribute-color: #{$sol-orange};
+  --syntax-link-color: #{$sol-violet};
+  --syntax-header-color: #{$sol-orange};
+  --syntax-quote-color: #{$sol-cyan};
+
+  // Colors for form errors
+  --error-color: #{$sol-red};
+  --form-error-background: #{rgba($sol-red, 0.15)};
+  --form-error-border-color: #{rgba($sol-red, 0.3)};
+  --form-error-text-color: #{lighten($sol-red, 15%)};
+
+  --dialog-banner-success-background: #{rgba($sol-green, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($sol-green, 0.3)};
+  --dialog-banner-success-text-color: #{lighten($sol-green, 15%)};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($sol-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$sol-yellow};
+  --dialog-information-color: #{$sol-blue};
+  --dialog-error-color: #{$sol-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($sol-yellow, 0.12)};
+  --file-warning-color: #{$sol-yellow};
+  --file-warning-border-color: #{rgba($sol-yellow, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$sol-base02};
+  --tooltip-color: #{$sol-base1};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$sol-base02};
+  --path-segment-background-focus: #{lighten($sol-base02, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$sol-yellow};
+  --status-error-color: #{$sol-red};
+  --status-success-color: #{$sol-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$sol-green};
+  --pr-draft-icon-color: #{$sol-base01};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$sol-base01};
+  --pr-changes-requested-icon-color: #{$sol-base3};
+  --pr-changes-requested-icon-background-color: #{$sol-red};
+  --pr-approved-icon-color: #{$sol-base3};
+  --pr-approved-icon-background-color: #{$sol-green};
+  --pr-commented-icon-color: #{$sol-base01};
+  --pr-commented-icon-background-color: #{$sol-base02};
+
+  --call-to-action-bubble-border-color: #{$sol-blue};
+  --call-to-action-bubble-color: #{$sol-blue};
+
+  --title-tool-tip-background-color: #{$sol-base02};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$sol-base01};
+  --md-border-muted-color: #{$sol-base02};
+  --md-canvas-default-color: #{$sol-base03};
+  --md-canvas-subtle-color: #{$sol-base02};
+  --md-fg-default-color: #{$sol-base0};
+  --md-fg-muted-color: #{$sol-base01};
+  --md-danger-fg-color: #{$sol-red};
+  --md-neutral-muted-color: #{rgba($sol-base01, 0.3)};
+  --md-accent-emphasis-color: #{$sol-blue};
+  --md-accent-fg-color: #{$sol-blue};
+}
+
+// CodeMirror cursor for Solarized Dark
+body.theme-solarized-dark .CodeMirror-cursor {
+  border-left-color: #{$sol-base0};
+}
