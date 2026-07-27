@@ -1,0 +1,385 @@
+// Variables
+//
+// Gruvbox Dark theme
+// Based on the Gruvbox color scheme by Pavel Pertsev
+// https://github.com/morhetz/gruvbox
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Gruvbox Dark palette
+$gruvbox-dark-bg:       #282828;
+$gruvbox-dark-bg1:      #3c3836;
+$gruvbox-dark-bg2:      #504945;
+$gruvbox-dark-bg3:      #665c54;
+$gruvbox-dark-fg:       #ebdbb2;
+$gruvbox-dark-fg-dim:   #a89984;
+$gruvbox-dark-red:      #cc241d;
+$gruvbox-dark-red-alt:  #fb4934;
+$gruvbox-dark-green:    #98971a;
+$gruvbox-dark-green-alt:#b8bb26;
+$gruvbox-dark-yellow:   #d79921;
+$gruvbox-dark-yellow-alt:#fabd2f;
+$gruvbox-dark-blue:     #458588;
+$gruvbox-dark-blue-alt: #83a598;
+$gruvbox-dark-purple:   #b16286;
+$gruvbox-dark-purple-alt:#d3869b;
+$gruvbox-dark-aqua:     #689d6a;
+$gruvbox-dark-aqua-alt: #8ec07c;
+$gruvbox-dark-orange:   #d65d0e;
+
+body.theme-gruvbox-dark {
+  --color-new: #{$gruvbox-dark-green-alt};
+  --color-deleted: #{$gruvbox-dark-red-alt};
+  --color-modified: #{$gruvbox-dark-yellow-alt};
+  --color-renamed: #{$gruvbox-dark-blue-alt};
+  --color-conflicted: #{$gruvbox-dark-orange};
+
+  --text-color: #{$gruvbox-dark-fg};
+  --text-secondary-color: #{$gruvbox-dark-fg-dim};
+  --text-secondary-color-muted: #{darken($gruvbox-dark-fg-dim, 10%)};
+  --background-color: #{$gruvbox-dark-bg};
+
+  --button-background: #{$gruvbox-dark-blue-alt};
+  --button-hover-background: #{lighten($gruvbox-dark-blue-alt, 5%)};
+  --button-text-color: #{$gruvbox-dark-bg};
+  --button-focus-border-color: #{lighten($gruvbox-dark-blue-alt, 15%)};
+
+  --link-button-color: #{$gruvbox-dark-blue-alt};
+  --link-button-hover-color: #{lighten($gruvbox-dark-blue-alt, 10%)};
+  --link-button-selected-hover-color: #{$gruvbox-dark-blue-alt};
+
+  --secondary-button-background: #{$gruvbox-dark-bg1};
+  --secondary-button-border-color: #{$gruvbox-dark-bg2};
+  --secondary-button-hover-border-color: #{$gruvbox-dark-bg3};
+  --secondary-button-hover-background: #{lighten($gruvbox-dark-bg1, 3%)};
+  --secondary-button-text-color: #{$gruvbox-dark-fg};
+  --secondary-button-focus-shadow-color: #{rgba($gruvbox-dark-blue-alt, 0.35)};
+  --secondary-button-focus-border-color: #{$gruvbox-dark-blue-alt};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$gruvbox-dark-fg};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$gruvbox-dark-yellow-alt};
+  --input-icon-error-color: #{$gruvbox-dark-red-alt};
+  --input-icon-hover-background-color: #{$gruvbox-dark-bg1};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($gruvbox-dark-fg, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($gruvbox-dark-fg, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$gruvbox-dark-bg};
+  --box-alt-background-color: #{$gruvbox-dark-bg1};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$gruvbox-dark-bg2};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(40, 40, 40, 0) 0%, rgba(40, 40, 40, 0.5) 50%, rgba(40, 40, 40, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$gruvbox-dark-bg1};
+
+  --box-border-contrast-color: #{$gruvbox-dark-bg2};
+  --box-border-accent-color: #{$gruvbox-dark-blue-alt};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$gruvbox-dark-bg2};
+
+  --box-hover-text-color: #{$gruvbox-dark-fg};
+  --box-hover-background-color: #{$gruvbox-dark-bg1};
+
+  --box-selected-text-color: #{$gruvbox-dark-fg};
+  --box-selected-border-color: #{$gruvbox-dark-bg3};
+
+  --box-selected-active-background-color: #{$gruvbox-dark-blue-alt};
+  --box-selected-active-text-color: #{$gruvbox-dark-bg};
+  --box-selected-active-border-color: #{$gruvbox-dark-bg2};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($gruvbox-dark-bg, 0) 0%, rgba($gruvbox-dark-bg, 1) 90%, rgba($gruvbox-dark-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($gruvbox-dark-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $gruvbox-dark-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($gruvbox-dark-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($gruvbox-dark-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$gruvbox-dark-fg-dim};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($gruvbox-dark-blue-alt, 35%)};
+  --co-author-tag-border-color: #{darken($gruvbox-dark-blue-alt, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$gruvbox-dark-bg};
+  --commit-warning-badge-border-color: #{$gruvbox-dark-bg2};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.35)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($gruvbox-dark-bg, 2%)};
+  --toolbar-border-color: #{$gruvbox-dark-bg1};
+  --toolbar-text-color: #{$gruvbox-dark-fg};
+  --toolbar-text-secondary-color: #{$gruvbox-dark-fg-dim};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$gruvbox-dark-bg1};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$gruvbox-dark-fg};
+  --toolbar-button-hover-background-color: #{$gruvbox-dark-bg1};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$gruvbox-dark-bg1};
+
+  --toolbar-button-active-color: #{$gruvbox-dark-fg};
+  --toolbar-button-active-background-color: #{$gruvbox-dark-bg};
+  --toolbar-button-active-border-color: #{$gruvbox-dark-bg};
+
+  --toolbar-button-progress-color: #{$gruvbox-dark-bg1};
+  --toolbar-button-focus-progress-color: #{$gruvbox-dark-bg2};
+  --toolbar-button-hover-progress-color: #{$gruvbox-dark-bg2};
+  --toolbar-dropdown-open-progress-color: #{$gruvbox-dark-fg};
+  --toolbar-dropdown-text-warning-color: #{$gruvbox-dark-yellow-alt};
+  --toolbar-dropdown-text-hover-color: #{$gruvbox-dark-fg};
+
+  --toolbar-tooltip-background-color: #{$gruvbox-dark-bg1};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$gruvbox-dark-fg};
+  --app-menu-button-active-background-color: #{$gruvbox-dark-bg1};
+  --app-menu-pane-color: #{$gruvbox-dark-fg};
+  --app-menu-pane-secondary-color: #{$gruvbox-dark-fg-dim};
+  --app-menu-pane-background-color: #{$gruvbox-dark-bg1};
+  --app-menu-divider-color: #{$gruvbox-dark-bg2};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$gruvbox-dark-bg2};
+  --toolbar-badge-active-background-color: #{$gruvbox-dark-bg2};
+
+  --tab-bar-active-color: #{$gruvbox-dark-blue-alt};
+  --tab-bar-background-color: #{$gruvbox-dark-bg};
+  --tab-bar-hover-background-color: #{$gruvbox-dark-bg1};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$gruvbox-dark-fg};
+  --tab-bar-count-background-color: #{$gruvbox-dark-bg2};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$gruvbox-dark-fg};
+  --list-item-badge-background-color: #{$gruvbox-dark-bg2};
+  --list-item-selected-badge-color: #{$gruvbox-dark-fg};
+  --list-item-selected-badge-background-color: #{$gruvbox-dark-bg3};
+  --list-item-selected-active-badge-color: #{$gruvbox-dark-bg};
+  --list-item-selected-active-badge-background-color: #{$gruvbox-dark-fg};
+  --list-item-hover-background-color: #{$gruvbox-dark-bg1};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$gruvbox-dark-fg};
+  --toast-notification-background-color: #{rgba(black, 0.75)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$gruvbox-dark-blue-alt};
+  --diff-linenumber-focus-color: #{lighten($gruvbox-dark-blue-alt, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($gruvbox-dark-blue-alt, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($gruvbox-dark-blue-alt, 30%)};
+  --primary-suggested-action-border-color: #{darken($gruvbox-dark-blue-alt, 10%)};
+  --suggested-action-icon-color: #{$gruvbox-dark-blue-alt};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$gruvbox-dark-fg};
+  --diff-border-color: #{$gruvbox-dark-bg1};
+  --diff-gutter-color: #{$gruvbox-dark-bg1};
+  --diff-gutter-background-color: #{$gruvbox-dark-bg};
+
+  --diff-line-number-color: #{$gruvbox-dark-fg-dim};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($gruvbox-dark-blue-alt, 25%)};
+  --diff-selected-border-color: #{darken($gruvbox-dark-blue-alt, 5%)};
+  --diff-selected-gutter-color: #{darken($gruvbox-dark-blue-alt, 5%)};
+  --diff-selected-text-color: #{$gruvbox-dark-fg};
+
+  --diff-add-background-color: #{rgba($gruvbox-dark-green-alt, 0.1)};
+  --diff-add-border-color: #{rgba($gruvbox-dark-green-alt, 0.2)};
+  --diff-add-gutter-color: #{rgba($gruvbox-dark-green-alt, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($gruvbox-dark-green-alt, 0.15)};
+  --diff-add-inner-background-color: #{rgba($gruvbox-dark-green-alt, 0.25)};
+  --diff-add-text-color: #{$gruvbox-dark-fg};
+
+  --diff-delete-background-color: #{rgba($gruvbox-dark-red-alt, 0.1)};
+  --diff-delete-border-color: #{rgba($gruvbox-dark-red-alt, 0.2)};
+  --diff-delete-gutter-color: #{rgba($gruvbox-dark-red-alt, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($gruvbox-dark-red-alt, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($gruvbox-dark-red-alt, 0.25)};
+  --diff-delete-text-color: #{$gruvbox-dark-fg};
+
+  --diff-hunk-background-color: #{rgba($gruvbox-dark-blue-alt, 0.08)};
+  --diff-hunk-border-color: #{rgba($gruvbox-dark-blue-alt, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($gruvbox-dark-blue-alt, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($gruvbox-dark-blue-alt, 0.12)};
+  --diff-hunk-text-color: #{$gruvbox-dark-fg-dim};
+
+  --diff-hover-background-color: #{$gruvbox-dark-blue-alt};
+  --diff-hover-border-color: #{lighten($gruvbox-dark-blue-alt, 10%)};
+  --diff-hover-gutter-color: #{lighten($gruvbox-dark-blue-alt, 10%)};
+  --diff-hover-text-color: #{$gruvbox-dark-bg};
+
+  --diff-add-hover-background-color: #{rgba($gruvbox-dark-green-alt, 0.3)};
+  --diff-add-hover-border-color: #{$gruvbox-dark-green-alt};
+  --diff-add-hover-gutter-color: #{$gruvbox-dark-green-alt};
+  --diff-add-hover-text-color: #{$gruvbox-dark-fg};
+
+  --diff-delete-hover-background-color: #{rgba($gruvbox-dark-red-alt, 0.3)};
+  --diff-delete-hover-border-color: #{$gruvbox-dark-red-alt};
+  --diff-delete-hover-gutter-color: #{$gruvbox-dark-red-alt};
+  --diff-delete-hover-text-color: #{$gruvbox-dark-fg};
+
+  --diff-empty-row-background-color: #{darken($gruvbox-dark-bg, 1%)};
+  --diff-empty-row-gutter-background-color: #{$gruvbox-dark-bg};
+  --diff-empty-hunk-handle: #{$gruvbox-dark-bg2};
+
+  // Syntax highlighting text colors (Gruvbox Dark palette)
+  --syntax-variable-color: #{$gruvbox-dark-fg};
+  --syntax-alt-variable-color: #{$gruvbox-dark-fg};
+  --syntax-keyword-color: #{$gruvbox-dark-red-alt};
+  --syntax-atom-color: #{$gruvbox-dark-purple-alt};
+  --syntax-string-color: #{$gruvbox-dark-green-alt};
+  --syntax-qualifier-color: #{$gruvbox-dark-yellow-alt};
+  --syntax-type-color: #{$gruvbox-dark-yellow-alt};
+  --syntax-comment-color: #{$gruvbox-dark-fg-dim};
+  --syntax-tag-color: #{$gruvbox-dark-aqua-alt};
+  --syntax-attribute-color: #{$gruvbox-dark-yellow-alt};
+  --syntax-link-color: #{$gruvbox-dark-blue-alt};
+  --syntax-header-color: #{$gruvbox-dark-orange};
+  --syntax-quote-color: #{$gruvbox-dark-green-alt};
+
+  // Colors for form errors
+  --error-color: #{$gruvbox-dark-red-alt};
+  --form-error-background: #{rgba($gruvbox-dark-red-alt, 0.15)};
+  --form-error-border-color: #{rgba($gruvbox-dark-red-alt, 0.3)};
+  --form-error-text-color: #{lighten($gruvbox-dark-red-alt, 10%)};
+
+  --dialog-banner-success-background: #{rgba($gruvbox-dark-green-alt, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($gruvbox-dark-green-alt, 0.3)};
+  --dialog-banner-success-text-color: #{$gruvbox-dark-green-alt};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($gruvbox-dark-red-alt, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$gruvbox-dark-yellow-alt};
+  --dialog-information-color: #{$gruvbox-dark-blue-alt};
+  --dialog-error-color: #{$gruvbox-dark-red-alt};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($gruvbox-dark-yellow-alt, 0.12)};
+  --file-warning-color: #{$gruvbox-dark-yellow-alt};
+  --file-warning-border-color: #{rgba($gruvbox-dark-yellow-alt, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$gruvbox-dark-bg1};
+  --tooltip-color: #{$gruvbox-dark-fg};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$gruvbox-dark-bg2};
+  --path-segment-background-focus: #{lighten($gruvbox-dark-bg2, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$gruvbox-dark-yellow-alt};
+  --status-error-color: #{$gruvbox-dark-red-alt};
+  --status-success-color: #{$gruvbox-dark-green-alt};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$gruvbox-dark-green-alt};
+  --pr-draft-icon-color: #{$gruvbox-dark-fg-dim};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$gruvbox-dark-bg2};
+  --pr-changes-requested-icon-color: #{$gruvbox-dark-fg};
+  --pr-changes-requested-icon-background-color: #{$gruvbox-dark-red-alt};
+  --pr-approved-icon-color: #{$gruvbox-dark-bg};
+  --pr-approved-icon-background-color: #{$gruvbox-dark-green-alt};
+  --pr-commented-icon-color: #{$gruvbox-dark-fg-dim};
+  --pr-commented-icon-background-color: #{$gruvbox-dark-bg2};
+
+  --call-to-action-bubble-border-color: #{$gruvbox-dark-blue-alt};
+  --call-to-action-bubble-color: #{$gruvbox-dark-blue-alt};
+
+  --title-tool-tip-background-color: #{$gruvbox-dark-bg1};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$gruvbox-dark-bg2};
+  --md-border-muted-color: #{$gruvbox-dark-bg1};
+  --md-canvas-default-color: #{$gruvbox-dark-bg};
+  --md-canvas-subtle-color: #{$gruvbox-dark-bg1};
+  --md-fg-default-color: #{$gruvbox-dark-fg};
+  --md-fg-muted-color: #{$gruvbox-dark-fg-dim};
+  --md-danger-fg-color: #{$gruvbox-dark-red-alt};
+  --md-neutral-muted-color: #{rgba($gruvbox-dark-fg-dim, 0.3)};
+  --md-accent-emphasis-color: #{$gruvbox-dark-blue-alt};
+  --md-accent-fg-color: #{$gruvbox-dark-blue-alt};
+}
+
+body.theme-gruvbox-dark .CodeMirror-cursor {
+  border-left-color: #{$gruvbox-dark-fg};
+}
