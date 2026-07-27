@@ -117,19 +117,25 @@ export class CompareView extends React.Component<ICompareViewProps> {
             />
           </Resizable>
 
-          <SeamlessDiffSwitcher
-            repository={repository}
-            file={selectedFile as any}
-            diff={diff}
-            imageDiffType={this.props.imageDiffType}
-            hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
-            showSideBySideDiff={this.props.showSideBySideDiff}
-            readOnly={true}
-            onOpenBinaryFile={this.noop}
-            onChangeImageDiffType={this.noop}
-            showDiffCheckMarks={false}
-            onHideWhitespaceInDiffChanged={this.noop}
-          />
+          {selectedFile !== null ? (
+            <SeamlessDiffSwitcher
+              repository={repository}
+              file={selectedFile as any}
+              diff={diff}
+              imageDiffType={this.props.imageDiffType}
+              hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
+              showSideBySideDiff={this.props.showSideBySideDiff}
+              readOnly={true}
+              onOpenBinaryFile={this.noop}
+              onChangeImageDiffType={this.noop}
+              showDiffCheckMarks={false}
+              onHideWhitespaceInDiffChanged={this.noop}
+            />
+          ) : (
+            <div className="panel blankslate" id="diff">
+              No file selected
+            </div>
+          )}
         </div>
       </div>
     )
