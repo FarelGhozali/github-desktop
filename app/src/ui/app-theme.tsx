@@ -55,7 +55,10 @@ export class AppTheme extends React.PureComponent<IAppThemeProps> {
     const isDarkTheme =
       body.classList.contains('theme-dark') ||
       body.classList.contains('theme-high-contrast') ||
-      body.classList.contains('theme-solarized-dark')
+      body.classList.contains('theme-solarized-dark') ||
+      body.classList.contains('theme-nord') ||
+      body.classList.contains('theme-monokai') ||
+      body.classList.contains('theme-one-dark')
     const rootStyle = document.documentElement.style
 
     rootStyle.colorScheme = isDarkTheme ? 'dark' : 'light'

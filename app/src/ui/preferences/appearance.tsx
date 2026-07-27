@@ -153,6 +153,27 @@ export class Appearance extends React.Component<
             <span className="theme-value-label">Solarized Dark</span>
           </span>
         )
+      case ApplicationTheme.Nord:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Nord</span>
+          </span>
+        )
+      case ApplicationTheme.Monokai:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Monokai</span>
+          </span>
+        )
+      case ApplicationTheme.OneDark:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">One Dark</span>
+          </span>
+        )
     }
   }
 
@@ -193,6 +214,9 @@ export class Appearance extends React.Component<
       ApplicationTheme.HighContrast,
       ApplicationTheme.SolarizedLight,
       ApplicationTheme.SolarizedDark,
+      ApplicationTheme.Nord,
+      ApplicationTheme.Monokai,
+      ApplicationTheme.OneDark,
     ]
 
     return (

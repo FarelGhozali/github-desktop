@@ -19,6 +19,9 @@ export enum ApplicationTheme {
   HighContrast = 'high-contrast',
   SolarizedLight = 'solarized-light',
   SolarizedDark = 'solarized-dark',
+  Nord = 'nord',
+  Monokai = 'monokai',
+  OneDark = 'one-dark',
 }
 
 export type ApplicableTheme =
@@ -27,6 +30,9 @@ export type ApplicableTheme =
   | ApplicationTheme.HighContrast
   | ApplicationTheme.SolarizedLight
   | ApplicationTheme.SolarizedDark
+  | ApplicationTheme.Nord
+  | ApplicationTheme.Monokai
+  | ApplicationTheme.OneDark
 
 /**
  * Gets the friendly name of an application theme for use
@@ -41,6 +47,9 @@ export function getThemeName(theme: ApplicationTheme): ThemeSource {
     case ApplicationTheme.Dark:
     case ApplicationTheme.HighContrast:
     case ApplicationTheme.SolarizedDark:
+    case ApplicationTheme.Nord:
+    case ApplicationTheme.Monokai:
+    case ApplicationTheme.OneDark:
       return 'dark'
     default:
       return 'system'
@@ -95,7 +104,10 @@ function getApplicationThemeSetting(): ApplicationTheme {
     themeSetting === ApplicationTheme.Dark ||
     themeSetting === ApplicationTheme.HighContrast ||
     themeSetting === ApplicationTheme.SolarizedLight ||
-    themeSetting === ApplicationTheme.SolarizedDark
+    themeSetting === ApplicationTheme.SolarizedDark ||
+    themeSetting === ApplicationTheme.Nord ||
+    themeSetting === ApplicationTheme.Monokai ||
+    themeSetting === ApplicationTheme.OneDark
   ) {
     return themeSetting
   }

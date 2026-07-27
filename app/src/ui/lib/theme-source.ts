@@ -9,6 +9,9 @@ export function getBaseThemeSource(themeId: string): ThemeSource {
   switch (themeId) {
     case 'high-contrast':
     case 'solarized-dark':
+    case 'nord':
+    case 'monokai':
+    case 'one-dark':
       return 'dark'
     case 'solarized-light':
       return 'light'
