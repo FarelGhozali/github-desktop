@@ -15,6 +15,12 @@ GitHub Desktop supports multiple built-in themes. This document explains how the
 | Nord | dark | Arctic Ice Studio's Nord color palette, cool blue-toned |
 | Monokai | dark | Classic Monokai color scheme by Wimer Hazenberg |
 | One Dark | dark | Atom's iconic One Dark color scheme |
+| Dracula | dark | Zeno Rocha's popular Dracula color theme |
+| Gruvbox Dark | dark | Retro warm dark theme by Pavel Pertsev |
+| Gruvbox Light | light | Retro warm light theme by Pavel Pertsev |
+| Catppuccin Mocha | dark | Modern pastel dark theme, very popular |
+| Light High Contrast | light | GitHub's built-in Light High Contrast |
+| Dark Dimmed | dark | GitHub's built-in Dark Dimmed (softer dark) |
 
 ## Architecture
 
@@ -35,6 +41,12 @@ export enum ApplicationTheme {
   Nord = 'nord',
   Monokai = 'monokai',
   OneDark = 'one-dark',
+  Dracula = 'dracula',
+  GruvboxDark = 'gruvbox-dark',
+  GruvboxLight = 'gruvbox-light',
+  CatppuccinMocha = 'catppuccin-mocha',
+  LightHighContrast = 'light-high-contrast',
+  DarkDimmed = 'dark-dimmed',
 }
 ```
 
@@ -52,7 +64,13 @@ app/styles/
     ├── _solarized-dark.scss  # body.theme-solarized-dark overrides
     ├── _nord.scss            # body.theme-nord overrides
     ├── _monokai.scss         # body.theme-monokai overrides
-    └── _one-dark.scss        # body.theme-one-dark overrides
+    ├── _one-dark.scss        # body.theme-one-dark overrides
+    ├── _dracula.scss         # body.theme-dracula overrides
+    ├── _gruvbox-dark.scss    # body.theme-gruvbox-dark overrides
+    ├── _gruvbox-light.scss   # body.theme-gruvbox-light overrides
+    ├── _catppuccin-mocha.scss# body.theme-catppuccin-mocha overrides
+    ├── _light-high-contrast.scss # body.theme-light-high-contrast overrides
+    └── _dark-dimmed.scss     # body.theme-dark-dimmed overrides
 ```
 
 ### 3. Theme Application (`app/src/ui/app-theme.tsx`)
