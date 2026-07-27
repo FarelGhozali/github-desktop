@@ -1,0 +1,308 @@
+// Variables
+//
+// Dark Dimmed theme
+// Based on GitHub's Dark Dimmed theme
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Dark Dimmed palette
+$dimmed-bg:         #22272e;
+$dimmed-bg-alt:     #2d333b;
+$dimmed-border:     #444c56;
+$dimmed-fg:         #adbac7;
+$dimmed-fg-dim:     #768390;
+$dimmed-blue:       #539bf5;
+$dimmed-blue-bg:    #{rgba(#539bf5, 0.1)};
+$dimmed-green:      #57ab5a;
+$dimmed-green-bg:   #{rgba(#57ab5a, 0.1)};
+$dimmed-red:        #e5534b;
+$dimmed-red-bg:     #{rgba(#e5534b, 0.1)};
+$dimmed-yellow:     #c69026;
+$dimmed-yellow-bg:  #{rgba(#c69026, 0.1)};
+
+body.theme-dark-dimmed {
+  --color-new: #{$dimmed-green};
+  --color-deleted: #{$dimmed-red};
+  --color-modified: #{$dimmed-yellow};
+  --color-renamed: #{$dimmed-blue};
+  --color-conflicted: #{$dimmed-yellow};
+
+  --text-color: #{$dimmed-fg};
+  --text-secondary-color: #{$dimmed-fg-dim};
+  --text-secondary-color-muted: #{darken($dimmed-fg-dim, 10%)};
+  --background-color: #{$dimmed-bg};
+
+  --button-background: #{$dimmed-bg-alt};
+  --button-hover-background: #{lighten($dimmed-bg-alt, 5%)};
+  --button-text-color: #{$dimmed-fg};
+  --button-focus-border-color: #{$dimmed-blue};
+
+  --link-button-color: #{$dimmed-blue};
+  --link-button-hover-color: #{lighten($dimmed-blue, 10%)};
+  --link-button-selected-hover-color: #{$dimmed-blue};
+
+  --secondary-button-background: #{$dimmed-bg-alt};
+  --secondary-button-border-color: #{$dimmed-border};
+  --secondary-button-hover-border-color: #{$dimmed-fg-dim};
+  --secondary-button-hover-background: #{lighten($dimmed-bg-alt, 5%)};
+  --secondary-button-text-color: #{$dimmed-fg};
+  --secondary-button-focus-shadow-color: #{rgba($dimmed-blue, 0.4)};
+  --secondary-button-focus-border-color: #{$dimmed-blue};
+
+  --badge-icon-color: #{$dimmed-fg};
+
+  --input-icon-warning-color: #{$dimmed-yellow};
+  --input-icon-error-color: #{$dimmed-red};
+  --input-icon-hover-background-color: #{$dimmed-bg-alt};
+
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  --scroll-bar-thumb-background-color: #{rgba($dimmed-fg, 0.2)};
+  --scroll-bar-thumb-background-color-active: #{rgba($dimmed-fg, 0.4)};
+
+  --box-background-color: #{$dimmed-bg};
+  --box-alt-background-color: #{$dimmed-bg-alt};
+
+  --box-skeleton-background-color: #{$dimmed-bg-alt};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(45, 51, 59, 0) 0%, rgba(45, 51, 59, 0.5) 50%, rgba(45, 51, 59, 0) 100%);
+
+  --box-border-color: #{$dimmed-border};
+  --box-border-contrast-color: #{$dimmed-border};
+  --box-border-accent-color: #{$dimmed-blue};
+
+  --box-selected-background-color: #{$dimmed-bg-alt};
+
+  --box-hover-text-color: #{$dimmed-fg};
+  --box-hover-background-color: #{$dimmed-bg-alt};
+
+  --box-selected-text-color: #{$dimmed-fg};
+  --box-selected-border-color: #{$dimmed-border};
+
+  --box-selected-active-background-color: #{$dimmed-blue};
+  --box-selected-active-text-color: #ffffff;
+  --box-selected-active-border-color: #{$dimmed-border};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($dimmed-bg, 0) 0%, rgba($dimmed-bg, 1) 90%, rgba($dimmed-bg, 1) 100%)};
+  --no-shadow-top: #{linear-gradient($dimmed-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $dimmed-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($dimmed-bg, 0) 0%, rgba(black, 0.2) 90%, rgba(black, 0.3) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($dimmed-bg, 0) 0%, rgba(black, 0.2) 90%, rgba(black, 0.3) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$dimmed-fg-dim};
+
+  --co-author-tag-background-color: #{$dimmed-blue-bg};
+  --co-author-tag-border-color: #{$dimmed-blue};
+
+  --commit-warning-badge-background-color: #{$dimmed-bg};
+  --commit-warning-badge-border-color: #{$dimmed-border};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.3)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{$dimmed-bg-alt};
+  --toolbar-border-color: #{$dimmed-border};
+  --toolbar-text-color: #{$dimmed-fg};
+  --toolbar-text-secondary-color: #{$dimmed-fg-dim};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$dimmed-border};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$dimmed-fg};
+  --toolbar-button-hover-background-color: #{$dimmed-bg-alt};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$dimmed-bg-alt};
+
+  --toolbar-button-active-color: #{$dimmed-fg};
+  --toolbar-button-active-background-color: #{$dimmed-bg};
+  --toolbar-button-active-border-color: #{$dimmed-border};
+
+  --toolbar-button-progress-color: #{$dimmed-bg-alt};
+  --toolbar-button-focus-progress-color: #{lighten($dimmed-bg-alt, 5%)};
+  --toolbar-button-hover-progress-color: #{lighten($dimmed-bg-alt, 5%)};
+  --toolbar-dropdown-open-progress-color: #{$dimmed-fg};
+  --toolbar-dropdown-text-warning-color: #{$dimmed-yellow};
+  --toolbar-dropdown-text-hover-color: #{$dimmed-fg};
+
+  --toolbar-tooltip-background-color: #{$dimmed-border};
+  --toolbar-tooltip-color: #ffffff;
+  --toolbar-tooltip-shadow-color: #{rgba(black, 0.5)};
+
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$dimmed-fg};
+  --app-menu-button-active-background-color: #{$dimmed-bg-alt};
+  --app-menu-pane-color: #{$dimmed-fg};
+  --app-menu-pane-secondary-color: #{$dimmed-fg-dim};
+  --app-menu-pane-background-color: #{$dimmed-bg};
+  --app-menu-divider-color: #{$dimmed-border};
+
+  --toolbar-badge-background-color: #{$dimmed-border};
+  --toolbar-badge-active-background-color: #{$dimmed-border};
+
+  --tab-bar-active-color: #{$dimmed-blue};
+  --tab-bar-background-color: #{$dimmed-bg};
+  --tab-bar-hover-background-color: #{$dimmed-bg-alt};
+
+  --tab-bar-count-color: #ffffff;
+  --tab-bar-count-background-color: #{$dimmed-border};
+
+  --list-item-badge-color: #{$dimmed-fg};
+  --list-item-badge-background-color: #{$dimmed-border};
+  --list-item-selected-badge-color: #{$dimmed-fg};
+  --list-item-selected-badge-background-color: #{$dimmed-border};
+  --list-item-selected-active-badge-color: #ffffff;
+  --list-item-selected-active-badge-background-color: #{$dimmed-blue};
+  --list-item-hover-background-color: #{$dimmed-bg-alt};
+
+  --toast-notification-color: #{$dimmed-fg};
+  --toast-notification-background-color: #{rgba(black, 0.8)};
+
+  --focus-color: #{$dimmed-blue};
+  --diff-linenumber-focus-color: #{$dimmed-blue};
+
+  --text-field-focus-shadow-color: #{rgba($dimmed-blue, 0.4)};
+
+  --primary-suggested-action-background: #{$dimmed-blue-bg};
+  --primary-suggested-action-border-color: #{$dimmed-blue};
+  --suggested-action-icon-color: #{$dimmed-blue};
+
+  --diff-text-color: #{$dimmed-fg};
+  --diff-border-color: #{$dimmed-border};
+  --diff-gutter-color: #{$dimmed-border};
+  --diff-gutter-background-color: #{$dimmed-bg-alt};
+
+  --diff-line-number-color: #{$dimmed-fg-dim};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{$dimmed-blue-bg};
+  --diff-selected-border-color: #{$dimmed-blue};
+  --diff-selected-gutter-color: #{$dimmed-blue};
+  --diff-selected-text-color: #{$dimmed-fg};
+
+  --diff-add-background-color: #{$dimmed-green-bg};
+  --diff-add-border-color: #{$dimmed-green};
+  --diff-add-gutter-color: #{$dimmed-green};
+  --diff-add-gutter-background-color: #{rgba(#57ab5a, 0.15)};
+  --diff-add-inner-background-color: #{rgba(#57ab5a, 0.25)};
+  --diff-add-text-color: #{$dimmed-fg};
+
+  --diff-delete-background-color: #{$dimmed-red-bg};
+  --diff-delete-border-color: #{$dimmed-red};
+  --diff-delete-gutter-color: #{$dimmed-red};
+  --diff-delete-gutter-background-color: #{rgba(#e5534b, 0.15)};
+  --diff-delete-inner-background-color: #{rgba(#e5534b, 0.25)};
+  --diff-delete-text-color: #{$dimmed-fg};
+
+  --diff-hunk-background-color: #{$dimmed-blue-bg};
+  --diff-hunk-border-color: #{$dimmed-blue};
+  --diff-hunk-gutter-color: #{$dimmed-blue};
+  --diff-hunk-gutter-background-color: #{rgba(#539bf5, 0.15)};
+  --diff-hunk-text-color: #{$dimmed-fg-dim};
+
+  --diff-hover-background-color: #{$dimmed-blue-bg};
+  --diff-hover-border-color: #{$dimmed-blue};
+  --diff-hover-gutter-color: #{$dimmed-blue};
+  --diff-hover-text-color: #{$dimmed-fg};
+
+  --diff-add-hover-background-color: #{rgba(#57ab5a, 0.3)};
+  --diff-add-hover-border-color: #{$dimmed-green};
+  --diff-add-hover-gutter-color: #{$dimmed-green};
+  --diff-add-hover-text-color: #{$dimmed-fg};
+
+  --diff-delete-hover-background-color: #{rgba(#e5534b, 0.3)};
+  --diff-delete-hover-border-color: #{$dimmed-red};
+  --diff-delete-hover-gutter-color: #{$dimmed-red};
+  --diff-delete-hover-text-color: #{$dimmed-fg};
+
+  --diff-empty-row-background-color: #{$dimmed-bg};
+  --diff-empty-row-gutter-background-color: #{$dimmed-bg-alt};
+  --diff-empty-hunk-handle: #{$dimmed-border};
+
+  --syntax-variable-color: #{$dimmed-fg};
+  --syntax-alt-variable-color: #{$dimmed-fg};
+  --syntax-keyword-color: #{$dimmed-red};
+  --syntax-atom-color: #{$dimmed-blue};
+  --syntax-string-color: #{$dimmed-blue};
+  --syntax-qualifier-color: #{$dimmed-blue};
+  --syntax-type-color: #{$dimmed-blue};
+  --syntax-comment-color: #{$dimmed-fg-dim};
+  --syntax-tag-color: #{$dimmed-green};
+  --syntax-attribute-color: #{$dimmed-blue};
+  --syntax-link-color: #{$dimmed-blue};
+  --syntax-header-color: #{$dimmed-blue};
+  --syntax-quote-color: #{$dimmed-green};
+
+  --error-color: #{$dimmed-red};
+  --form-error-background: #{$dimmed-red-bg};
+  --form-error-border-color: #{$dimmed-red};
+  --form-error-text-color: #{$dimmed-red};
+
+  --dialog-banner-success-background: #{$dimmed-green-bg};
+  --dialog-banner-success-border-color: #{$dimmed-green};
+  --dialog-banner-success-text-color: #{$dimmed-green};
+
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{$dimmed-red};
+
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  --dialog-warning-color: #{$dimmed-yellow};
+  --dialog-information-color: #{$dimmed-blue};
+  --dialog-error-color: #{$dimmed-red};
+
+  --file-warning-background-color: #{$dimmed-yellow-bg};
+  --file-warning-color: #{$dimmed-yellow};
+  --file-warning-border-color: #{$dimmed-yellow};
+
+  --tooltip-background-color: #{$dimmed-border};
+  --tooltip-color: #ffffff;
+  --tooltip-shadow-color: #{rgba(black, 0.5)};
+
+  --path-segment-background: #{$dimmed-bg-alt};
+  --path-segment-background-focus: #{lighten($dimmed-bg-alt, 10%)};
+
+  --status-pending-color: #{$dimmed-yellow};
+  --status-error-color: #{$dimmed-red};
+  --status-success-color: #{$dimmed-green};
+
+  --pr-open-icon-color: #{$dimmed-green};
+  --pr-draft-icon-color: #{$dimmed-fg-dim};
+
+  --pr-timeline-line-color: #{$dimmed-border};
+  --pr-changes-requested-icon-color: #ffffff;
+  --pr-changes-requested-icon-background-color: #{$dimmed-red};
+  --pr-approved-icon-color: #ffffff;
+  --pr-approved-icon-background-color: #{$dimmed-green};
+  --pr-commented-icon-color: #ffffff;
+  --pr-commented-icon-background-color: #{$dimmed-border};
+
+  --call-to-action-bubble-border-color: #{$dimmed-blue};
+  --call-to-action-bubble-color: #{$dimmed-blue};
+
+  --title-tool-tip-background-color: #{$dimmed-border};
+  --title-tool-tip-shadow: none;
+
+  --md-border-default-color: #{$dimmed-border};
+  --md-border-muted-color: #{$dimmed-border};
+  --md-canvas-default-color: #{$dimmed-bg};
+  --md-canvas-subtle-color: #{$dimmed-bg-alt};
+  --md-fg-default-color: #{$dimmed-fg};
+  --md-fg-muted-color: #{$dimmed-fg-dim};
+  --md-danger-fg-color: #{$dimmed-red};
+  --md-neutral-muted-color: #{$dimmed-fg-dim};
+  --md-accent-emphasis-color: #{$dimmed-blue};
+  --md-accent-fg-color: #{$dimmed-blue};
+}
+
+body.theme-dark-dimmed .CodeMirror-cursor {
+  border-left-color: #{$dimmed-fg};
+}
