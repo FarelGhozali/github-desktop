@@ -1,0 +1,408 @@
+// Variables
+//
+// High Contrast theme - maximizes contrast ratios for accessibility
+// Built on top of the dark theme base
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// High contrast accent blue that passes WCAG AAA with black background
+$hc-blue: #4da6ff;
+$hc-link: #6bc1ff;
+$hc-bg: #000000;
+$hc-bg-alt: #0a0a0a;
+$hc-bg-elevated: #1a1a1a;
+$hc-border: #6e6e6e;
+$hc-border-strong: #999999;
+$hc-text: #ffffff;
+$hc-text-secondary: #e0e0e0;
+
+body.theme-high-contrast {
+  --color-new: #{$green-400};
+  --color-deleted: #{$red-400};
+  --color-modified: #{$yellow-400};
+  --color-renamed: #{$hc-blue};
+  --color-conflicted: #{$orange-400};
+
+  --text-color: #{$hc-text};
+  --text-secondary-color: #{$hc-text-secondary};
+  --text-secondary-color-muted: #{darken($hc-text-secondary, 20%)};
+  --background-color: #{$hc-bg};
+
+  --button-background: #{$hc-blue};
+  --button-hover-background: #{lighten($hc-blue, 10%)};
+  --button-text-color: #{$black};
+  --button-focus-border-color: #{$hc-link};
+
+  --link-button-color: #{$hc-link};
+  --link-button-hover-color: #{lighten($hc-link, 10%)};
+  --link-button-selected-hover-color: #{$hc-link};
+
+  --secondary-button-background: #{$hc-bg-elevated};
+  --secondary-button-border-color: #{$hc-border};
+  --secondary-button-hover-border-color: #{$hc-border-strong};
+  --secondary-button-hover-background: #{lighten($hc-bg-elevated, 5%)};
+  --secondary-button-text-color: #{$hc-text};
+  --secondary-button-focus-shadow-color: #{rgba($hc-blue, 0.5)};
+  --secondary-button-focus-border-color: #{$hc-blue};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   * (like a circle badge icon)
+   */
+  --badge-icon-color: #{$hc-text};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$yellow-400};
+  --input-icon-error-color: #{$red-400};
+  --input-icon-hover-background-color: #{$hc-bg-elevated};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   * The color is applied to the thumb part of the scrollbar.
+   *
+   * Note: Only applies to win32 and linux platforms
+   */
+  --scroll-bar-thumb-background-color: rgba(255, 255, 255, 0.3);
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   * The color is applied to the thumb part of the scrollbar.
+   *
+   * Note: Only applies to win32 and linux platforms
+   */
+  --scroll-bar-thumb-background-color-active: rgba(255, 255, 255, 0.6);
+
+  // Box
+
+  --box-background-color: #{$hc-bg};
+  --box-alt-background-color: #{$hc-bg-alt};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$hc-bg-elevated};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(26, 26, 26, 0) 0%, rgba(26, 26, 26, 0.5) 50%, rgba(26, 26, 26, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$hc-border};
+
+  --box-border-contrast-color: #{$hc-border-strong};
+  --box-border-accent-color: #{$hc-blue};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$hc-bg-elevated};
+
+  /**
+   * Text color for when a user hovers over a box with a pointing device.
+   */
+  --box-hover-text-color: #{$hc-text};
+
+  /**
+   * Background color for when a user hovers over a box with a pointing device.
+   */
+  --box-hover-background-color: #{$hc-bg-elevated};
+
+  /**
+   * Text color for selected boxes without keyboard focus
+   */
+  --box-selected-text-color: #{$hc-text};
+
+  /**
+   * Border color for selected boxes without keyboard focus
+   */
+  --box-selected-border-color: #{$hc-border-strong};
+
+  /**
+   * Background color for selected boxes with active keyboard focus
+   */
+  --box-selected-active-background-color: #{$hc-blue};
+
+  /**
+   * Text color for selected boxes with active keyboard focus
+   */
+  --box-selected-active-text-color: #{$black};
+
+  /**
+   * Border color for selected boxes with active keyboard focus
+   */
+  --box-selected-active-border-color: #{$hc-border-strong};
+
+  /**
+   * Gradient used to indicate that content is overflowing
+   */
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($hc-bg, 0) 0%, rgba($hc-bg, 1) 90%, rgba($hc-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($hc-bg, rgba(255, 255, 255, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(255, 255, 255, 0), $hc-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($hc-bg, 0) 0%, rgba($hc-border, 0.6) 90%, rgba($hc-border, 1) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($hc-bg, 0) 0%, rgba($hc-border, 0.6) 90%, rgba($hc-border, 1) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  /**
+   * Placeholder color for input boxes
+   */
+  --box-placeholder-color: #{$hc-text-secondary};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($hc-blue, 40%)};
+  --co-author-tag-border-color: #{$hc-blue};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$hc-bg};
+  --commit-warning-badge-border-color: #{$hc-border};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(white, 0.15)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{$hc-bg-alt};
+  --toolbar-border-color: #{$hc-border};
+  --toolbar-text-color: #{$hc-text};
+  --toolbar-text-secondary-color: #{$hc-text-secondary};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$hc-border};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$hc-text};
+  --toolbar-button-hover-background-color: #{$hc-bg-elevated};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$hc-bg-elevated};
+
+  --toolbar-button-active-color: #{$hc-text};
+  --toolbar-button-active-background-color: #{$hc-bg};
+  --toolbar-button-active-border-color: #{$hc-border};
+
+  --toolbar-button-progress-color: #{$hc-bg-elevated};
+  --toolbar-button-focus-progress-color: #{lighten($hc-bg-elevated, 5%)};
+  --toolbar-button-hover-progress-color: #{lighten($hc-bg-elevated, 5%)};
+  --toolbar-dropdown-open-progress-color: #{$hc-text-secondary};
+  --toolbar-dropdown-text-warning-color: #{$orange-400};
+  --toolbar-dropdown-text-hover-color: #{$hc-text};
+
+  --toolbar-tooltip-background-color: #{$hc-bg-elevated};
+  --toolbar-tooltip-shadow-color: #{$hc-border};
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$hc-text};
+  --app-menu-button-active-background-color: #{$hc-bg-elevated};
+  --app-menu-pane-color: #{$hc-text};
+  --app-menu-pane-secondary-color: #{$hc-text-secondary};
+  --app-menu-pane-background-color: #{$hc-bg-elevated};
+  --app-menu-divider-color: #{$hc-border};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$hc-bg-elevated};
+  --toolbar-badge-active-background-color: #{$hc-bg-elevated};
+
+  --tab-bar-active-color: #{$hc-blue};
+  --tab-bar-background-color: #{$hc-bg};
+  --tab-bar-hover-background-color: #{$hc-bg-elevated};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$hc-text};
+  --tab-bar-count-background-color: #{$hc-bg-elevated};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$hc-text};
+  --list-item-badge-background-color: #{$hc-bg-elevated};
+  --list-item-selected-badge-color: #{$hc-text};
+  --list-item-selected-badge-background-color: #{lighten($hc-bg-elevated, 10%)};
+  --list-item-selected-active-badge-color: #{$black};
+  --list-item-selected-active-badge-background-color: #{$hc-text};
+  --list-item-hover-background-color: #{$hc-bg-elevated};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$hc-text};
+  --toast-notification-background-color: #{rgba($hc-bg-elevated, 0.95)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$hc-blue};
+  --diff-linenumber-focus-color: #{$hc-link};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($hc-blue, 0.4)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($hc-blue, 45%)};
+  --primary-suggested-action-border-color: #{$hc-blue};
+  --suggested-action-icon-color: #{$hc-blue};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$hc-text};
+  --diff-border-color: #{$hc-border};
+  --diff-gutter-color: #{$hc-border};
+  --diff-gutter-background-color: #{$hc-bg};
+
+  --diff-line-number-color: #{$hc-text-secondary};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($hc-blue, 20%)};
+  --diff-selected-border-color: #{$hc-blue};
+  --diff-selected-gutter-color: #{$hc-blue};
+  --diff-selected-text-color: #{$hc-text};
+
+  --diff-add-background-color: #{rgba($green-600, 0.15)};
+  --diff-add-border-color: #{rgba($green-500, 0.3)};
+  --diff-add-gutter-color: #{rgba($green-500, 0.3)};
+  --diff-add-gutter-background-color: #{rgba($green-600, 0.25)};
+  --diff-add-inner-background-color: #{rgba($green-400, 0.4)};
+  --diff-add-text-color: #{$green-300};
+
+  --diff-delete-background-color: #{rgba($red-600, 0.15)};
+  --diff-delete-border-color: #{rgba($red-500, 0.3)};
+  --diff-delete-gutter-color: #{rgba($red-500, 0.3)};
+  --diff-delete-gutter-background-color: #{rgba($red-600, 0.25)};
+  --diff-delete-inner-background-color: #{rgba($red-400, 0.4)};
+  --diff-delete-text-color: #{$red-300};
+
+  --diff-hunk-background-color: #{rgba($hc-blue, 0.1)};
+  --diff-hunk-border-color: #{rgba($hc-blue, 0.2)};
+  --diff-hunk-gutter-color: #{rgba($hc-blue, 0.2)};
+  --diff-hunk-gutter-background-color: #{rgba($hc-blue, 0.15)};
+  --diff-hunk-text-color: #{$hc-text-secondary};
+
+  --diff-hover-background-color: #{$hc-blue};
+  --diff-hover-border-color: #{lighten($hc-blue, 10%)};
+  --diff-hover-gutter-color: #{lighten($hc-blue, 10%)};
+  --diff-hover-text-color: #{$black};
+
+  --diff-add-hover-background-color: #{$green-600};
+  --diff-add-hover-border-color: #{$green-400};
+  --diff-add-hover-gutter-color: #{$green-400};
+  --diff-add-hover-text-color: #{$hc-text};
+
+  --diff-delete-hover-background-color: #{$red-700};
+  --diff-delete-hover-border-color: #{$red-400};
+  --diff-delete-hover-gutter-color: #{$red-400};
+  --diff-delete-hover-text-color: #{$hc-text};
+
+  --diff-empty-row-background-color: #{$hc-bg-alt};
+  --diff-empty-row-gutter-background-color: #{$hc-bg};
+  --diff-empty-hunk-handle: #{$hc-border};
+
+  // Syntax highlighting text colors
+  --syntax-variable-color: #{$purple-300};
+  --syntax-alt-variable-color: #{$blue-300};
+  --syntax-keyword-color: #{$red-300};
+  --syntax-atom-color: #{$blue-200};
+  --syntax-string-color: #{$orange-300};
+  --syntax-qualifier-color: #{$purple-300};
+  --syntax-type-color: #{$red-300};
+  --syntax-comment-color: #{$hc-text-secondary};
+  --syntax-tag-color: #{$green-300};
+  --syntax-attribute-color: #{$purple-300};
+  --syntax-link-color: #{$hc-link};
+  --syntax-header-color: #{$red-300};
+  --syntax-quote-color: #{$green-300};
+
+  // Colors for form errors
+  --error-color: #{$red-400};
+  --form-error-background: #{rgba($red-600, 0.2)};
+  --form-error-border-color: #{$red-500};
+  --form-error-text-color: #{$red-300};
+
+  --dialog-banner-success-background: #{rgba($green-600, 0.2)};
+  --dialog-banner-success-border-color: #{$green-500};
+  --dialog-banner-success-text-color: #{$green-300};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{$red-300};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: rgba(0, 0, 0, 0.7);
+
+  /** Dialog */
+  --dialog-warning-color: #{$yellow-400};
+  --dialog-information-color: #{$hc-blue};
+  --dialog-error-color: #{$red-400};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($yellow-600, 0.2)};
+  --file-warning-color: #{$yellow-400};
+  --file-warning-border-color: #{rgba($yellow-500, 0.4)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$hc-bg-elevated};
+  --tooltip-color: #{$hc-text};
+  --tooltip-shadow-color: #{$hc-border};
+
+  /** Inline paths and code */
+  --path-segment-background: #{$hc-bg-elevated};
+  --path-segment-background-focus: #{lighten($hc-bg-elevated, 10%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$yellow-400};
+  --status-error-color: #{$red-400};
+  --status-success-color: #{$green-400};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$green-400};
+  --pr-draft-icon-color: #{$hc-text-secondary};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$hc-border};
+  --pr-changes-requested-icon-color: #{$hc-text};
+  --pr-changes-requested-icon-background-color: #{$red-500};
+  --pr-approved-icon-color: #{$hc-text};
+  --pr-approved-icon-background-color: #{$green-500};
+  --pr-commented-icon-color: #{$hc-text-secondary};
+  --pr-commented-icon-background-color: #{$hc-bg-elevated};
+
+  --call-to-action-bubble-border-color: #{$hc-blue};
+  --call-to-action-bubble-color: #{$hc-blue};
+
+  --title-tool-tip-background-color: #{$hc-bg-elevated};
+  --title-tool-tip-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.15);
+
+  // Markdown colors
+  --md-border-default-color: #{$hc-border};
+  --md-border-muted-color: #{darken($hc-border, 15%)};
+  --md-canvas-default-color: #{$hc-bg};
+  --md-canvas-subtle-color: #{$hc-bg-alt};
+  --md-fg-default-color: #{$hc-text};
+  --md-fg-muted-color: #{$hc-text-secondary};
+  --md-danger-fg-color: #{$red-400};
+  --md-neutral-muted-color: #{rgba($hc-border, 0.3)};
+  --md-accent-emphasis-color: #{$hc-blue};
+  --md-accent-fg-color: #{$hc-link};
+}
