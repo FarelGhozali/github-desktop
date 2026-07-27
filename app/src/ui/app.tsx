@@ -1064,7 +1064,8 @@ export class App extends React.Component<IAppProps, IAppState> {
     const comparisonBranch =
       defaultBranch && defaultBranch.name !== currentBranch.name
         ? defaultBranch
-        : allBranches.find((b: any) => b.name !== currentBranch.name) || currentBranch
+        : allBranches.find((b: any) => b.name !== currentBranch.name) ||
+          currentBranch
 
     this.props.dispatcher.enterBranchComparisonMode(
       repository,

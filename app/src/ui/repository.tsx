@@ -402,7 +402,9 @@ export class RepositoryView extends React.Component<
           onOpenInExternalEditor={this.props.onOpenInExternalEditor}
         />
       )
-    } else if (this.props.state.selectedSection === RepositorySectionTab.Comparison) {
+    } else if (
+      this.props.state.selectedSection === RepositorySectionTab.Comparison
+    ) {
       return this.renderComparison()
     }
 
@@ -423,8 +425,6 @@ export class RepositoryView extends React.Component<
         repository={this.props.repository}
         dispatcher={this.props.dispatcher}
         state={branchComparisonState}
-        emoji={this.props.emoji}
-        accounts={this.props.accounts}
         imageDiffType={this.props.imageDiffType}
         hideWhitespaceInDiff={this.props.hideWhitespaceInHistoryDiff}
         showSideBySideDiff={this.props.showSideBySideDiff}
@@ -433,8 +433,6 @@ export class RepositoryView extends React.Component<
         recentBranches={recentBranches}
         defaultBranch={defaultBranch}
         currentBranch={currentBranch}
-        externalEditorLabel={this.props.externalEditorLabel}
-        onOpenInExternalEditor={this.props.onOpenInExternalEditor}
       />
     )
   }

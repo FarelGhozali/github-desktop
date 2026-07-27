@@ -13,15 +13,11 @@ import { BranchSelect } from '../branches/branch-select'
 import { Button } from '../lib/button'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
-import { Account } from '../../models/account'
-import { Emoji } from '../../lib/emoji'
 
 interface ICompareViewProps {
   readonly repository: Repository
   readonly dispatcher: Dispatcher
   readonly state: IBranchComparisonState
-  readonly emoji: Map<string, Emoji>
-  readonly accounts: ReadonlyArray<Account>
   readonly imageDiffType: ImageDiffType
   readonly hideWhitespaceInDiff: boolean
   readonly showSideBySideDiff: boolean
@@ -30,8 +26,6 @@ interface ICompareViewProps {
   readonly recentBranches: ReadonlyArray<Branch>
   readonly defaultBranch: Branch | null
   readonly currentBranch: Branch | null
-  readonly externalEditorLabel?: string
-  readonly onOpenInExternalEditor: (path: string) => void
 }
 
 export class CompareView extends React.Component<ICompareViewProps> {
@@ -112,15 +106,14 @@ export class CompareView extends React.Component<ICompareViewProps> {
           <Resizable
             width={this.props.sidebarWidth.value}
             onResize={this.onResize}
-            onReset={() => {}}
+            onReset={this.noop}
           >
             <FileList
-              onRowDoubleClick={() => {}}
+              onRowDoubleClick={this.noop}
               files={files}
               onSelectedFileChanged={this.onFileSelected as any}
               selectedFile={selectedFile as any}
               availableWidth={this.props.sidebarWidth.value}
-
             />
           </Resizable>
 
@@ -132,15 +125,17 @@ export class CompareView extends React.Component<ICompareViewProps> {
             hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
             showSideBySideDiff={this.props.showSideBySideDiff}
             readOnly={true}
-            onOpenBinaryFile={() => {}}
-            onChangeImageDiffType={() => {}}
+            onOpenBinaryFile={this.noop}
+            onChangeImageDiffType={this.noop}
             showDiffCheckMarks={false}
-            onHideWhitespaceInDiffChanged={() => {}}
+            onHideWhitespaceInDiffChanged={this.noop}
           />
         </div>
       </div>
     )
   }
+
+  private noop = () => {}
 
   private onResize = (width: number) => {
     this.props.dispatcher.setSidebarWidth(width)
