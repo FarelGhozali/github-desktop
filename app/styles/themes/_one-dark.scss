@@ -1,0 +1,380 @@
+// Variables
+//
+// One Dark theme
+// Based on Atom's iconic One Dark color scheme
+// https://github.com/atom/one-dark-syntax
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// One Dark palette
+$one-bg:          #282c34;
+$one-bg-light:    #2c313a;
+$one-bg-lighter:  #3e4451;
+$one-gutter:      #636d83;
+$one-fg:          #abb2bf;
+$one-fg-dim:      #5c6370;
+$one-red:         #e06c75;
+$one-red-dark:    #be5046;
+$one-green:       #98c379;
+$one-yellow:      #e5c07b;
+$one-yellow-dark: #d19a66;
+$one-blue:        #61afef;
+$one-magenta:     #c678dd;
+$one-cyan:        #56b6c2;
+
+body.theme-one-dark {
+  --color-new: #{$one-green};
+  --color-deleted: #{$one-red};
+  --color-modified: #{$one-yellow};
+  --color-renamed: #{$one-blue};
+  --color-conflicted: #{$one-yellow-dark};
+
+  --text-color: #{$one-fg};
+  --text-secondary-color: #{$one-fg-dim};
+  --text-secondary-color-muted: #{darken($one-fg-dim, 10%)};
+  --background-color: #{$one-bg};
+
+  --button-background: #{$one-blue};
+  --button-hover-background: #{lighten($one-blue, 5%)};
+  --button-text-color: #{$one-bg};
+  --button-focus-border-color: #{lighten($one-blue, 15%)};
+
+  --link-button-color: #{$one-blue};
+  --link-button-hover-color: #{lighten($one-blue, 10%)};
+  --link-button-selected-hover-color: #{$one-blue};
+
+  --secondary-button-background: #{$one-bg-light};
+  --secondary-button-border-color: #{$one-bg-lighter};
+  --secondary-button-hover-border-color: #{$one-gutter};
+  --secondary-button-hover-background: #{lighten($one-bg-light, 3%)};
+  --secondary-button-text-color: #{$one-fg};
+  --secondary-button-focus-shadow-color: #{rgba($one-blue, 0.35)};
+  --secondary-button-focus-border-color: #{$one-blue};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$one-fg};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$one-yellow};
+  --input-icon-error-color: #{$one-red};
+  --input-icon-hover-background-color: #{$one-bg-light};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($one-fg, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($one-fg, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$one-bg};
+  --box-alt-background-color: #{$one-bg-light};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$one-bg-lighter};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(40, 44, 52, 0) 0%, rgba(40, 44, 52, 0.5) 50%, rgba(40, 44, 52, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{lighten($one-bg, 8%)};
+
+  --box-border-contrast-color: #{$one-bg-lighter};
+  --box-border-accent-color: #{$one-blue};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$one-bg-lighter};
+
+  --box-hover-text-color: #{$one-fg};
+  --box-hover-background-color: #{$one-bg-light};
+
+  --box-selected-text-color: #{$one-fg};
+  --box-selected-border-color: #{$one-gutter};
+
+  --box-selected-active-background-color: #{$one-blue};
+  --box-selected-active-text-color: #{$one-bg};
+  --box-selected-active-border-color: #{$one-bg-lighter};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($one-bg, 0) 0%, rgba($one-bg, 1) 90%, rgba($one-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($one-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $one-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($one-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($one-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$one-fg-dim};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($one-blue, 30%)};
+  --co-author-tag-border-color: #{darken($one-blue, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$one-bg};
+  --commit-warning-badge-border-color: #{$one-bg-lighter};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.35)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($one-bg, 2%)};
+  --toolbar-border-color: #{lighten($one-bg, 8%)};
+  --toolbar-text-color: #{$one-fg};
+  --toolbar-text-secondary-color: #{$one-fg-dim};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{lighten($one-bg, 8%)};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{lighten($one-fg, 10%)};
+  --toolbar-button-hover-background-color: #{$one-bg-light};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$one-bg-light};
+
+  --toolbar-button-active-color: #{$one-fg};
+  --toolbar-button-active-background-color: #{$one-bg};
+  --toolbar-button-active-border-color: #{$one-bg};
+
+  --toolbar-button-progress-color: #{$one-bg-light};
+  --toolbar-button-focus-progress-color: #{$one-bg-lighter};
+  --toolbar-button-hover-progress-color: #{$one-bg-lighter};
+  --toolbar-dropdown-open-progress-color: #{$one-fg};
+  --toolbar-dropdown-text-warning-color: #{$one-yellow-dark};
+  --toolbar-dropdown-text-hover-color: #{lighten($one-fg, 10%)};
+
+  --toolbar-tooltip-background-color: #{$one-bg-light};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$one-fg};
+  --app-menu-button-active-background-color: #{$one-bg-light};
+  --app-menu-pane-color: #{$one-fg};
+  --app-menu-pane-secondary-color: #{$one-fg-dim};
+  --app-menu-pane-background-color: #{$one-bg-light};
+  --app-menu-divider-color: #{$one-bg-lighter};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$one-bg-lighter};
+  --toolbar-badge-active-background-color: #{$one-bg-lighter};
+
+  --tab-bar-active-color: #{$one-blue};
+  --tab-bar-background-color: #{$one-bg};
+  --tab-bar-hover-background-color: #{$one-bg-light};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$one-fg};
+  --tab-bar-count-background-color: #{$one-bg-lighter};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$one-fg};
+  --list-item-badge-background-color: #{$one-bg-lighter};
+  --list-item-selected-badge-color: #{$one-fg};
+  --list-item-selected-badge-background-color: #{$one-gutter};
+  --list-item-selected-active-badge-color: #{$one-bg};
+  --list-item-selected-active-badge-background-color: #{$one-fg};
+  --list-item-hover-background-color: #{$one-bg-light};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$one-fg};
+  --toast-notification-background-color: #{rgba(black, 0.75)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$one-blue};
+  --diff-linenumber-focus-color: #{lighten($one-blue, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($one-blue, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($one-blue, 30%)};
+  --primary-suggested-action-border-color: #{darken($one-blue, 10%)};
+  --suggested-action-icon-color: #{$one-blue};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$one-fg};
+  --diff-border-color: #{lighten($one-bg, 8%)};
+  --diff-gutter-color: #{lighten($one-bg, 8%)};
+  --diff-gutter-background-color: #{$one-bg};
+
+  --diff-line-number-color: #{$one-fg-dim};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($one-blue, 20%)};
+  --diff-selected-border-color: #{darken($one-blue, 5%)};
+  --diff-selected-gutter-color: #{darken($one-blue, 5%)};
+  --diff-selected-text-color: #{$one-fg};
+
+  --diff-add-background-color: #{rgba($one-green, 0.1)};
+  --diff-add-border-color: #{rgba($one-green, 0.2)};
+  --diff-add-gutter-color: #{rgba($one-green, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($one-green, 0.15)};
+  --diff-add-inner-background-color: #{rgba($one-green, 0.25)};
+  --diff-add-text-color: #{$one-fg};
+
+  --diff-delete-background-color: #{rgba($one-red, 0.1)};
+  --diff-delete-border-color: #{rgba($one-red, 0.2)};
+  --diff-delete-gutter-color: #{rgba($one-red, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($one-red, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($one-red, 0.25)};
+  --diff-delete-text-color: #{$one-fg};
+
+  --diff-hunk-background-color: #{rgba($one-blue, 0.08)};
+  --diff-hunk-border-color: #{rgba($one-blue, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($one-blue, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($one-blue, 0.12)};
+  --diff-hunk-text-color: #{$one-fg-dim};
+
+  --diff-hover-background-color: #{$one-blue};
+  --diff-hover-border-color: #{lighten($one-blue, 10%)};
+  --diff-hover-gutter-color: #{lighten($one-blue, 10%)};
+  --diff-hover-text-color: #{$one-bg};
+
+  --diff-add-hover-background-color: #{rgba($one-green, 0.3)};
+  --diff-add-hover-border-color: #{$one-green};
+  --diff-add-hover-gutter-color: #{$one-green};
+  --diff-add-hover-text-color: #{$one-fg};
+
+  --diff-delete-hover-background-color: #{rgba($one-red, 0.3)};
+  --diff-delete-hover-border-color: #{$one-red};
+  --diff-delete-hover-gutter-color: #{$one-red};
+  --diff-delete-hover-text-color: #{$one-fg};
+
+  --diff-empty-row-background-color: #{darken($one-bg, 1%)};
+  --diff-empty-row-gutter-background-color: #{$one-bg};
+  --diff-empty-hunk-handle: #{$one-bg-lighter};
+
+  // Syntax highlighting text colors (One Dark palette)
+  --syntax-variable-color: #{$one-red};
+  --syntax-alt-variable-color: #{$one-fg};
+  --syntax-keyword-color: #{$one-magenta};
+  --syntax-atom-color: #{$one-yellow-dark};
+  --syntax-string-color: #{$one-green};
+  --syntax-qualifier-color: #{$one-yellow};
+  --syntax-type-color: #{$one-cyan};
+  --syntax-comment-color: #{$one-fg-dim};
+  --syntax-tag-color: #{$one-red};
+  --syntax-attribute-color: #{$one-yellow-dark};
+  --syntax-link-color: #{$one-blue};
+  --syntax-header-color: #{$one-red};
+  --syntax-quote-color: #{$one-green};
+
+  // Colors for form errors
+  --error-color: #{$one-red};
+  --form-error-background: #{rgba($one-red, 0.15)};
+  --form-error-border-color: #{rgba($one-red, 0.3)};
+  --form-error-text-color: #{lighten($one-red, 10%)};
+
+  --dialog-banner-success-background: #{rgba($one-green, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($one-green, 0.3)};
+  --dialog-banner-success-text-color: #{$one-green};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($one-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$one-yellow};
+  --dialog-information-color: #{$one-blue};
+  --dialog-error-color: #{$one-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($one-yellow, 0.12)};
+  --file-warning-color: #{$one-yellow};
+  --file-warning-border-color: #{rgba($one-yellow, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$one-bg-light};
+  --tooltip-color: #{$one-fg};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$one-bg-lighter};
+  --path-segment-background-focus: #{lighten($one-bg-lighter, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$one-yellow};
+  --status-error-color: #{$one-red};
+  --status-success-color: #{$one-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$one-green};
+  --pr-draft-icon-color: #{$one-fg-dim};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$one-bg-lighter};
+  --pr-changes-requested-icon-color: #{$one-fg};
+  --pr-changes-requested-icon-background-color: #{$one-red};
+  --pr-approved-icon-color: #{$one-bg};
+  --pr-approved-icon-background-color: #{$one-green};
+  --pr-commented-icon-color: #{$one-fg-dim};
+  --pr-commented-icon-background-color: #{$one-bg-lighter};
+
+  --call-to-action-bubble-border-color: #{$one-blue};
+  --call-to-action-bubble-color: #{$one-blue};
+
+  --title-tool-tip-background-color: #{$one-bg-light};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$one-bg-lighter};
+  --md-border-muted-color: #{lighten($one-bg, 8%)};
+  --md-canvas-default-color: #{$one-bg};
+  --md-canvas-subtle-color: #{$one-bg-light};
+  --md-fg-default-color: #{$one-fg};
+  --md-fg-muted-color: #{$one-fg-dim};
+  --md-danger-fg-color: #{$one-red};
+  --md-neutral-muted-color: #{rgba($one-fg-dim, 0.3)};
+  --md-accent-emphasis-color: #{$one-blue};
+  --md-accent-fg-color: #{$one-blue};
+}
+
+body.theme-one-dark .CodeMirror-cursor {
+  border-left-color: #{$one-fg};
+}
