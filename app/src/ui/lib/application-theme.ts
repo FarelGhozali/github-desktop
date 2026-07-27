@@ -16,9 +16,17 @@ export enum ApplicationTheme {
   Light = 'light',
   Dark = 'dark',
   System = 'system',
+  HighContrast = 'high-contrast',
+  SolarizedLight = 'solarized-light',
+  SolarizedDark = 'solarized-dark',
 }
 
-export type ApplicableTheme = ApplicationTheme.Light | ApplicationTheme.Dark
+export type ApplicableTheme =
+  | ApplicationTheme.Light
+  | ApplicationTheme.Dark
+  | ApplicationTheme.HighContrast
+  | ApplicationTheme.SolarizedLight
+  | ApplicationTheme.SolarizedDark
 
 /**
  * Gets the friendly name of an application theme for use
@@ -28,12 +36,24 @@ export type ApplicableTheme = ApplicationTheme.Light | ApplicationTheme.Dark
 export function getThemeName(theme: ApplicationTheme): ThemeSource {
   switch (theme) {
     case ApplicationTheme.Light:
+    case ApplicationTheme.SolarizedLight:
       return 'light'
     case ApplicationTheme.Dark:
+    case ApplicationTheme.HighContrast:
+    case ApplicationTheme.SolarizedDark:
       return 'dark'
     default:
       return 'system'
   }
+}
+
+/**
+ * Gets the CSS class name to apply to the body element for the given theme.
+ * Custom themes have their own unique class names (e.g., 'theme-high-contrast'),
+ * while built-in themes use 'theme-light' or 'theme-dark'.
+ */
+export function getThemeClassName(theme: ApplicationTheme): string {
+  return `theme-${theme}`
 }
 
 // The key under which the decision to automatically switch the theme is persisted
@@ -72,7 +92,10 @@ function getApplicationThemeSetting(): ApplicationTheme {
 
   if (
     themeSetting === ApplicationTheme.Light ||
-    themeSetting === ApplicationTheme.Dark
+    themeSetting === ApplicationTheme.Dark ||
+    themeSetting === ApplicationTheme.HighContrast ||
+    themeSetting === ApplicationTheme.SolarizedLight ||
+    themeSetting === ApplicationTheme.SolarizedDark
   ) {
     return themeSetting
   }
