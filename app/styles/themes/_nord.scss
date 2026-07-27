@@ -1,0 +1,388 @@
+// Variables
+//
+// Nord theme
+// Based on Arctic Ice Studio's Nord color palette
+// https://www.nordtheme.com/
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Nord palette - Polar Night (dark backgrounds)
+$nord0:  #2e3440;
+$nord1:  #3b4252;
+$nord2:  #434c5e;
+$nord3:  #4c566a;
+
+// Nord palette - Snow Storm (light text)
+$nord4:  #d8dee9;
+$nord5:  #e5e9f0;
+$nord6:  #eceff4;
+
+// Nord palette - Frost (blue accents)
+$nord7:  #8fbcbb;
+$nord8:  #88c0d0;
+$nord9:  #81a1c1;
+$nord10: #5e81ac;
+
+// Nord palette - Aurora (vivid accents)
+$nord11: #bf616a; // red
+$nord12: #d08770; // orange
+$nord13: #ebcb8b; // yellow
+$nord14: #a3be8c; // green
+$nord15: #b48ead; // purple
+
+body.theme-nord {
+  --color-new: #{$nord14};
+  --color-deleted: #{$nord11};
+  --color-modified: #{$nord13};
+  --color-renamed: #{$nord8};
+  --color-conflicted: #{$nord12};
+
+  --text-color: #{$nord4};
+  --text-secondary-color: #{$nord3};
+  --text-secondary-color-muted: #{darken($nord3, 8%)};
+  --background-color: #{$nord0};
+
+  --button-background: #{$nord10};
+  --button-hover-background: #{lighten($nord10, 5%)};
+  --button-text-color: #{$nord6};
+  --button-focus-border-color: #{$nord8};
+
+  --link-button-color: #{$nord8};
+  --link-button-hover-color: #{lighten($nord8, 8%)};
+  --link-button-selected-hover-color: #{$nord8};
+
+  --secondary-button-background: #{$nord1};
+  --secondary-button-border-color: #{$nord3};
+  --secondary-button-hover-border-color: #{$nord4};
+  --secondary-button-hover-background: #{lighten($nord1, 3%)};
+  --secondary-button-text-color: #{$nord4};
+  --secondary-button-focus-shadow-color: #{rgba($nord10, 0.4)};
+  --secondary-button-focus-border-color: #{$nord9};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$nord4};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$nord13};
+  --input-icon-error-color: #{$nord11};
+  --input-icon-hover-background-color: #{$nord1};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($nord4, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($nord4, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$nord0};
+  --box-alt-background-color: #{$nord1};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$nord2};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(46, 52, 64, 0) 0%, rgba(46, 52, 64, 0.5) 50%, rgba(46, 52, 64, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$nord1};
+
+  --box-border-contrast-color: #{$nord3};
+  --box-border-accent-color: #{$nord10};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$nord2};
+
+  --box-hover-text-color: #{$nord5};
+  --box-hover-background-color: #{$nord1};
+
+  --box-selected-text-color: #{$nord5};
+  --box-selected-border-color: #{$nord3};
+
+  --box-selected-active-background-color: #{$nord10};
+  --box-selected-active-text-color: #{$nord6};
+  --box-selected-active-border-color: #{$nord3};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($nord0, 0) 0%, rgba($nord0, 1) 90%, rgba($nord0, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($nord0, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $nord0)};
+  --top-shadow: #{linear-gradient(0deg, rgba($nord0, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($nord0, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$nord3};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($nord10, 20%)};
+  --co-author-tag-border-color: #{$nord10};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$nord0};
+  --commit-warning-badge-border-color: #{$nord3};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.35)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($nord0, 3%)};
+  --toolbar-border-color: #{$nord1};
+  --toolbar-text-color: #{$nord4};
+  --toolbar-text-secondary-color: #{$nord3};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$nord1};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$nord6};
+  --toolbar-button-hover-background-color: #{$nord1};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$nord1};
+
+  --toolbar-button-active-color: #{$nord4};
+  --toolbar-button-active-background-color: #{$nord0};
+  --toolbar-button-active-border-color: #{$nord0};
+
+  --toolbar-button-progress-color: #{$nord1};
+  --toolbar-button-focus-progress-color: #{$nord2};
+  --toolbar-button-hover-progress-color: #{$nord2};
+  --toolbar-dropdown-open-progress-color: #{$nord4};
+  --toolbar-dropdown-text-warning-color: #{$nord12};
+  --toolbar-dropdown-text-hover-color: #{$nord6};
+
+  --toolbar-tooltip-background-color: #{$nord1};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$nord4};
+  --app-menu-button-active-background-color: #{$nord1};
+  --app-menu-pane-color: #{$nord4};
+  --app-menu-pane-secondary-color: #{$nord3};
+  --app-menu-pane-background-color: #{$nord1};
+  --app-menu-divider-color: #{$nord3};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$nord2};
+  --toolbar-badge-active-background-color: #{$nord2};
+
+  --tab-bar-active-color: #{$nord8};
+  --tab-bar-background-color: #{$nord0};
+  --tab-bar-hover-background-color: #{$nord1};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$nord4};
+  --tab-bar-count-background-color: #{$nord2};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$nord4};
+  --list-item-badge-background-color: #{$nord2};
+  --list-item-selected-badge-color: #{$nord5};
+  --list-item-selected-badge-background-color: #{$nord3};
+  --list-item-selected-active-badge-color: #{$nord0};
+  --list-item-selected-active-badge-background-color: #{$nord5};
+  --list-item-hover-background-color: #{$nord1};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$nord4};
+  --toast-notification-background-color: #{rgba(black, 0.75)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$nord10};
+  --diff-linenumber-focus-color: #{$nord8};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($nord10, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($nord10, 25%)};
+  --primary-suggested-action-border-color: #{$nord10};
+  --suggested-action-icon-color: #{$nord8};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$nord4};
+  --diff-border-color: #{$nord1};
+  --diff-gutter-color: #{$nord1};
+  --diff-gutter-background-color: #{$nord0};
+
+  --diff-line-number-color: #{$nord3};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($nord10, 10%)};
+  --diff-selected-border-color: #{$nord10};
+  --diff-selected-gutter-color: #{$nord10};
+  --diff-selected-text-color: #{$nord5};
+
+  --diff-add-background-color: #{rgba($nord14, 0.1)};
+  --diff-add-border-color: #{rgba($nord14, 0.2)};
+  --diff-add-gutter-color: #{rgba($nord14, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($nord14, 0.15)};
+  --diff-add-inner-background-color: #{rgba($nord14, 0.3)};
+  --diff-add-text-color: #{$nord4};
+
+  --diff-delete-background-color: #{rgba($nord11, 0.1)};
+  --diff-delete-border-color: #{rgba($nord11, 0.2)};
+  --diff-delete-gutter-color: #{rgba($nord11, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($nord11, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($nord11, 0.3)};
+  --diff-delete-text-color: #{$nord4};
+
+  --diff-hunk-background-color: #{rgba($nord9, 0.08)};
+  --diff-hunk-border-color: #{rgba($nord9, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($nord9, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($nord9, 0.12)};
+  --diff-hunk-text-color: #{$nord3};
+
+  --diff-hover-background-color: #{$nord10};
+  --diff-hover-border-color: #{lighten($nord10, 10%)};
+  --diff-hover-gutter-color: #{lighten($nord10, 10%)};
+  --diff-hover-text-color: #{$nord6};
+
+  --diff-add-hover-background-color: #{rgba($nord14, 0.3)};
+  --diff-add-hover-border-color: #{$nord14};
+  --diff-add-hover-gutter-color: #{$nord14};
+  --diff-add-hover-text-color: #{$nord5};
+
+  --diff-delete-hover-background-color: #{rgba($nord11, 0.3)};
+  --diff-delete-hover-border-color: #{$nord11};
+  --diff-delete-hover-gutter-color: #{$nord11};
+  --diff-delete-hover-text-color: #{$nord5};
+
+  --diff-empty-row-background-color: #{darken($nord0, 1%)};
+  --diff-empty-row-gutter-background-color: #{$nord0};
+  --diff-empty-hunk-handle: #{$nord3};
+
+  // Syntax highlighting text colors (Nord palette)
+  --syntax-variable-color: #{$nord8};
+  --syntax-alt-variable-color: #{$nord4};
+  --syntax-keyword-color: #{$nord9};
+  --syntax-atom-color: #{$nord15};
+  --syntax-string-color: #{$nord14};
+  --syntax-qualifier-color: #{$nord7};
+  --syntax-type-color: #{$nord7};
+  --syntax-comment-color: #{$nord3};
+  --syntax-tag-color: #{$nord9};
+  --syntax-attribute-color: #{$nord8};
+  --syntax-link-color: #{$nord8};
+  --syntax-header-color: #{$nord9};
+  --syntax-quote-color: #{$nord14};
+
+  // Colors for form errors
+  --error-color: #{$nord11};
+  --form-error-background: #{rgba($nord11, 0.15)};
+  --form-error-border-color: #{rgba($nord11, 0.3)};
+  --form-error-text-color: #{lighten($nord11, 15%)};
+
+  --dialog-banner-success-background: #{rgba($nord14, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($nord14, 0.3)};
+  --dialog-banner-success-text-color: #{lighten($nord14, 10%)};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($nord11, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$nord13};
+  --dialog-information-color: #{$nord8};
+  --dialog-error-color: #{$nord11};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($nord13, 0.12)};
+  --file-warning-color: #{$nord13};
+  --file-warning-border-color: #{rgba($nord13, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$nord1};
+  --tooltip-color: #{$nord5};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$nord2};
+  --path-segment-background-focus: #{lighten($nord2, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$nord13};
+  --status-error-color: #{$nord11};
+  --status-success-color: #{$nord14};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$nord14};
+  --pr-draft-icon-color: #{$nord3};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$nord3};
+  --pr-changes-requested-icon-color: #{$nord6};
+  --pr-changes-requested-icon-background-color: #{$nord11};
+  --pr-approved-icon-color: #{$nord6};
+  --pr-approved-icon-background-color: #{$nord14};
+  --pr-commented-icon-color: #{$nord3};
+  --pr-commented-icon-background-color: #{$nord2};
+
+  --call-to-action-bubble-border-color: #{$nord8};
+  --call-to-action-bubble-color: #{$nord8};
+
+  --title-tool-tip-background-color: #{$nord1};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$nord3};
+  --md-border-muted-color: #{$nord1};
+  --md-canvas-default-color: #{$nord0};
+  --md-canvas-subtle-color: #{$nord1};
+  --md-fg-default-color: #{$nord4};
+  --md-fg-muted-color: #{$nord3};
+  --md-danger-fg-color: #{$nord11};
+  --md-neutral-muted-color: #{rgba($nord3, 0.3)};
+  --md-accent-emphasis-color: #{$nord10};
+  --md-accent-fg-color: #{$nord8};
+}
+
+body.theme-nord .CodeMirror-cursor {
+  border-left-color: #{$nord4};
+}
