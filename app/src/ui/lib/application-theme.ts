@@ -22,6 +22,12 @@ export enum ApplicationTheme {
   Nord = 'nord',
   Monokai = 'monokai',
   OneDark = 'one-dark',
+  Dracula = 'dracula',
+  GruvboxDark = 'gruvbox-dark',
+  GruvboxLight = 'gruvbox-light',
+  CatppuccinMocha = 'catppuccin-mocha',
+  LightHighContrast = 'light-high-contrast',
+  DarkDimmed = 'dark-dimmed',
 }
 
 export type ApplicableTheme =
@@ -33,6 +39,12 @@ export type ApplicableTheme =
   | ApplicationTheme.Nord
   | ApplicationTheme.Monokai
   | ApplicationTheme.OneDark
+  | ApplicationTheme.Dracula
+  | ApplicationTheme.GruvboxDark
+  | ApplicationTheme.GruvboxLight
+  | ApplicationTheme.CatppuccinMocha
+  | ApplicationTheme.LightHighContrast
+  | ApplicationTheme.DarkDimmed
 
 /**
  * Gets the friendly name of an application theme for use
@@ -43,6 +55,8 @@ export function getThemeName(theme: ApplicationTheme): ThemeSource {
   switch (theme) {
     case ApplicationTheme.Light:
     case ApplicationTheme.SolarizedLight:
+    case ApplicationTheme.GruvboxLight:
+    case ApplicationTheme.LightHighContrast:
       return 'light'
     case ApplicationTheme.Dark:
     case ApplicationTheme.HighContrast:
@@ -50,6 +64,10 @@ export function getThemeName(theme: ApplicationTheme): ThemeSource {
     case ApplicationTheme.Nord:
     case ApplicationTheme.Monokai:
     case ApplicationTheme.OneDark:
+    case ApplicationTheme.Dracula:
+    case ApplicationTheme.GruvboxDark:
+    case ApplicationTheme.CatppuccinMocha:
+    case ApplicationTheme.DarkDimmed:
       return 'dark'
     default:
       return 'system'
@@ -107,7 +125,13 @@ function getApplicationThemeSetting(): ApplicationTheme {
     themeSetting === ApplicationTheme.SolarizedDark ||
     themeSetting === ApplicationTheme.Nord ||
     themeSetting === ApplicationTheme.Monokai ||
-    themeSetting === ApplicationTheme.OneDark
+    themeSetting === ApplicationTheme.OneDark ||
+    themeSetting === ApplicationTheme.Dracula ||
+    themeSetting === ApplicationTheme.GruvboxDark ||
+    themeSetting === ApplicationTheme.GruvboxLight ||
+    themeSetting === ApplicationTheme.CatppuccinMocha ||
+    themeSetting === ApplicationTheme.LightHighContrast ||
+    themeSetting === ApplicationTheme.DarkDimmed
   ) {
     return themeSetting
   }

@@ -174,6 +174,48 @@ export class Appearance extends React.Component<
             <span className="theme-value-label">One Dark</span>
           </span>
         )
+      case ApplicationTheme.Dracula:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Dracula</span>
+          </span>
+        )
+      case ApplicationTheme.GruvboxDark:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Gruvbox Dark</span>
+          </span>
+        )
+      case ApplicationTheme.GruvboxLight:
+        return (
+          <span>
+            <img src={lightThemeImage} alt="" />
+            <span className="theme-value-label">Gruvbox Light</span>
+          </span>
+        )
+      case ApplicationTheme.CatppuccinMocha:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Catppuccin Mocha</span>
+          </span>
+        )
+      case ApplicationTheme.LightHighContrast:
+        return (
+          <span>
+            <img src={lightThemeImage} alt="" />
+            <span className="theme-value-label">Light High Contrast</span>
+          </span>
+        )
+      case ApplicationTheme.DarkDimmed:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Dark Dimmed</span>
+          </span>
+        )
     }
   }
 
@@ -217,6 +259,12 @@ export class Appearance extends React.Component<
       ApplicationTheme.Nord,
       ApplicationTheme.Monokai,
       ApplicationTheme.OneDark,
+      ApplicationTheme.Dracula,
+      ApplicationTheme.GruvboxDark,
+      ApplicationTheme.GruvboxLight,
+      ApplicationTheme.CatppuccinMocha,
+      ApplicationTheme.LightHighContrast,
+      ApplicationTheme.DarkDimmed,
     ]
 
     return (

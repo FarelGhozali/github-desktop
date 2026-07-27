@@ -12,8 +12,14 @@ export function getBaseThemeSource(themeId: string): ThemeSource {
     case 'nord':
     case 'monokai':
     case 'one-dark':
+    case 'dracula':
+    case 'gruvbox-dark':
+    case 'catppuccin-mocha':
+    case 'dark-dimmed':
       return 'dark'
     case 'solarized-light':
+    case 'gruvbox-light':
+    case 'light-high-contrast':
       return 'light'
     default:
       return 'system'
