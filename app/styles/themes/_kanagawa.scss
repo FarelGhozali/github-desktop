@@ -1,0 +1,386 @@
+// Variables
+//
+// Kanagawa theme
+// Inspired by the legendary wave painting by Hokusai and the Kanagawa color palette
+//
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Kanagawa palette
+$kana-bg:               #1f1f28;
+$kana-bg-alt:           #2a2a37;
+$kana-fg:               #dcd7ba;
+$kana-comment:          #727169;
+$kana-old-white:        #c8c093;
+$kana-sumi-ink:         #363646;
+$kana-wave-blue-1:      #223249;
+$kana-wave-blue-2:      #2d4f67;
+$kana-autumn-red:       #c34043;
+$kana-spring-green:     #76946a;
+$kana-carpenter-yellow: #e6c384;
+$kana-crystal-blue:     #7e9cd8;
+$kana-spring-violet:    #938aa9;
+$kana-wave-aqua-1:      #6a9589;
+$kana-wave-aqua-2:      #7aa89f;
+$kana-surimi-orange:    #ffa066;
+$kana-sakura-pink:      #d27e99;
+$kana-oni-violet:       #957fb8;
+$kana-wintergreen:      #2b3328;
+$kana-winterred:        #43242b;
+
+body.theme-kanagawa {
+  --color-new: #{$kana-spring-green};
+  --color-deleted: #{$kana-autumn-red};
+  --color-modified: #{$kana-carpenter-yellow};
+  --color-renamed: #{$kana-crystal-blue};
+  --color-conflicted: #{$kana-surimi-orange};
+
+  --text-color: #{$kana-fg};
+  --text-secondary-color: #{$kana-comment};
+  --text-secondary-color-muted: #{darken($kana-comment, 10%)};
+  --background-color: #{$kana-bg};
+
+  --button-background: #{$kana-crystal-blue};
+  --button-hover-background: #{lighten($kana-crystal-blue, 5%)};
+  --button-text-color: #{$kana-bg};
+  --button-focus-border-color: #{lighten($kana-crystal-blue, 15%)};
+
+  --link-button-color: #{$kana-crystal-blue};
+  --link-button-hover-color: #{lighten($kana-crystal-blue, 10%)};
+  --link-button-selected-hover-color: #{$kana-crystal-blue};
+
+  --secondary-button-background: #{$kana-bg-alt};
+  --secondary-button-border-color: #{$kana-sumi-ink};
+  --secondary-button-hover-border-color: #{$kana-comment};
+  --secondary-button-hover-background: #{lighten($kana-bg-alt, 3%)};
+  --secondary-button-text-color: #{$kana-fg};
+  --secondary-button-focus-shadow-color: #{rgba($kana-crystal-blue, 0.35)};
+  --secondary-button-focus-border-color: #{$kana-crystal-blue};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$kana-fg};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$kana-carpenter-yellow};
+  --input-icon-error-color: #{$kana-autumn-red};
+  --input-icon-hover-background-color: #{$kana-bg-alt};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($kana-fg, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($kana-fg, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$kana-bg};
+  --box-alt-background-color: #{$kana-bg-alt};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$kana-sumi-ink};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(31, 31, 40, 0) 0%, rgba(31, 31, 40, 0.5) 50%, rgba(31, 31, 40, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$kana-sumi-ink};
+
+  --box-border-contrast-color: #{$kana-bg-alt};
+  --box-border-accent-color: #{$kana-crystal-blue};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$kana-sumi-ink};
+
+  --box-hover-text-color: #{$kana-fg};
+  --box-hover-background-color: #{$kana-bg-alt};
+
+  --box-selected-text-color: #{$kana-fg};
+  --box-selected-border-color: #{$kana-comment};
+
+  --box-selected-active-background-color: #{$kana-crystal-blue};
+  --box-selected-active-text-color: #{$kana-bg};
+  --box-selected-active-border-color: #{$kana-bg-alt};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($kana-bg, 0) 0%, rgba($kana-bg, 1) 90%, rgba($kana-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($kana-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $kana-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($kana-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($kana-bg, 0) 0%, rgba(black, 0.3) 90%, rgba(black, 0.5) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$kana-comment};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($kana-crystal-blue, 30%)};
+  --co-author-tag-border-color: #{darken($kana-crystal-blue, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$kana-bg};
+  --commit-warning-badge-border-color: #{$kana-bg-alt};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.35)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($kana-bg, 2%)};
+  --toolbar-border-color: #{$kana-sumi-ink};
+  --toolbar-text-color: #{$kana-fg};
+  --toolbar-text-secondary-color: #{$kana-comment};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$kana-sumi-ink};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$kana-fg};
+  --toolbar-button-hover-background-color: #{$kana-bg-alt};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$kana-bg-alt};
+
+  --toolbar-button-active-color: #{$kana-fg};
+  --toolbar-button-active-background-color: #{$kana-bg};
+  --toolbar-button-active-border-color: #{$kana-bg};
+
+  --toolbar-button-progress-color: #{$kana-bg-alt};
+  --toolbar-button-focus-progress-color: #{$kana-sumi-ink};
+  --toolbar-button-hover-progress-color: #{$kana-sumi-ink};
+  --toolbar-dropdown-open-progress-color: #{$kana-fg};
+  --toolbar-dropdown-text-warning-color: #{$kana-surimi-orange};
+  --toolbar-dropdown-text-hover-color: #{$kana-fg};
+
+  --toolbar-tooltip-background-color: #{$kana-bg-alt};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$kana-fg};
+  --app-menu-button-active-background-color: #{$kana-bg-alt};
+  --app-menu-pane-color: #{$kana-fg};
+  --app-menu-pane-secondary-color: #{$kana-comment};
+  --app-menu-pane-background-color: #{$kana-bg-alt};
+  --app-menu-divider-color: #{$kana-sumi-ink};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$kana-sumi-ink};
+  --toolbar-badge-active-background-color: #{$kana-sumi-ink};
+
+  --tab-bar-active-color: #{$kana-crystal-blue};
+  --tab-bar-background-color: #{$kana-bg};
+  --tab-bar-hover-background-color: #{$kana-bg-alt};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$kana-fg};
+  --tab-bar-count-background-color: #{$kana-sumi-ink};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$kana-fg};
+  --list-item-badge-background-color: #{$kana-sumi-ink};
+  --list-item-selected-badge-color: #{$kana-fg};
+  --list-item-selected-badge-background-color: #{$kana-comment};
+  --list-item-selected-active-badge-color: #{$kana-bg};
+  --list-item-selected-active-badge-background-color: #{$kana-fg};
+  --list-item-hover-background-color: #{$kana-bg-alt};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$kana-fg};
+  --toast-notification-background-color: #{rgba(black, 0.75)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$kana-crystal-blue};
+  --diff-linenumber-focus-color: #{lighten($kana-crystal-blue, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($kana-crystal-blue, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($kana-crystal-blue, 30%)};
+  --primary-suggested-action-border-color: #{darken($kana-crystal-blue, 10%)};
+  --suggested-action-icon-color: #{$kana-crystal-blue};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$kana-fg};
+  --diff-border-color: #{$kana-sumi-ink};
+  --diff-gutter-color: #{$kana-sumi-ink};
+  --diff-gutter-background-color: #{$kana-bg};
+
+  --diff-line-number-color: #{$kana-comment};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($kana-crystal-blue, 25%)};
+  --diff-selected-border-color: #{darken($kana-crystal-blue, 10%)};
+  --diff-selected-gutter-color: #{darken($kana-crystal-blue, 10%)};
+  --diff-selected-text-color: #{$kana-fg};
+
+  --diff-add-background-color: #{rgba($kana-spring-green, 0.15)};
+  --diff-add-border-color: #{rgba($kana-spring-green, 0.2)};
+  --diff-add-gutter-color: #{rgba($kana-spring-green, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($kana-spring-green, 0.15)};
+  --diff-add-inner-background-color: #{rgba($kana-spring-green, 0.25)};
+  --diff-add-text-color: #{$kana-fg};
+
+  --diff-delete-background-color: #{rgba($kana-autumn-red, 0.15)};
+  --diff-delete-border-color: #{rgba($kana-autumn-red, 0.2)};
+  --diff-delete-gutter-color: #{rgba($kana-autumn-red, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($kana-autumn-red, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($kana-autumn-red, 0.25)};
+  --diff-delete-text-color: #{$kana-fg};
+
+  --diff-hunk-background-color: #{rgba($kana-crystal-blue, 0.08)};
+  --diff-hunk-border-color: #{rgba($kana-crystal-blue, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($kana-crystal-blue, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($kana-crystal-blue, 0.12)};
+  --diff-hunk-text-color: #{$kana-comment};
+
+  --diff-hover-background-color: #{$kana-crystal-blue};
+  --diff-hover-border-color: #{lighten($kana-crystal-blue, 10%)};
+  --diff-hover-gutter-color: #{lighten($kana-crystal-blue, 10%)};
+  --diff-hover-text-color: #{$kana-bg};
+
+  --diff-add-hover-background-color: #{rgba($kana-spring-green, 0.3)};
+  --diff-add-hover-border-color: #{$kana-spring-green};
+  --diff-add-hover-gutter-color: #{$kana-spring-green};
+  --diff-add-hover-text-color: #{$kana-fg};
+
+  --diff-delete-hover-background-color: #{rgba($kana-autumn-red, 0.3)};
+  --diff-delete-hover-border-color: #{$kana-autumn-red};
+  --diff-delete-hover-gutter-color: #{$kana-autumn-red};
+  --diff-delete-hover-text-color: #{$kana-fg};
+
+  --diff-empty-row-background-color: #{darken($kana-bg, 1%)};
+  --diff-empty-row-gutter-background-color: #{$kana-bg};
+  --diff-empty-hunk-handle: #{$kana-sumi-ink};
+
+  // Syntax highlighting text colors (Kanagawa palette)
+  --syntax-variable-color: #{$kana-fg};
+  --syntax-alt-variable-color: #{$kana-old-white};
+  --syntax-keyword-color: #{$kana-oni-violet};
+  --syntax-atom-color: #{$kana-surimi-orange};
+  --syntax-string-color: #{$kana-spring-green};
+  --syntax-qualifier-color: #{$kana-wave-aqua-2};
+  --syntax-type-color: #{$kana-wave-aqua-2};
+  --syntax-comment-color: #{$kana-comment};
+  --syntax-tag-color: #{$kana-crystal-blue};
+  --syntax-attribute-color: #{$kana-carpenter-yellow};
+  --syntax-link-color: #{$kana-sakura-pink};
+  --syntax-header-color: #{$kana-oni-violet};
+  --syntax-quote-color: #{$kana-spring-green};
+
+  // Colors for form errors
+  --error-color: #{$kana-autumn-red};
+  --form-error-background: #{rgba($kana-autumn-red, 0.15)};
+  --form-error-border-color: #{rgba($kana-autumn-red, 0.3)};
+  --form-error-text-color: #{lighten($kana-autumn-red, 10%)};
+
+  --dialog-banner-success-background: #{rgba($kana-spring-green, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($kana-spring-green, 0.3)};
+  --dialog-banner-success-text-color: #{$kana-spring-green};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($kana-autumn-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.5)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$kana-carpenter-yellow};
+  --dialog-information-color: #{$kana-crystal-blue};
+  --dialog-error-color: #{$kana-autumn-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($kana-carpenter-yellow, 0.12)};
+  --file-warning-color: #{$kana-carpenter-yellow};
+  --file-warning-border-color: #{rgba($kana-carpenter-yellow, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$kana-bg-alt};
+  --tooltip-color: #{$kana-fg};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$kana-sumi-ink};
+  --path-segment-background-focus: #{lighten($kana-sumi-ink, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$kana-carpenter-yellow};
+  --status-error-color: #{$kana-autumn-red};
+  --status-success-color: #{$kana-spring-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$kana-spring-green};
+  --pr-draft-icon-color: #{$kana-comment};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$kana-sumi-ink};
+  --pr-changes-requested-icon-color: #{$kana-fg};
+  --pr-changes-requested-icon-background-color: #{$kana-autumn-red};
+  --pr-approved-icon-color: #{$kana-bg};
+  --pr-approved-icon-background-color: #{$kana-spring-green};
+  --pr-commented-icon-color: #{$kana-comment};
+  --pr-commented-icon-background-color: #{$kana-sumi-ink};
+
+  --call-to-action-bubble-border-color: #{$kana-crystal-blue};
+  --call-to-action-bubble-color: #{$kana-crystal-blue};
+
+  --title-tool-tip-background-color: #{$kana-bg-alt};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$kana-sumi-ink};
+  --md-border-muted-color: #{$kana-bg-alt};
+  --md-canvas-default-color: #{$kana-bg};
+  --md-canvas-subtle-color: #{$kana-bg-alt};
+  --md-fg-default-color: #{$kana-fg};
+  --md-fg-muted-color: #{$kana-comment};
+  --md-danger-fg-color: #{$kana-autumn-red};
+  --md-neutral-muted-color: #{rgba($kana-comment, 0.3)};
+  --md-accent-emphasis-color: #{$kana-crystal-blue};
+  --md-accent-fg-color: #{$kana-crystal-blue};
+}
+
+body.theme-kanagawa .CodeMirror-cursor {
+  border-left-color: #{$kana-fg};
+}
