@@ -1,0 +1,378 @@
+// Variables
+//
+// Rosé Pine Dawn theme
+// Based on the Rosé Pine Dawn color scheme
+// https://rosepinetheme.com/
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Rosé Pine Dawn palette
+$dawn-base:           #faf4ed;
+$dawn-surface:        #fffaf3;
+$dawn-overlay:        #f2e9e1;
+$dawn-muted:          #9893a5;
+$dawn-subtle:         #797593;
+$dawn-text:           #575279;
+$dawn-love:           #b4637a;
+$dawn-gold:           #ea9d34;
+$dawn-rose:           #d7827e;
+$dawn-pine:           #286983;
+$dawn-foam:           #56949f;
+$dawn-iris:           #907aa9;
+$dawn-highlight-low:  #f4ede8;
+$dawn-highlight-med:  #dfdad9;
+$dawn-highlight-high: #cecacd;
+
+body.theme-rose-pine-dawn {
+  --color-new: #{$dawn-pine};
+  --color-deleted: #{$dawn-love};
+  --color-modified: #{$dawn-gold};
+  --color-renamed: #{$dawn-iris};
+  --color-conflicted: #{$dawn-rose};
+
+  --text-color: #{$dawn-text};
+  --text-secondary-color: #{$dawn-subtle};
+  --text-secondary-color-muted: #{$dawn-muted};
+  --background-color: #{$dawn-base};
+
+  --button-background: #{$dawn-iris};
+  --button-hover-background: #{darken($dawn-iris, 5%)};
+  --button-text-color: #{$dawn-surface};
+  --button-focus-border-color: #{darken($dawn-iris, 15%)};
+
+  --link-button-color: #{$dawn-iris};
+  --link-button-hover-color: #{darken($dawn-iris, 10%)};
+  --link-button-selected-hover-color: #{$dawn-iris};
+
+  --secondary-button-background: #{$dawn-surface};
+  --secondary-button-border-color: #{$dawn-overlay};
+  --secondary-button-hover-border-color: #{$dawn-highlight-med};
+  --secondary-button-hover-background: #{darken($dawn-surface, 3%)};
+  --secondary-button-text-color: #{$dawn-text};
+  --secondary-button-focus-shadow-color: #{rgba($dawn-iris, 0.35)};
+  --secondary-button-focus-border-color: #{$dawn-iris};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$dawn-surface};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$dawn-gold};
+  --input-icon-error-color: #{$dawn-love};
+  --input-icon-hover-background-color: #{$dawn-overlay};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($dawn-text, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($dawn-text, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$dawn-base};
+  --box-alt-background-color: #{$dawn-surface};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$dawn-overlay};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(250, 244, 237, 0) 0%, rgba(250, 244, 237, 0.5) 50%, rgba(250, 244, 237, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$dawn-overlay};
+
+  --box-border-contrast-color: #{$dawn-highlight-med};
+  --box-border-accent-color: #{$dawn-iris};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$dawn-highlight-low};
+
+  --box-hover-text-color: #{$dawn-text};
+  --box-hover-background-color: #{$dawn-overlay};
+
+  --box-selected-text-color: #{$dawn-text};
+  --box-selected-border-color: #{$dawn-highlight-med};
+
+  --box-selected-active-background-color: #{$dawn-iris};
+  --box-selected-active-text-color: #{$dawn-surface};
+  --box-selected-active-border-color: #{$dawn-highlight-med};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($dawn-base, 0) 0%, rgba($dawn-base, 1) 90%, rgba($dawn-base, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($dawn-base, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $dawn-base)};
+  --top-shadow: #{linear-gradient(0deg, rgba($dawn-base, 0) 0%, rgba(black, 0.1) 90%, rgba(black, 0.2) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($dawn-base, 0) 0%, rgba(black, 0.1) 90%, rgba(black, 0.2) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$dawn-muted};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{lighten($dawn-iris, 35%)};
+  --co-author-tag-border-color: #{lighten($dawn-iris, 20%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$dawn-base};
+  --commit-warning-badge-border-color: #{$dawn-overlay};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.15)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{darken($dawn-base, 3%)};
+  --toolbar-border-color: #{$dawn-overlay};
+  --toolbar-text-color: #{$dawn-text};
+  --toolbar-text-secondary-color: #{$dawn-subtle};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$dawn-overlay};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$dawn-text};
+  --toolbar-button-hover-background-color: #{$dawn-overlay};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$dawn-overlay};
+
+  --toolbar-button-active-color: #{$dawn-text};
+  --toolbar-button-active-background-color: #{$dawn-base};
+  --toolbar-button-active-border-color: #{$dawn-base};
+
+  --toolbar-button-progress-color: #{$dawn-overlay};
+  --toolbar-button-focus-progress-color: #{$dawn-highlight-med};
+  --toolbar-button-hover-progress-color: #{$dawn-highlight-med};
+  --toolbar-dropdown-open-progress-color: #{$dawn-text};
+  --toolbar-dropdown-text-warning-color: #{$dawn-gold};
+  --toolbar-dropdown-text-hover-color: #{$dawn-text};
+
+  --toolbar-tooltip-background-color: #{$dawn-text};
+  --toolbar-tooltip-color: #{$dawn-surface};
+  --toolbar-tooltip-shadow-color: #{rgba(black, 0.3)};
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$dawn-text};
+  --app-menu-button-active-background-color: #{$dawn-overlay};
+  --app-menu-pane-color: #{$dawn-text};
+  --app-menu-pane-secondary-color: #{$dawn-subtle};
+  --app-menu-pane-background-color: #{$dawn-base};
+  --app-menu-divider-color: #{$dawn-overlay};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$dawn-highlight-med};
+  --toolbar-badge-active-background-color: #{$dawn-highlight-med};
+
+  --tab-bar-active-color: #{$dawn-iris};
+  --tab-bar-background-color: #{$dawn-base};
+  --tab-bar-hover-background-color: #{$dawn-overlay};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$dawn-text};
+  --tab-bar-count-background-color: #{$dawn-highlight-med};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$dawn-text};
+  --list-item-badge-background-color: #{$dawn-highlight-med};
+  --list-item-selected-badge-color: #{$dawn-text};
+  --list-item-selected-badge-background-color: #{$dawn-highlight-high};
+  --list-item-selected-active-badge-color: #{$dawn-surface};
+  --list-item-selected-active-badge-background-color: #{$dawn-text};
+  --list-item-hover-background-color: #{$dawn-overlay};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$dawn-surface};
+  --toast-notification-background-color: #{rgba($dawn-text, 0.9)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$dawn-iris};
+  --diff-linenumber-focus-color: #{darken($dawn-iris, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($dawn-iris, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{lighten($dawn-iris, 35%)};
+  --primary-suggested-action-border-color: #{lighten($dawn-iris, 20%)};
+  --suggested-action-icon-color: #{$dawn-iris};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$dawn-text};
+  --diff-border-color: #{$dawn-overlay};
+  --diff-gutter-color: #{$dawn-overlay};
+  --diff-gutter-background-color: #{$dawn-base};
+
+  --diff-line-number-color: #{$dawn-subtle};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{lighten($dawn-iris, 35%)};
+  --diff-selected-border-color: #{lighten($dawn-iris, 20%)};
+  --diff-selected-gutter-color: #{lighten($dawn-iris, 20%)};
+  --diff-selected-text-color: #{$dawn-text};
+
+  --diff-add-background-color: #{rgba($dawn-pine, 0.1)};
+  --diff-add-border-color: #{rgba($dawn-pine, 0.2)};
+  --diff-add-gutter-color: #{rgba($dawn-pine, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($dawn-pine, 0.15)};
+  --diff-add-inner-background-color: #{rgba($dawn-pine, 0.25)};
+  --diff-add-text-color: #{$dawn-text};
+
+  --diff-delete-background-color: #{rgba($dawn-love, 0.1)};
+  --diff-delete-border-color: #{rgba($dawn-love, 0.2)};
+  --diff-delete-gutter-color: #{rgba($dawn-love, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($dawn-love, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($dawn-love, 0.25)};
+  --diff-delete-text-color: #{$dawn-text};
+
+  --diff-hunk-background-color: #{rgba($dawn-iris, 0.08)};
+  --diff-hunk-border-color: #{rgba($dawn-iris, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($dawn-iris, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($dawn-iris, 0.12)};
+  --diff-hunk-text-color: #{$dawn-subtle};
+
+  --diff-hover-background-color: #{$dawn-iris};
+  --diff-hover-border-color: #{darken($dawn-iris, 10%)};
+  --diff-hover-gutter-color: #{darken($dawn-iris, 10%)};
+  --diff-hover-text-color: #{$dawn-surface};
+
+  --diff-add-hover-background-color: #{rgba($dawn-pine, 0.3)};
+  --diff-add-hover-border-color: #{$dawn-pine};
+  --diff-add-hover-gutter-color: #{$dawn-pine};
+  --diff-add-hover-text-color: #{$dawn-text};
+
+  --diff-delete-hover-background-color: #{rgba($dawn-love, 0.3)};
+  --diff-delete-hover-border-color: #{$dawn-love};
+  --diff-delete-hover-gutter-color: #{$dawn-love};
+  --diff-delete-hover-text-color: #{$dawn-text};
+
+  --diff-empty-row-background-color: #{darken($dawn-base, 2%)};
+  --diff-empty-row-gutter-background-color: #{$dawn-base};
+  --diff-empty-hunk-handle: #{$dawn-highlight-med};
+
+  // Syntax highlighting text colors (Rosé Pine Dawn palette)
+  --syntax-variable-color: #{$dawn-text};
+  --syntax-alt-variable-color: #{$dawn-text};
+  --syntax-keyword-color: #{$dawn-pine};
+  --syntax-atom-color: #{$dawn-iris};
+  --syntax-string-color: #{$dawn-gold};
+  --syntax-qualifier-color: #{$dawn-rose};
+  --syntax-type-color: #{$dawn-foam};
+  --syntax-comment-color: #{$dawn-muted};
+  --syntax-tag-color: #{$dawn-pine};
+  --syntax-attribute-color: #{$dawn-iris};
+  --syntax-link-color: #{$dawn-iris};
+  --syntax-header-color: #{$dawn-rose};
+  --syntax-quote-color: #{$dawn-gold};
+
+  // Colors for form errors
+  --error-color: #{$dawn-love};
+  --form-error-background: #{rgba($dawn-love, 0.1)};
+  --form-error-border-color: #{rgba($dawn-love, 0.3)};
+  --form-error-text-color: #{darken($dawn-love, 10%)};
+
+  --dialog-banner-success-background: #{rgba($dawn-pine, 0.1)};
+  --dialog-banner-success-border-color: #{rgba($dawn-pine, 0.3)};
+  --dialog-banner-success-text-color: #{$dawn-pine};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{darken($dawn-love, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.2)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$dawn-gold};
+  --dialog-information-color: #{$dawn-iris};
+  --dialog-error-color: #{$dawn-love};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($dawn-gold, 0.12)};
+  --file-warning-color: #{$dawn-gold};
+  --file-warning-border-color: #{rgba($dawn-gold, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$dawn-text};
+  --tooltip-color: #{$dawn-surface};
+  --tooltip-shadow-color: #{rgba(black, 0.3)};
+
+  /** Inline paths and code */
+  --path-segment-background: #{$dawn-overlay};
+  --path-segment-background-focus: #{darken($dawn-overlay, 5%)};
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$dawn-gold};
+  --status-error-color: #{$dawn-love};
+  --status-success-color: #{$dawn-pine};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$dawn-pine};
+  --pr-draft-icon-color: #{$dawn-muted};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$dawn-overlay};
+  --pr-changes-requested-icon-color: #{$dawn-surface};
+  --pr-changes-requested-icon-background-color: #{$dawn-love};
+  --pr-approved-icon-color: #{$dawn-surface};
+  --pr-approved-icon-background-color: #{$dawn-pine};
+  --pr-commented-icon-color: #{$dawn-subtle};
+  --pr-commented-icon-background-color: #{$dawn-overlay};
+
+  --call-to-action-bubble-border-color: #{$dawn-iris};
+  --call-to-action-bubble-color: #{$dawn-iris};
+
+  --title-tool-tip-background-color: #{$dawn-text};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$dawn-overlay};
+  --md-border-muted-color: #{$dawn-highlight-low};
+  --md-canvas-default-color: #{$dawn-base};
+  --md-canvas-subtle-color: #{$dawn-surface};
+  --md-fg-default-color: #{$dawn-text};
+  --md-fg-muted-color: #{$dawn-subtle};
+  --md-danger-fg-color: #{$dawn-love};
+  --md-neutral-muted-color: #{rgba($dawn-muted, 0.5)};
+  --md-accent-emphasis-color: #{$dawn-iris};
+  --md-accent-fg-color: #{$dawn-iris};
+}
+
+body.theme-rose-pine-dawn .CodeMirror-cursor {
+  border-left-color: #{$dawn-text};
+}
