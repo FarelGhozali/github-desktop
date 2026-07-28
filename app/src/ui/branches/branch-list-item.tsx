@@ -118,7 +118,11 @@ export class BranchListItem extends React.Component<
           <HighlightText text={name} highlight={this.props.matches.title} />
         </TooltippedContent>
         {onCompareClick && !isCurrentBranch && (
-          <button className="compare-icon" onClick={this.onCompareClick}>
+          <button
+            className="compare-icon"
+            onClick={this.onCompareClick}
+            title="Compare to branch"
+          >
             <Octicon symbol={octicons.diff} />
           </button>
         )}

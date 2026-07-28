@@ -402,10 +402,6 @@ export class RepositoryView extends React.Component<
           onOpenInExternalEditor={this.props.onOpenInExternalEditor}
         />
       )
-    } else if (
-      this.props.state.selectedSection === RepositorySectionTab.Comparison
-    ) {
-      return this.renderComparison()
     }
 
     return null
@@ -607,7 +603,7 @@ export class RepositoryView extends React.Component<
     } else if (selectedSection === RepositorySectionTab.History) {
       return this.renderContentForHistory()
     } else if (selectedSection === RepositorySectionTab.Comparison) {
-      return null
+      return this.renderComparison()
     } else {
       return assertNever(selectedSection, 'Unknown repository section')
     }
@@ -615,7 +611,11 @@ export class RepositoryView extends React.Component<
 
   public render() {
     if (this.props.state.selectedSection === RepositorySectionTab.Comparison) {
-      return <UiView id="repository">{this.renderContent()}</UiView>
+      return (
+        <UiView id="repository">
+          {this.renderContent()}
+        </UiView>
+      )
     }
 
     return (
