@@ -21,6 +21,16 @@ GitHub Desktop supports multiple built-in themes. This document explains how the
 | Catppuccin Mocha | dark | Modern pastel dark theme, very popular |
 | Light High Contrast | light | GitHub's built-in Light High Contrast |
 | Dark Dimmed | dark | GitHub's built-in Dark Dimmed (softer dark) |
+| Tokyo Night | dark | Modern dark theme with blue-purple Tokyo city tones |
+| Synthwave '84 | dark | Retro-futuristic neon theme inspired by the 1980s |
+| Rosé Pine | dark | Elegant dark theme with soft pastel colors |
+| Rosé Pine Dawn | light | Light variant of Rosé Pine with warm cream tones |
+| Everforest Dark | dark | Natural green-toned dark theme, easy on the eyes |
+| Everforest Light | light | Natural green-toned light theme |
+| Night Owl | dark | Dark theme optimized for nighttime coding |
+| Ayu Dark | dark | Minimalist modern dark theme |
+| Ayu Light | light | Minimalist modern light theme |
+| Kanagawa | dark | Inspired by The Great Wave off Kanagawa painting |
 
 ## Architecture
 
@@ -47,6 +57,16 @@ export enum ApplicationTheme {
   CatppuccinMocha = 'catppuccin-mocha',
   LightHighContrast = 'light-high-contrast',
   DarkDimmed = 'dark-dimmed',
+  TokyoNight = 'tokyo-night',
+  Synthwave84 = 'synthwave84',
+  RosePine = 'rose-pine',
+  RosePineDawn = 'rose-pine-dawn',
+  EverforestDark = 'everforest-dark',
+  EverforestLight = 'everforest-light',
+  NightOwl = 'night-owl',
+  AyuDark = 'ayu-dark',
+  AyuLight = 'ayu-light',
+  Kanagawa = 'kanagawa',
 }
 ```
 
@@ -70,7 +90,17 @@ app/styles/
     ├── _gruvbox-light.scss   # body.theme-gruvbox-light overrides
     ├── _catppuccin-mocha.scss# body.theme-catppuccin-mocha overrides
     ├── _light-high-contrast.scss # body.theme-light-high-contrast overrides
-    └── _dark-dimmed.scss     # body.theme-dark-dimmed overrides
+    ├── _dark-dimmed.scss     # body.theme-dark-dimmed overrides
+    ├── _tokyo-night.scss     # body.theme-tokyo-night overrides
+    ├── _synthwave84.scss     # body.theme-synthwave84 overrides
+    ├── _rose-pine.scss       # body.theme-rose-pine overrides
+    ├── _rose-pine-dawn.scss  # body.theme-rose-pine-dawn overrides
+    ├── _everforest-dark.scss # body.theme-everforest-dark overrides
+    ├── _everforest-light.scss# body.theme-everforest-light overrides
+    ├── _night-owl.scss       # body.theme-night-owl overrides
+    ├── _ayu-dark.scss        # body.theme-ayu-dark overrides
+    ├── _ayu-light.scss       # body.theme-ayu-light overrides
+    └── _kanagawa.scss        # body.theme-kanagawa overrides
 ```
 
 ### 3. Theme Application (`app/src/ui/app-theme.tsx`)
