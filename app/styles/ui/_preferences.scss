@@ -4,6 +4,7 @@
     .tab-container {
       border-left: var(--base-border);
       flex: 1;
+      overflow-y: auto;
     }
 
     fieldset {
