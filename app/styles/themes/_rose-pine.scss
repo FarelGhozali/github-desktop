@@ -1,0 +1,381 @@
+// Variables
+//
+// Rose Pine theme
+// Based on the Rosé Pine palette
+// https://rosepinetheme.com/
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Rose Pine palette
+$rose-base:     #191724;
+$rose-surface:  #1f1d2e;
+$rose-overlay:  #26233a;
+$rose-muted:    #6e6a86;
+$rose-subtle:   #908caa;
+$rose-text:     #e0def4;
+$rose-love:     #eb6f92;
+$rose-gold:     #f6c177;
+$rose-rose:     #ebbcba;
+$rose-pine:     #31748f;
+$rose-foam:     #9ccfd8;
+$rose-iris:     #c4a7e7;
+$rose-hl-low:   #21202e;
+$rose-hl-med:   #403d52;
+$rose-hl-high:  #524f67;
+
+body.theme-rose-pine {
+  --color-new: #{$rose-foam};
+  --color-deleted: #{$rose-love};
+  --color-modified: #{$rose-gold};
+  --color-renamed: #{$rose-rose};
+  --color-conflicted: #{$rose-gold};
+
+  --text-color: #{$rose-text};
+  --text-secondary-color: #{$rose-subtle};
+  --text-secondary-color-muted: #{$rose-muted};
+  --background-color: #{$rose-base};
+
+  --button-background: #{$rose-iris};
+  --button-hover-background: #{lighten($rose-iris, 5%)};
+  --button-text-color: #{$rose-base};
+  --button-focus-border-color: #{lighten($rose-iris, 15%)};
+
+  --link-button-color: #{$rose-iris};
+  --link-button-hover-color: #{lighten($rose-iris, 10%)};
+  --link-button-selected-hover-color: #{$rose-iris};
+
+  --secondary-button-background: #{$rose-surface};
+  --secondary-button-border-color: #{$rose-overlay};
+  --secondary-button-hover-border-color: #{$rose-subtle};
+  --secondary-button-hover-background: #{lighten($rose-surface, 3%)};
+  --secondary-button-text-color: #{$rose-text};
+  --secondary-button-focus-shadow-color: #{rgba($rose-iris, 0.35)};
+  --secondary-button-focus-border-color: #{$rose-iris};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$rose-base};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$rose-gold};
+  --input-icon-error-color: #{$rose-love};
+  --input-icon-hover-background-color: #{$rose-surface};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($rose-muted, 0.4)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($rose-subtle, 0.6)};
+
+  // Box
+
+  --box-background-color: #{$rose-base};
+  --box-alt-background-color: #{$rose-surface};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$rose-overlay};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(25, 23, 36, 0) 0%, rgba(25, 23, 36, 0.5) 50%, rgba(25, 23, 36, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$rose-overlay};
+
+  --box-border-contrast-color: #{$rose-hl-med};
+  --box-border-accent-color: #{$rose-iris};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$rose-overlay};
+
+  --box-hover-text-color: #{$rose-text};
+  --box-hover-background-color: #{$rose-hl-low};
+
+  --box-selected-text-color: #{$rose-text};
+  --box-selected-border-color: #{$rose-muted};
+
+  --box-selected-active-background-color: #{$rose-iris};
+  --box-selected-active-text-color: #{$rose-base};
+  --box-selected-active-border-color: #{$rose-surface};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($rose-base, 0) 0%, rgba($rose-base, 1) 90%, rgba($rose-base, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($rose-base, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $rose-base)};
+  --top-shadow: #{linear-gradient(0deg, rgba($rose-base, 0) 0%, rgba(black, 0.4) 90%, rgba(black, 0.6) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($rose-base, 0) 0%, rgba(black, 0.4) 90%, rgba(black, 0.6) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$rose-muted};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($rose-iris, 35%)};
+  --co-author-tag-border-color: #{darken($rose-iris, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$rose-base};
+  --commit-warning-badge-border-color: #{$rose-overlay};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.4)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{$rose-surface};
+  --toolbar-border-color: #{$rose-overlay};
+  --toolbar-text-color: #{$rose-text};
+  --toolbar-text-secondary-color: #{$rose-subtle};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$rose-overlay};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$rose-text};
+  --toolbar-button-hover-background-color: #{$rose-overlay};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$rose-overlay};
+
+  --toolbar-button-active-color: #{$rose-text};
+  --toolbar-button-active-background-color: #{$rose-base};
+  --toolbar-button-active-border-color: #{$rose-base};
+
+  --toolbar-button-progress-color: #{$rose-overlay};
+  --toolbar-button-focus-progress-color: #{$rose-hl-med};
+  --toolbar-button-hover-progress-color: #{$rose-hl-med};
+  --toolbar-dropdown-open-progress-color: #{$rose-text};
+  --toolbar-dropdown-text-warning-color: #{$rose-gold};
+  --toolbar-dropdown-text-hover-color: #{$rose-text};
+
+  --toolbar-tooltip-background-color: #{$rose-overlay};
+  --toolbar-tooltip-shadow-color: black;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$rose-text};
+  --app-menu-button-active-background-color: #{$rose-overlay};
+  --app-menu-pane-color: #{$rose-text};
+  --app-menu-pane-secondary-color: #{$rose-subtle};
+  --app-menu-pane-background-color: #{$rose-overlay};
+  --app-menu-divider-color: #{$rose-hl-med};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$rose-overlay};
+  --toolbar-badge-active-background-color: #{$rose-overlay};
+
+  --tab-bar-active-color: #{$rose-iris};
+  --tab-bar-background-color: #{$rose-base};
+  --tab-bar-hover-background-color: #{$rose-surface};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$rose-text};
+  --tab-bar-count-background-color: #{$rose-overlay};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$rose-text};
+  --list-item-badge-background-color: #{$rose-overlay};
+  --list-item-selected-badge-color: #{$rose-text};
+  --list-item-selected-badge-background-color: #{$rose-hl-med};
+  --list-item-selected-active-badge-color: #{$rose-base};
+  --list-item-selected-active-badge-background-color: #{$rose-text};
+  --list-item-hover-background-color: #{$rose-hl-low};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$rose-text};
+  --toast-notification-background-color: #{rgba($rose-surface, 0.95)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$rose-iris};
+  --diff-linenumber-focus-color: #{lighten($rose-iris, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($rose-iris, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($rose-iris, 35%)};
+  --primary-suggested-action-border-color: #{darken($rose-iris, 15%)};
+  --suggested-action-icon-color: #{$rose-iris};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$rose-text};
+  --diff-border-color: #{$rose-overlay};
+  --diff-gutter-color: #{$rose-overlay};
+  --diff-gutter-background-color: #{$rose-base};
+
+  --diff-line-number-color: #{$rose-muted};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($rose-iris, 35%)};
+  --diff-selected-border-color: #{darken($rose-iris, 15%)};
+  --diff-selected-gutter-color: #{darken($rose-iris, 15%)};
+  --diff-selected-text-color: #{$rose-text};
+
+  --diff-add-background-color: #{rgba($rose-foam, 0.1)};
+  --diff-add-border-color: #{rgba($rose-foam, 0.2)};
+  --diff-add-gutter-color: #{rgba($rose-foam, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($rose-foam, 0.15)};
+  --diff-add-inner-background-color: #{rgba($rose-foam, 0.25)};
+  --diff-add-text-color: #{$rose-text};
+
+  --diff-delete-background-color: #{rgba($rose-love, 0.1)};
+  --diff-delete-border-color: #{rgba($rose-love, 0.2)};
+  --diff-delete-gutter-color: #{rgba($rose-love, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($rose-love, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($rose-love, 0.25)};
+  --diff-delete-text-color: #{$rose-text};
+
+  --diff-hunk-background-color: #{rgba($rose-iris, 0.08)};
+  --diff-hunk-border-color: #{rgba($rose-iris, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($rose-iris, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($rose-iris, 0.12)};
+  --diff-hunk-text-color: #{$rose-muted};
+
+  --diff-hover-background-color: #{$rose-iris};
+  --diff-hover-border-color: #{lighten($rose-iris, 10%)};
+  --diff-hover-gutter-color: #{lighten($rose-iris, 10%)};
+  --diff-hover-text-color: #{$rose-base};
+
+  --diff-add-hover-background-color: #{rgba($rose-foam, 0.3)};
+  --diff-add-hover-border-color: #{$rose-foam};
+  --diff-add-hover-gutter-color: #{$rose-foam};
+  --diff-add-hover-text-color: #{$rose-text};
+
+  --diff-delete-hover-background-color: #{rgba($rose-love, 0.3)};
+  --diff-delete-hover-border-color: #{$rose-love};
+  --diff-delete-hover-gutter-color: #{$rose-love};
+  --diff-delete-hover-text-color: #{$rose-text};
+
+  --diff-empty-row-background-color: #{darken($rose-base, 1%)};
+  --diff-empty-row-gutter-background-color: #{$rose-base};
+  --diff-empty-hunk-handle: #{$rose-overlay};
+
+  // Syntax highlighting text colors (Rose Pine palette)
+  --syntax-variable-color: #{$rose-text};
+  --syntax-alt-variable-color: #{$rose-rose};
+  --syntax-keyword-color: #{$rose-pine};
+  --syntax-atom-color: #{$rose-iris};
+  --syntax-string-color: #{$rose-gold};
+  --syntax-qualifier-color: #{$rose-foam};
+  --syntax-type-color: #{$rose-foam};
+  --syntax-comment-color: #{$rose-muted};
+  --syntax-tag-color: #{$rose-foam};
+  --syntax-attribute-color: #{$rose-iris};
+  --syntax-link-color: #{$rose-rose};
+  --syntax-header-color: #{$rose-gold};
+  --syntax-quote-color: #{$rose-gold};
+
+  // Colors for form errors
+  --error-color: #{$rose-love};
+  --form-error-background: #{rgba($rose-love, 0.15)};
+  --form-error-border-color: #{rgba($rose-love, 0.3)};
+  --form-error-text-color: #{lighten($rose-love, 10%)};
+
+  --dialog-banner-success-background: #{rgba($rose-foam, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($rose-foam, 0.3)};
+  --dialog-banner-success-text-color: #{$rose-foam};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($rose-love, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba($rose-base, 0.75)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$rose-gold};
+  --dialog-information-color: #{$rose-foam};
+  --dialog-error-color: #{$rose-love};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($rose-gold, 0.12)};
+  --file-warning-color: #{$rose-gold};
+  --file-warning-border-color: #{rgba($rose-gold, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$rose-overlay};
+  --tooltip-color: #{$rose-text};
+  --tooltip-shadow-color: black;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$rose-surface};
+  --path-segment-background-focus: #{lighten($rose-surface, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$rose-gold};
+  --status-error-color: #{$rose-love};
+  --status-success-color: #{$rose-foam};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$rose-foam};
+  --pr-draft-icon-color: #{$rose-muted};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$rose-overlay};
+  --pr-changes-requested-icon-color: #{$rose-base};
+  --pr-changes-requested-icon-background-color: #{$rose-love};
+  --pr-approved-icon-color: #{$rose-base};
+  --pr-approved-icon-background-color: #{$rose-foam};
+  --pr-commented-icon-color: #{$rose-muted};
+  --pr-commented-icon-background-color: #{$rose-overlay};
+
+  --call-to-action-bubble-border-color: #{$rose-iris};
+  --call-to-action-bubble-color: #{$rose-iris};
+
+  --title-tool-tip-background-color: #{$rose-overlay};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$rose-overlay};
+  --md-border-muted-color: #{$rose-hl-low};
+  --md-canvas-default-color: #{$rose-base};
+  --md-canvas-subtle-color: #{$rose-surface};
+  --md-fg-default-color: #{$rose-text};
+  --md-fg-muted-color: #{$rose-subtle};
+  --md-danger-fg-color: #{$rose-love};
+  --md-neutral-muted-color: #{rgba($rose-subtle, 0.3)};
+  --md-accent-emphasis-color: #{$rose-iris};
+  --md-accent-fg-color: #{$rose-iris};
+}
+
+body.theme-rose-pine .CodeMirror-cursor {
+  border-left-color: #{$rose-text};
+}
