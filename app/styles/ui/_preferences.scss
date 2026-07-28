@@ -1,6 +1,8 @@
 #preferences {
   .preferences-container {
     display: flex;
+    flex: 1;
+    min-height: 0;
     .tab-container {
       border-left: var(--base-border);
       flex: 1;
