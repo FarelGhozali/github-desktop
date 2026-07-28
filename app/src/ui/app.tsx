@@ -453,6 +453,8 @@ export class App extends React.Component<IAppProps, IAppState> {
         return this.renameBranch()
       case 'delete-branch':
         return this.deleteBranch()
+      case 'compare-with-branch':
+        return this.showBranchComparison()
       case 'discard-all-changes':
         return this.discardAllChanges()
       case 'stash-all-changes':
@@ -1036,6 +1038,40 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   private showAbout() {
     this.props.dispatcher.showPopup({ type: PopupType.About })
+  }
+
+  private showBranchComparison() {
+    const repository = this.getRepository()
+    if (!(repository instanceof Repository)) {
+      return
+    }
+
+    const state = this.state.selectedState
+    if (state === null || state.type !== SelectionType.Repository) {
+      return
+    }
+
+    const { branchesState } = state.state
+    const { tip, defaultBranch, allBranches } = branchesState
+    const currentBranch = tip.kind === TipState.Valid ? tip.branch : null
+
+    if (!currentBranch) {
+      return
+    }
+
+    // Default to comparing current branch with default branch,
+    // or the first other branch if no default branch exists.
+    const comparisonBranch =
+      defaultBranch && defaultBranch.name !== currentBranch.name
+        ? defaultBranch
+        : allBranches.find((b: any) => b.name !== currentBranch.name) ||
+          currentBranch
+
+    this.props.dispatcher.enterBranchComparisonMode(
+      repository,
+      currentBranch,
+      comparisonBranch
+    )
   }
 
   private async showHistory(
