@@ -28,6 +28,16 @@ export enum ApplicationTheme {
   CatppuccinMocha = 'catppuccin-mocha',
   LightHighContrast = 'light-high-contrast',
   DarkDimmed = 'dark-dimmed',
+  TokyoNight = 'tokyo-night',
+  Synthwave84 = 'synthwave84',
+  RosePine = 'rose-pine',
+  RosePineDawn = 'rose-pine-dawn',
+  EverforestDark = 'everforest-dark',
+  EverforestLight = 'everforest-light',
+  NightOwl = 'night-owl',
+  AyuDark = 'ayu-dark',
+  AyuLight = 'ayu-light',
+  Kanagawa = 'kanagawa',
 }
 
 export type ApplicableTheme =
@@ -45,6 +55,16 @@ export type ApplicableTheme =
   | ApplicationTheme.CatppuccinMocha
   | ApplicationTheme.LightHighContrast
   | ApplicationTheme.DarkDimmed
+  | ApplicationTheme.TokyoNight
+  | ApplicationTheme.Synthwave84
+  | ApplicationTheme.RosePine
+  | ApplicationTheme.RosePineDawn
+  | ApplicationTheme.EverforestDark
+  | ApplicationTheme.EverforestLight
+  | ApplicationTheme.NightOwl
+  | ApplicationTheme.AyuDark
+  | ApplicationTheme.AyuLight
+  | ApplicationTheme.Kanagawa
 
 /**
  * Gets the friendly name of an application theme for use
@@ -57,6 +77,9 @@ export function getThemeName(theme: ApplicationTheme): ThemeSource {
     case ApplicationTheme.SolarizedLight:
     case ApplicationTheme.GruvboxLight:
     case ApplicationTheme.LightHighContrast:
+    case ApplicationTheme.RosePineDawn:
+    case ApplicationTheme.EverforestLight:
+    case ApplicationTheme.AyuLight:
       return 'light'
     case ApplicationTheme.Dark:
     case ApplicationTheme.HighContrast:
@@ -68,6 +91,13 @@ export function getThemeName(theme: ApplicationTheme): ThemeSource {
     case ApplicationTheme.GruvboxDark:
     case ApplicationTheme.CatppuccinMocha:
     case ApplicationTheme.DarkDimmed:
+    case ApplicationTheme.TokyoNight:
+    case ApplicationTheme.Synthwave84:
+    case ApplicationTheme.RosePine:
+    case ApplicationTheme.EverforestDark:
+    case ApplicationTheme.NightOwl:
+    case ApplicationTheme.AyuDark:
+    case ApplicationTheme.Kanagawa:
       return 'dark'
     default:
       return 'system'
@@ -131,7 +161,17 @@ function getApplicationThemeSetting(): ApplicationTheme {
     themeSetting === ApplicationTheme.GruvboxLight ||
     themeSetting === ApplicationTheme.CatppuccinMocha ||
     themeSetting === ApplicationTheme.LightHighContrast ||
-    themeSetting === ApplicationTheme.DarkDimmed
+    themeSetting === ApplicationTheme.DarkDimmed ||
+    themeSetting === ApplicationTheme.TokyoNight ||
+    themeSetting === ApplicationTheme.Synthwave84 ||
+    themeSetting === ApplicationTheme.RosePine ||
+    themeSetting === ApplicationTheme.RosePineDawn ||
+    themeSetting === ApplicationTheme.EverforestDark ||
+    themeSetting === ApplicationTheme.EverforestLight ||
+    themeSetting === ApplicationTheme.NightOwl ||
+    themeSetting === ApplicationTheme.AyuDark ||
+    themeSetting === ApplicationTheme.AyuLight ||
+    themeSetting === ApplicationTheme.Kanagawa
   ) {
     return themeSetting
   }

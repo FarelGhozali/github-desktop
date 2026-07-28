@@ -16,10 +16,20 @@ export function getBaseThemeSource(themeId: string): ThemeSource {
     case 'gruvbox-dark':
     case 'catppuccin-mocha':
     case 'dark-dimmed':
+    case 'tokyo-night':
+    case 'synthwave84':
+    case 'rose-pine':
+    case 'everforest-dark':
+    case 'night-owl':
+    case 'ayu-dark':
+    case 'kanagawa':
       return 'dark'
     case 'solarized-light':
     case 'gruvbox-light':
     case 'light-high-contrast':
+    case 'rose-pine-dawn':
+    case 'everforest-light':
+    case 'ayu-light':
       return 'light'
     default:
       return 'system'

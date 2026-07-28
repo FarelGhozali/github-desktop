@@ -62,7 +62,14 @@ export class AppTheme extends React.PureComponent<IAppThemeProps> {
       body.classList.contains('theme-dracula') ||
       body.classList.contains('theme-gruvbox-dark') ||
       body.classList.contains('theme-catppuccin-mocha') ||
-      body.classList.contains('theme-dark-dimmed')
+      body.classList.contains('theme-dark-dimmed') ||
+      body.classList.contains('theme-tokyo-night') ||
+      body.classList.contains('theme-synthwave84') ||
+      body.classList.contains('theme-rose-pine') ||
+      body.classList.contains('theme-everforest-dark') ||
+      body.classList.contains('theme-night-owl') ||
+      body.classList.contains('theme-ayu-dark') ||
+      body.classList.contains('theme-kanagawa')
     const rootStyle = document.documentElement.style
 
     rootStyle.colorScheme = isDarkTheme ? 'dark' : 'light'

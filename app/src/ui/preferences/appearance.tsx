@@ -216,6 +216,76 @@ export class Appearance extends React.Component<
             <span className="theme-value-label">Dark Dimmed</span>
           </span>
         )
+      case ApplicationTheme.TokyoNight:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Tokyo Night</span>
+          </span>
+        )
+      case ApplicationTheme.Synthwave84:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Synthwave '84</span>
+          </span>
+        )
+      case ApplicationTheme.RosePine:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Rosé Pine</span>
+          </span>
+        )
+      case ApplicationTheme.RosePineDawn:
+        return (
+          <span>
+            <img src={lightThemeImage} alt="" />
+            <span className="theme-value-label">Rosé Pine Dawn</span>
+          </span>
+        )
+      case ApplicationTheme.EverforestDark:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Everforest Dark</span>
+          </span>
+        )
+      case ApplicationTheme.EverforestLight:
+        return (
+          <span>
+            <img src={lightThemeImage} alt="" />
+            <span className="theme-value-label">Everforest Light</span>
+          </span>
+        )
+      case ApplicationTheme.NightOwl:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Night Owl</span>
+          </span>
+        )
+      case ApplicationTheme.AyuDark:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Ayu Dark</span>
+          </span>
+        )
+      case ApplicationTheme.AyuLight:
+        return (
+          <span>
+            <img src={lightThemeImage} alt="" />
+            <span className="theme-value-label">Ayu Light</span>
+          </span>
+        )
+      case ApplicationTheme.Kanagawa:
+        return (
+          <span>
+            <img src={darkThemeImage} alt="" />
+            <span className="theme-value-label">Kanagawa</span>
+          </span>
+        )
     }
   }
 
@@ -265,6 +335,16 @@ export class Appearance extends React.Component<
       ApplicationTheme.CatppuccinMocha,
       ApplicationTheme.LightHighContrast,
       ApplicationTheme.DarkDimmed,
+      ApplicationTheme.TokyoNight,
+      ApplicationTheme.Synthwave84,
+      ApplicationTheme.RosePine,
+      ApplicationTheme.RosePineDawn,
+      ApplicationTheme.EverforestDark,
+      ApplicationTheme.EverforestLight,
+      ApplicationTheme.NightOwl,
+      ApplicationTheme.AyuDark,
+      ApplicationTheme.AyuLight,
+      ApplicationTheme.Kanagawa,
     ]
 
     return (
