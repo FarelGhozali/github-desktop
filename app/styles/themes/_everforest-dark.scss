@@ -1,0 +1,381 @@
+// Variables
+//
+// Everforest Dark theme
+// Based on the Everforest color scheme by Sainnhe Park
+// https://github.com/sainnhe/everforest
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Everforest Dark palette
+$ef-dark-bg-dim:       #232a2e;
+$ef-dark-bg:           #2d353b;
+$ef-dark-bg-alt:       #343f44;
+$ef-dark-status-line:  #3d484d;
+$ef-dark-fg:           #d3c6aa;
+$ef-dark-grey0:        #7a8478;
+$ef-dark-grey1:        #859289;
+$ef-dark-grey2:        #9da9a0;
+$ef-dark-red:          #e67e80;
+$ef-dark-orange:       #e69875;
+$ef-dark-yellow:       #dbbc7f;
+$ef-dark-green:        #a7c080;
+$ef-dark-aqua:         #83c092;
+$ef-dark-blue:         #7fbbb3;
+$ef-dark-purple:       #d699b6;
+
+body.theme-everforest-dark {
+  --color-new: #{$ef-dark-green};
+  --color-deleted: #{$ef-dark-red};
+  --color-modified: #{$ef-dark-yellow};
+  --color-renamed: #{$ef-dark-blue};
+  --color-conflicted: #{$ef-dark-orange};
+
+  --text-color: #{$ef-dark-fg};
+  --text-secondary-color: #{$ef-dark-grey2};
+  --text-secondary-color-muted: #{$ef-dark-grey1};
+  --background-color: #{$ef-dark-bg};
+
+  --button-background: #{$ef-dark-green};
+  --button-hover-background: #{lighten($ef-dark-green, 5%)};
+  --button-text-color: #{$ef-dark-bg-dim};
+  --button-focus-border-color: #{lighten($ef-dark-green, 15%)};
+
+  --link-button-color: #{$ef-dark-green};
+  --link-button-hover-color: #{lighten($ef-dark-green, 10%)};
+  --link-button-selected-hover-color: #{$ef-dark-green};
+
+  --secondary-button-background: #{$ef-dark-bg-alt};
+  --secondary-button-border-color: #{$ef-dark-status-line};
+  --secondary-button-hover-border-color: #{$ef-dark-grey0};
+  --secondary-button-hover-background: #{lighten($ef-dark-bg-alt, 3%)};
+  --secondary-button-text-color: #{$ef-dark-fg};
+  --secondary-button-focus-shadow-color: #{rgba($ef-dark-green, 0.35)};
+  --secondary-button-focus-border-color: #{$ef-dark-green};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$ef-dark-bg-dim};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$ef-dark-yellow};
+  --input-icon-error-color: #{$ef-dark-red};
+  --input-icon-hover-background-color: #{$ef-dark-bg-alt};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($ef-dark-grey0, 0.4)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($ef-dark-grey1, 0.6)};
+
+  // Box
+
+  --box-background-color: #{$ef-dark-bg};
+  --box-alt-background-color: #{$ef-dark-bg-alt};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$ef-dark-status-line};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(45, 53, 59, 0) 0%, rgba(45, 53, 59, 0.5) 50%, rgba(45, 53, 59, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$ef-dark-bg-alt};
+
+  --box-border-contrast-color: #{$ef-dark-status-line};
+  --box-border-accent-color: #{$ef-dark-green};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$ef-dark-bg-alt};
+
+  --box-hover-text-color: #{$ef-dark-fg};
+  --box-hover-background-color: #{$ef-dark-bg-alt};
+
+  --box-selected-text-color: #{$ef-dark-fg};
+  --box-selected-border-color: #{$ef-dark-grey0};
+
+  --box-selected-active-background-color: #{$ef-dark-green};
+  --box-selected-active-text-color: #{$ef-dark-bg-dim};
+  --box-selected-active-border-color: #{$ef-dark-status-line};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($ef-dark-bg, 0) 0%, rgba($ef-dark-bg, 1) 90%, rgba($ef-dark-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($ef-dark-bg, rgba(0, 0, 0, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(0, 0, 0, 0), $ef-dark-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($ef-dark-bg, 0) 0%, rgba($ef-dark-bg-dim, 0.4) 90%, rgba($ef-dark-bg-dim, 0.6) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($ef-dark-bg, 0) 0%, rgba($ef-dark-bg-dim, 0.4) 90%, rgba($ef-dark-bg-dim, 0.6) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$ef-dark-grey1};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{darken($ef-dark-green, 35%)};
+  --co-author-tag-border-color: #{darken($ef-dark-green, 15%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$ef-dark-bg};
+  --commit-warning-badge-border-color: #{$ef-dark-status-line};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba($ef-dark-bg-dim, 0.5)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{$ef-dark-bg-dim};
+  --toolbar-border-color: #{$ef-dark-bg-alt};
+  --toolbar-text-color: #{$ef-dark-fg};
+  --toolbar-text-secondary-color: #{$ef-dark-grey2};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$ef-dark-bg-alt};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$ef-dark-fg};
+  --toolbar-button-hover-background-color: #{$ef-dark-bg-alt};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{$ef-dark-bg-alt};
+
+  --toolbar-button-active-color: #{$ef-dark-fg};
+  --toolbar-button-active-background-color: #{$ef-dark-bg};
+  --toolbar-button-active-border-color: #{$ef-dark-bg};
+
+  --toolbar-button-progress-color: #{$ef-dark-bg-alt};
+  --toolbar-button-focus-progress-color: #{$ef-dark-status-line};
+  --toolbar-button-hover-progress-color: #{$ef-dark-status-line};
+  --toolbar-dropdown-open-progress-color: #{$ef-dark-fg};
+  --toolbar-dropdown-text-warning-color: #{$ef-dark-yellow};
+  --toolbar-dropdown-text-hover-color: #{$ef-dark-fg};
+
+  --toolbar-tooltip-background-color: #{$ef-dark-status-line};
+  --toolbar-tooltip-shadow-color: $ef-dark-bg-dim;
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$ef-dark-fg};
+  --app-menu-button-active-background-color: #{$ef-dark-bg-alt};
+  --app-menu-pane-color: #{$ef-dark-fg};
+  --app-menu-pane-secondary-color: #{$ef-dark-grey2};
+  --app-menu-pane-background-color: #{$ef-dark-bg-alt};
+  --app-menu-divider-color: #{$ef-dark-status-line};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$ef-dark-status-line};
+  --toolbar-badge-active-background-color: #{$ef-dark-status-line};
+
+  --tab-bar-active-color: #{$ef-dark-green};
+  --tab-bar-background-color: #{$ef-dark-bg};
+  --tab-bar-hover-background-color: #{$ef-dark-bg-alt};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$ef-dark-fg};
+  --tab-bar-count-background-color: #{$ef-dark-bg-alt};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$ef-dark-fg};
+  --list-item-badge-background-color: #{$ef-dark-bg-alt};
+  --list-item-selected-badge-color: #{$ef-dark-fg};
+  --list-item-selected-badge-background-color: #{$ef-dark-status-line};
+  --list-item-selected-active-badge-color: #{$ef-dark-bg-dim};
+  --list-item-selected-active-badge-background-color: #{$ef-dark-fg};
+  --list-item-hover-background-color: #{$ef-dark-bg-alt};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$ef-dark-fg};
+  --toast-notification-background-color: #{rgba($ef-dark-bg-dim, 0.9)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$ef-dark-green};
+  --diff-linenumber-focus-color: #{lighten($ef-dark-green, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($ef-dark-green, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{darken($ef-dark-green, 35%)};
+  --primary-suggested-action-border-color: #{darken($ef-dark-green, 15%)};
+  --suggested-action-icon-color: #{$ef-dark-green};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$ef-dark-fg};
+  --diff-border-color: #{$ef-dark-bg-alt};
+  --diff-gutter-color: #{$ef-dark-bg-alt};
+  --diff-gutter-background-color: #{$ef-dark-bg};
+
+  --diff-line-number-color: #{$ef-dark-grey1};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{darken($ef-dark-green, 35%)};
+  --diff-selected-border-color: #{darken($ef-dark-green, 15%)};
+  --diff-selected-gutter-color: #{darken($ef-dark-green, 15%)};
+  --diff-selected-text-color: #{$ef-dark-fg};
+
+  --diff-add-background-color: #{rgba($ef-dark-green, 0.1)};
+  --diff-add-border-color: #{rgba($ef-dark-green, 0.2)};
+  --diff-add-gutter-color: #{rgba($ef-dark-green, 0.2)};
+  --diff-add-gutter-background-color: #{rgba($ef-dark-green, 0.15)};
+  --diff-add-inner-background-color: #{rgba($ef-dark-green, 0.25)};
+  --diff-add-text-color: #{$ef-dark-fg};
+
+  --diff-delete-background-color: #{rgba($ef-dark-red, 0.1)};
+  --diff-delete-border-color: #{rgba($ef-dark-red, 0.2)};
+  --diff-delete-gutter-color: #{rgba($ef-dark-red, 0.2)};
+  --diff-delete-gutter-background-color: #{rgba($ef-dark-red, 0.15)};
+  --diff-delete-inner-background-color: #{rgba($ef-dark-red, 0.25)};
+  --diff-delete-text-color: #{$ef-dark-fg};
+
+  --diff-hunk-background-color: #{rgba($ef-dark-blue, 0.08)};
+  --diff-hunk-border-color: #{rgba($ef-dark-blue, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($ef-dark-blue, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($ef-dark-blue, 0.12)};
+  --diff-hunk-text-color: #{$ef-dark-grey1};
+
+  --diff-hover-background-color: #{$ef-dark-green};
+  --diff-hover-border-color: #{lighten($ef-dark-green, 10%)};
+  --diff-hover-gutter-color: #{lighten($ef-dark-green, 10%)};
+  --diff-hover-text-color: #{$ef-dark-bg-dim};
+
+  --diff-add-hover-background-color: #{rgba($ef-dark-green, 0.3)};
+  --diff-add-hover-border-color: #{$ef-dark-green};
+  --diff-add-hover-gutter-color: #{$ef-dark-green};
+  --diff-add-hover-text-color: #{$ef-dark-fg};
+
+  --diff-delete-hover-background-color: #{rgba($ef-dark-red, 0.3)};
+  --diff-delete-hover-border-color: #{$ef-dark-red};
+  --diff-delete-hover-gutter-color: #{$ef-dark-red};
+  --diff-delete-hover-text-color: #{$ef-dark-fg};
+
+  --diff-empty-row-background-color: #{darken($ef-dark-bg, 1%)};
+  --diff-empty-row-gutter-background-color: #{$ef-dark-bg};
+  --diff-empty-hunk-handle: #{$ef-dark-status-line};
+
+  // Syntax highlighting text colors
+  --syntax-variable-color: #{$ef-dark-fg};
+  --syntax-alt-variable-color: #{$ef-dark-aqua};
+  --syntax-keyword-color: #{$ef-dark-red};
+  --syntax-atom-color: #{$ef-dark-purple};
+  --syntax-string-color: #{$ef-dark-green};
+  --syntax-qualifier-color: #{$ef-dark-yellow};
+  --syntax-type-color: #{$ef-dark-yellow};
+  --syntax-comment-color: #{$ef-dark-grey1};
+  --syntax-tag-color: #{$ef-dark-blue};
+  --syntax-attribute-color: #{$ef-dark-yellow};
+  --syntax-link-color: #{$ef-dark-aqua};
+  --syntax-header-color: #{$ef-dark-orange};
+  --syntax-quote-color: #{$ef-dark-green};
+
+  // Colors for form errors
+  --error-color: #{$ef-dark-red};
+  --form-error-background: #{rgba($ef-dark-red, 0.15)};
+  --form-error-border-color: #{rgba($ef-dark-red, 0.3)};
+  --form-error-text-color: #{lighten($ef-dark-red, 10%)};
+
+  --dialog-banner-success-background: #{rgba($ef-dark-green, 0.15)};
+  --dialog-banner-success-border-color: #{rgba($ef-dark-green, 0.3)};
+  --dialog-banner-success-text-color: #{$ef-dark-green};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{lighten($ef-dark-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba($ef-dark-bg-dim, 0.7)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$ef-dark-yellow};
+  --dialog-information-color: #{$ef-dark-blue};
+  --dialog-error-color: #{$ef-dark-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($ef-dark-yellow, 0.12)};
+  --file-warning-color: #{$ef-dark-yellow};
+  --file-warning-border-color: #{rgba($ef-dark-yellow, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$ef-dark-status-line};
+  --tooltip-color: #{$ef-dark-fg};
+  --tooltip-shadow-color: $ef-dark-bg-dim;
+
+  /** Inline paths and code */
+  --path-segment-background: #{$ef-dark-bg-alt};
+  --path-segment-background-focus: #{lighten($ef-dark-bg-alt, 5%)};
+
+  .blankslate-image {
+    filter: #{'invert()'} grayscale(1) brightness(8) contrast(0.6);
+  }
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$ef-dark-yellow};
+  --status-error-color: #{$ef-dark-red};
+  --status-success-color: #{$ef-dark-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$ef-dark-green};
+  --pr-draft-icon-color: #{$ef-dark-grey1};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$ef-dark-bg-alt};
+  --pr-changes-requested-icon-color: #{$ef-dark-bg-dim};
+  --pr-changes-requested-icon-background-color: #{$ef-dark-red};
+  --pr-approved-icon-color: #{$ef-dark-bg-dim};
+  --pr-approved-icon-background-color: #{$ef-dark-green};
+  --pr-commented-icon-color: #{$ef-dark-grey1};
+  --pr-commented-icon-background-color: #{$ef-dark-bg-alt};
+
+  --call-to-action-bubble-border-color: #{$ef-dark-green};
+  --call-to-action-bubble-color: #{$ef-dark-green};
+
+  --title-tool-tip-background-color: #{$ef-dark-status-line};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$ef-dark-status-line};
+  --md-border-muted-color: #{$ef-dark-bg-alt};
+  --md-canvas-default-color: #{$ef-dark-bg};
+  --md-canvas-subtle-color: #{$ef-dark-bg-dim};
+  --md-fg-default-color: #{$ef-dark-fg};
+  --md-fg-muted-color: #{$ef-dark-grey2};
+  --md-danger-fg-color: #{$ef-dark-red};
+  --md-neutral-muted-color: #{rgba($ef-dark-grey2, 0.3)};
+  --md-accent-emphasis-color: #{$ef-dark-green};
+  --md-accent-fg-color: #{$ef-dark-green};
+}
+
+body.theme-everforest-dark .CodeMirror-cursor {
+  border-left-color: #{$ef-dark-fg};
+}
