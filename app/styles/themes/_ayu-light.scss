@@ -1,0 +1,379 @@
+// Variables
+//
+// Ayu Light theme
+// Based on the Ayu Light color palette by Ike Ku
+// https://github.com/ayu-theme/ayu-colors
+
+@import '~primer-support/lib/variables/color-system.scss';
+
+// Ayu Light palette
+$ayu-light-bg:          #fcfcfc;
+$ayu-light-bg-alt:      #f8f9fa;
+$ayu-light-panel:       #ffffff;
+$ayu-light-fg:          #5c6166;
+$ayu-light-comment:     #787b80;
+$ayu-light-red:         #f07178;
+$ayu-light-green:       #86b300;
+$ayu-light-yellow:      #f2ae49;
+$ayu-light-blue:        #399ee6;
+$ayu-light-purple:      #a37acc;
+$ayu-light-cyan:        #4cbf99;
+$ayu-light-orange:      #fa8d3e;
+$ayu-light-accent:      #fa8d3e;
+$ayu-light-accent-bright:#ff6a00;
+$ayu-light-border:      #d8d8d8;
+$ayu-light-selection:   #d1e4f4;
+
+body.theme-ayu-light {
+  --color-new: #{$ayu-light-green};
+  --color-deleted: #{$ayu-light-red};
+  --color-modified: #{$ayu-light-yellow};
+  --color-renamed: #{$ayu-light-blue};
+  --color-conflicted: #{$ayu-light-orange};
+
+  --text-color: #{$ayu-light-fg};
+  --text-secondary-color: #{$ayu-light-comment};
+  --text-secondary-color-muted: #{lighten($ayu-light-comment, 15%)};
+  --background-color: #{$ayu-light-bg};
+
+  --button-background: #{$ayu-light-accent};
+  --button-hover-background: #{darken($ayu-light-accent, 6%)};
+  --button-text-color: #{$ayu-light-panel};
+  --button-focus-border-color: #{darken($ayu-light-accent, 15%)};
+
+  --link-button-color: #{$ayu-light-accent};
+  --link-button-hover-color: #{darken($ayu-light-accent, 10%)};
+  --link-button-selected-hover-color: #{$ayu-light-accent};
+
+  --secondary-button-background: #{$ayu-light-bg-alt};
+  --secondary-button-border-color: #{$ayu-light-border};
+  --secondary-button-hover-border-color: #{darken($ayu-light-border, 10%)};
+  --secondary-button-hover-background: #{darken($ayu-light-bg-alt, 3%)};
+  --secondary-button-text-color: #{$ayu-light-fg};
+  --secondary-button-focus-shadow-color: #{rgba($ayu-light-accent, 0.35)};
+  --secondary-button-focus-border-color: #{$ayu-light-accent};
+
+  /**
+   * Color for icons that are placed on top of a colored backing
+   */
+  --badge-icon-color: #{$ayu-light-panel};
+
+  // Colors used for icons that are inside an input box
+  --input-icon-warning-color: #{$ayu-light-yellow};
+  --input-icon-error-color: #{$ayu-light-red};
+  --input-icon-hover-background-color: #{$ayu-light-bg-alt};
+
+  // Colors used for icons in the commit message warning/error area
+  --commit-message-icon-warning-color: var(--input-icon-warning-color);
+  --commit-message-icon-error-color: var(--input-icon-error-color);
+
+  /**
+   * Background color for custom scroll bars.
+   */
+  --scroll-bar-thumb-background-color: #{rgba($ayu-light-fg, 0.2)};
+
+  /**
+   * Background color for custom scroll bars in their active state.
+   */
+  --scroll-bar-thumb-background-color-active: #{rgba($ayu-light-fg, 0.4)};
+
+  // Box
+
+  --box-background-color: #{$ayu-light-panel};
+  --box-alt-background-color: #{$ayu-light-bg-alt};
+
+  /**
+   * Background color for skeleton or "loading" boxes
+   */
+  --box-skeleton-background-color: #{$ayu-light-border};
+  --skeleton-background-gradient: -webkit-linear-gradient(left, rgba(252, 252, 252, 0) 0%, rgba(252, 252, 252, 0.5) 50%, rgba(252, 252, 252, 0) 100%);
+
+  /**
+   * Border color for boxes.
+   */
+  --box-border-color: #{$ayu-light-border};
+
+  --box-border-contrast-color: #{darken($ayu-light-border, 8%)};
+  --box-border-accent-color: #{$ayu-light-accent};
+
+  /**
+   * Background color for selected boxes without keyboard focus
+   */
+  --box-selected-background-color: #{$ayu-light-selection};
+
+  --box-hover-text-color: #{$ayu-light-fg};
+  --box-hover-background-color: #{$ayu-light-bg-alt};
+
+  --box-selected-text-color: #{$ayu-light-fg};
+  --box-selected-border-color: #{darken($ayu-light-selection, 15%)};
+
+  --box-selected-active-background-color: #{$ayu-light-accent};
+  --box-selected-active-text-color: #{$ayu-light-panel};
+  --box-selected-active-border-color: #{darken($ayu-light-accent, 10%)};
+
+  --box-overflow-shadow-background: #{linear-gradient(180deg, rgba($ayu-light-bg, 0) 0%, rgba($ayu-light-bg, 1) 90%, rgba($ayu-light-bg, 1) 100%)};
+
+  --no-shadow-top: #{linear-gradient($ayu-light-bg, rgba(255, 255, 255, 0))};
+  --no-shadow-bottom: #{linear-gradient(rgba(255, 255, 255, 0), $ayu-light-bg)};
+  --top-shadow: #{linear-gradient(0deg, rgba($ayu-light-bg, 0) 0%, rgba(black, 0.08) 90%, rgba(black, 0.15) 100%)};
+  --bottom-shadow: #{linear-gradient(180deg, rgba($ayu-light-bg, 0) 0%, rgba(black, 0.08) 90%, rgba(black, 0.15) 100%) 0 100%};
+  --box-overflow-shadow-background-two: #{var(--no-shadow-top), var(--no-shadow-bottom) 0 100%, var(--top-shadow), var(--bottom-shadow)};
+
+  --box-placeholder-color: #{$ayu-light-comment};
+
+  /**
+   * Author input (co-authors)
+   */
+  --co-author-tag-background-color: #{lighten($ayu-light-accent, 35%)};
+  --co-author-tag-border-color: #{lighten($ayu-light-accent, 20%)};
+
+  /**
+   * Commit warning badge icon
+   */
+  --commit-warning-badge-background-color: #{$ayu-light-panel};
+  --commit-warning-badge-border-color: #{$ayu-light-border};
+
+  --base-border: 1px solid var(--box-border-color);
+  --contrast-border: 1px solid var(--box-border-contrast-color);
+
+  --shadow-color: #{rgba(black, 0.12)};
+  --base-box-shadow: 0 2px 7px var(--shadow-color);
+
+  --toolbar-background-color: #{$ayu-light-bg-alt};
+  --toolbar-border-color: #{$ayu-light-border};
+  --toolbar-text-color: #{$ayu-light-fg};
+  --toolbar-text-secondary-color: #{$ayu-light-comment};
+
+  --toolbar-button-color: var(--toolbar-text-color);
+  --toolbar-button-background-color: transparent;
+  --toolbar-button-border-color: #{$ayu-light-border};
+  --toolbar-button-secondary-color: var(--toolbar-text-secondary-color);
+
+  --toolbar-button-hover-color: #{$ayu-light-fg};
+  --toolbar-button-hover-background-color: #{darken($ayu-light-bg-alt, 4%)};
+  --toolbar-button-hover-border-color: var(--toolbar-button-border-color);
+
+  --toolbar-button-focus-background-color: #{darken($ayu-light-bg-alt, 4%)};
+
+  --toolbar-button-active-color: #{$ayu-light-fg};
+  --toolbar-button-active-background-color: #{$ayu-light-panel};
+  --toolbar-button-active-border-color: #{$ayu-light-border};
+
+  --toolbar-button-progress-color: #{$ayu-light-border};
+  --toolbar-button-focus-progress-color: #{darken($ayu-light-border, 10%)};
+  --toolbar-button-hover-progress-color: #{darken($ayu-light-border, 10%)};
+  --toolbar-dropdown-open-progress-color: #{$ayu-light-fg};
+  --toolbar-dropdown-text-warning-color: #{$ayu-light-yellow};
+  --toolbar-dropdown-text-hover-color: #{$ayu-light-fg};
+
+  --toolbar-tooltip-background-color: #{$ayu-light-fg};
+  --toolbar-tooltip-color: #{$ayu-light-panel};
+  --toolbar-tooltip-shadow-color: #{rgba(black, 0.25)};
+
+  /**
+   * App menu bar colors (Windows/Linux only)
+   */
+  --app-menu-button-color: var(--toolbar-text-color);
+  --app-menu-button-hover-color: var(--toolbar-button-hover-color);
+  --app-menu-button-hover-background-color: var(--toolbar-button-hover-background-color);
+  --app-menu-button-active-color: #{$ayu-light-fg};
+  --app-menu-button-active-background-color: #{$ayu-light-bg-alt};
+  --app-menu-pane-color: #{$ayu-light-fg};
+  --app-menu-pane-secondary-color: #{$ayu-light-comment};
+  --app-menu-pane-background-color: #{$ayu-light-panel};
+  --app-menu-divider-color: #{$ayu-light-border};
+
+  /**
+   * Background color for badges inside of toolbar buttons.
+   */
+  --toolbar-badge-background-color: #{$ayu-light-border};
+  --toolbar-badge-active-background-color: #{darken($ayu-light-border, 10%)};
+
+  --tab-bar-active-color: #{$ayu-light-accent};
+  --tab-bar-background-color: #{$ayu-light-bg};
+  --tab-bar-hover-background-color: #{$ayu-light-bg-alt};
+
+  /** Count bubble colors when used inside of a tab bar item */
+  --tab-bar-count-color: #{$ayu-light-fg};
+  --tab-bar-count-background-color: #{$ayu-light-border};
+
+  /**
+   * Badge colors when used inside of list items.
+   */
+  --list-item-badge-color: #{$ayu-light-fg};
+  --list-item-badge-background-color: #{$ayu-light-border};
+  --list-item-selected-badge-color: #{$ayu-light-fg};
+  --list-item-selected-badge-background-color: #{darken($ayu-light-border, 8%)};
+  --list-item-selected-active-badge-color: #{$ayu-light-panel};
+  --list-item-selected-active-badge-background-color: #{$ayu-light-fg};
+  --list-item-hover-background-color: #{$ayu-light-bg-alt};
+
+  /**
+   * Toast notifications
+   */
+  --toast-notification-color: #{$ayu-light-panel};
+  --toast-notification-background-color: #{rgba($ayu-light-fg, 0.9)};
+
+  /** The highlight color used for focus rings and focus box shadows */
+  --focus-color: #{$ayu-light-accent};
+  --diff-linenumber-focus-color: #{darken($ayu-light-accent, 10%)};
+
+  /**
+   * Variables for form elements
+   */
+  --text-field-focus-shadow-color: #{rgba($ayu-light-accent, 0.3)};
+
+  /**
+   * Blankslate actions
+   */
+  --primary-suggested-action-background: #{lighten($ayu-light-accent, 35%)};
+  --primary-suggested-action-border-color: #{lighten($ayu-light-accent, 20%)};
+  --suggested-action-icon-color: #{$ayu-light-accent};
+
+  /**
+   * Diff view
+   */
+
+  --diff-text-color: #{$ayu-light-fg};
+  --diff-border-color: #{$ayu-light-border};
+  --diff-gutter-color: #{$ayu-light-border};
+  --diff-gutter-background-color: #{$ayu-light-bg};
+
+  --diff-line-number-color: #{$ayu-light-comment};
+  --diff-line-number-column-width: 50px;
+
+  --diff-selected-background-color: #{$ayu-light-selection};
+  --diff-selected-border-color: #{darken($ayu-light-selection, 15%)};
+  --diff-selected-gutter-color: #{darken($ayu-light-selection, 15%)};
+  --diff-selected-text-color: #{$ayu-light-fg};
+
+  --diff-add-background-color: #{rgba($ayu-light-green, 0.12)};
+  --diff-add-border-color: #{rgba($ayu-light-green, 0.25)};
+  --diff-add-gutter-color: #{rgba($ayu-light-green, 0.25)};
+  --diff-add-gutter-background-color: #{rgba($ayu-light-green, 0.18)};
+  --diff-add-inner-background-color: #{rgba($ayu-light-green, 0.28)};
+  --diff-add-text-color: #{$ayu-light-fg};
+
+  --diff-delete-background-color: #{rgba($ayu-light-red, 0.12)};
+  --diff-delete-border-color: #{rgba($ayu-light-red, 0.25)};
+  --diff-delete-gutter-color: #{rgba($ayu-light-red, 0.25)};
+  --diff-delete-gutter-background-color: #{rgba($ayu-light-red, 0.18)};
+  --diff-delete-inner-background-color: #{rgba($ayu-light-red, 0.28)};
+  --diff-delete-text-color: #{$ayu-light-fg};
+
+  --diff-hunk-background-color: #{rgba($ayu-light-blue, 0.08)};
+  --diff-hunk-border-color: #{rgba($ayu-light-blue, 0.15)};
+  --diff-hunk-gutter-color: #{rgba($ayu-light-blue, 0.15)};
+  --diff-hunk-gutter-background-color: #{rgba($ayu-light-blue, 0.12)};
+  --diff-hunk-text-color: #{$ayu-light-comment};
+
+  --diff-hover-background-color: #{$ayu-light-accent};
+  --diff-hover-border-color: #{darken($ayu-light-accent, 10%)};
+  --diff-hover-gutter-color: #{darken($ayu-light-accent, 10%)};
+  --diff-hover-text-color: #{$ayu-light-panel};
+
+  --diff-add-hover-background-color: #{rgba($ayu-light-green, 0.35)};
+  --diff-add-hover-border-color: #{$ayu-light-green};
+  --diff-add-hover-gutter-color: #{$ayu-light-green};
+  --diff-add-hover-text-color: #{$ayu-light-fg};
+
+  --diff-delete-hover-background-color: #{rgba($ayu-light-red, 0.35)};
+  --diff-delete-hover-border-color: #{$ayu-light-red};
+  --diff-delete-hover-gutter-color: #{$ayu-light-red};
+  --diff-delete-hover-text-color: #{$ayu-light-fg};
+
+  --diff-empty-row-background-color: #{$ayu-light-bg-alt};
+  --diff-empty-row-gutter-background-color: #{$ayu-light-bg};
+  --diff-empty-hunk-handle: #{$ayu-light-border};
+
+  // Syntax highlighting text colors (Ayu Light palette)
+  --syntax-variable-color: #{$ayu-light-fg};
+  --syntax-alt-variable-color: #{$ayu-light-purple};
+  --syntax-keyword-color: #{$ayu-light-orange};
+  --syntax-atom-color: #{$ayu-light-purple};
+  --syntax-string-color: #{$ayu-light-green};
+  --syntax-qualifier-color: #{$ayu-light-yellow};
+  --syntax-type-color: #{$ayu-light-yellow};
+  --syntax-comment-color: #{$ayu-light-comment};
+  --syntax-tag-color: #{$ayu-light-blue};
+  --syntax-attribute-color: #{$ayu-light-cyan};
+  --syntax-link-color: #{$ayu-light-blue};
+  --syntax-header-color: #{$ayu-light-orange};
+  --syntax-quote-color: #{$ayu-light-green};
+
+  // Colors for form errors
+  --error-color: #{$ayu-light-red};
+  --form-error-background: #{rgba($ayu-light-red, 0.1)};
+  --form-error-border-color: #{rgba($ayu-light-red, 0.3)};
+  --form-error-text-color: #{darken($ayu-light-red, 10%)};
+
+  --dialog-banner-success-background: #{rgba($ayu-light-green, 0.1)};
+  --dialog-banner-success-border-color: #{rgba($ayu-light-green, 0.3)};
+  --dialog-banner-success-text-color: #{darken($ayu-light-green, 10%)};
+
+  // Inline form errors, displayed after the input field
+  --input-warning-text-color: var(--dialog-warning-color);
+  --input-error-text-color: #{darken($ayu-light-red, 10%)};
+
+  /** Overlay is used as a background for both modals and foldouts */
+  --overlay-background-color: #{rgba(black, 0.2)};
+
+  /** Dialog */
+  --dialog-warning-color: #{$ayu-light-yellow};
+  --dialog-information-color: #{$ayu-light-blue};
+  --dialog-error-color: #{$ayu-light-red};
+
+  /** File warning */
+  --file-warning-background-color: #{rgba($ayu-light-yellow, 0.12)};
+  --file-warning-color: #{$ayu-light-yellow};
+  --file-warning-border-color: #{rgba($ayu-light-yellow, 0.3)};
+
+  /** Tooltips */
+  --tooltip-background-color: #{$ayu-light-fg};
+  --tooltip-color: #{$ayu-light-panel};
+  --tooltip-shadow-color: #{rgba(black, 0.25)};
+
+  /** Inline paths and code */
+  --path-segment-background: #{$ayu-light-border};
+  --path-segment-background-focus: #{darken($ayu-light-border, 5%)};
+
+  /** merge/rebase status indicators */
+  --status-pending-color: #{$ayu-light-yellow};
+  --status-error-color: #{$ayu-light-red};
+  --status-success-color: #{$ayu-light-green};
+
+  // PR status icon colors
+  --pr-open-icon-color: #{$ayu-light-green};
+  --pr-draft-icon-color: #{$ayu-light-comment};
+
+  // PR review colors
+  --pr-timeline-line-color: #{$ayu-light-border};
+  --pr-changes-requested-icon-color: #{$ayu-light-panel};
+  --pr-changes-requested-icon-background-color: #{$ayu-light-red};
+  --pr-approved-icon-color: #{$ayu-light-panel};
+  --pr-approved-icon-background-color: #{$ayu-light-green};
+  --pr-commented-icon-color: #{$ayu-light-comment};
+  --pr-commented-icon-background-color: #{$ayu-light-border};
+
+  --call-to-action-bubble-border-color: #{$ayu-light-accent};
+  --call-to-action-bubble-color: #{$ayu-light-accent};
+
+  --title-tool-tip-background-color: #{$ayu-light-fg};
+  --title-tool-tip-shadow: none;
+
+  // Markdown colors
+  --md-border-default-color: #{$ayu-light-border};
+  --md-border-muted-color: #{lighten($ayu-light-border, 5%)};
+  --md-canvas-default-color: #{$ayu-light-bg};
+  --md-canvas-subtle-color: #{$ayu-light-bg-alt};
+  --md-fg-default-color: #{$ayu-light-fg};
+  --md-fg-muted-color: #{$ayu-light-comment};
+  --md-danger-fg-color: #{$ayu-light-red};
+  --md-neutral-muted-color: #{rgba($ayu-light-comment, 0.2)};
+  --md-accent-emphasis-color: #{$ayu-light-accent};
+  --md-accent-fg-color: #{$ayu-light-accent};
+}
+
+body.theme-ayu-light .CodeMirror-cursor {
+  border-left-color: #{$ayu-light-fg};
+}
