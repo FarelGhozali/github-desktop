@@ -292,6 +292,37 @@ export class Dispatcher {
     return this.appStore._changeRepositorySection(repository, section)
   }
 
+  /** Enter branch comparison mode */
+  public enterBranchComparisonMode(
+    repository: Repository,
+    baseBranch: Branch,
+    comparisonBranch: Branch
+  ): Promise<void> {
+    return this.appStore._enterBranchComparisonMode(
+      repository,
+      baseBranch,
+      comparisonBranch
+    )
+  }
+
+  /** Exit branch comparison mode */
+  public exitBranchComparisonMode(repository: Repository): Promise<void> {
+    return this.appStore._exitBranchComparisonMode(repository)
+  }
+
+  /** Change the selected file in branch comparison mode */
+  public changeBranchComparisonFileSelection(
+    repository: Repository,
+    file: CommittedFileChange
+  ): Promise<void> {
+    return this.appStore._changeBranchComparisonFileSelection(repository, file)
+  }
+
+  /** Swap the base and comparison branches in branch comparison mode */
+  public swapBranchComparisonBranches(repository: Repository): Promise<void> {
+    return this.appStore._swapBranchComparisonBranches(repository)
+  }
+
   /**
    * Changes the selection in the changes view to the working directory and
    * optionally selects one or more files from the working directory.
