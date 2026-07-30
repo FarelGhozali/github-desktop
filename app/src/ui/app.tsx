@@ -148,6 +148,7 @@ import { MultiCommitOperation } from './multi-commit-operation/multi-commit-oper
 import { RewordCommitDialog } from './multi-commit-operation/dialog/reword-commit-dialog'
 import { DropCommitDialog } from './multi-commit-operation/dialog/drop-commit-dialog'
 import { FixupCommitDialog } from './multi-commit-operation/dialog/fixup-commit-dialog'
+import { SquashCommitDialog } from './multi-commit-operation/dialog/squash-commit-dialog'
 import { WarnLocalChangesBeforeUndo } from './undo/warn-local-changes-before-undo'
 import { WarningBeforeReset } from './reset/warning-before-reset'
 import { InvalidatedToken } from './invalidated-token/invalidated-token'
@@ -2441,6 +2442,17 @@ export class App extends React.Component<IAppProps, IAppState> {
             dispatcher={this.props.dispatcher}
             repository={popup.repository}
             commit={popup.commit}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.SquashCommit: {
+        return (
+          <SquashCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            parentCommit={popup.parentCommit}
             onDismissed={onPopupDismissedFn}
           />
         )

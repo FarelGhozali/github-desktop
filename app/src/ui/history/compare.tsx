@@ -287,6 +287,7 @@ export class CompareSidebar extends React.Component<
         accounts={this.props.accounts}
         onRewordCommit={this.onRewordCommit}
         onFixupCommit={this.onFixupCommit}
+        onSquashCommit={this.onSquashCommit}
         onDropCommit={this.onDropCommit}
       />
     )
@@ -298,6 +299,10 @@ export class CompareSidebar extends React.Component<
 
   private onFixupCommit = (commit: Commit) => {
     this.props.dispatcher.showFixupCommitDialog(this.props.repository, commit)
+  }
+
+  private onSquashCommit = (commit: Commit) => {
+    this.props.dispatcher.showSquashCommitDialog(this.props.repository, commit)
   }
 
   private onDropCommit = (commit: Commit) => {

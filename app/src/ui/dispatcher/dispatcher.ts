@@ -835,6 +835,120 @@ export class Dispatcher {
     await this.executeInteractiveRebase(repository, todoList)
   }
 
+  /** Show the dialog to squash a single commit with its parent */
+  public showSquashCommitDialog(
+    repository: Repository,
+    commit: Commit
+  ) {
+    if (commit.parentSHAs.length === 0) {
+      return
+    }
+    
+    const parentCommit = this.repositoryStateManager
+      .get(repository)
+      .commitLookup.get(commit.parentSHAs[0])
+      
+    if (!parentCommit) {
+      log.warn(`[showSquashCommitDialog] Could not find parent commit ${commit.parentSHAs[0]} for commit ${commit.sha}`)
+      return
+    }
+
+    this.showPopup({
+      type: PopupType.SquashCommit,
+      repository,
+      commit,
+      parentCommit
+    })
+  }
+
+  /** Execute a single commit squash (by rewording the parent and fixing up the target) */
+  public async executeSquashCommit(
+    repository: Repository,
+    commit: Commit,
+    parentCommit: Commit,
+    summary: string,
+    body: string
+  ): Promise<void> {
+    const { branchesState } = this.repositoryStateManager.get(repository)
+    const { tip } = branchesState
+
+    if (tip.kind !== TipState.Valid) {
+      return
+    }
+
+    let parentRef =
+      commit.parentSHAs.length > 0 ? commit.parentSHAs[0] : null
+      
+    // For squash, we must rebase from the grandparent so the parent is included in the todo list
+    if (parentRef !== null) {
+      const grandparentCommit = this.repositoryStateManager
+        .get(repository)
+        .commitLookup.get(parentRef)
+      if (grandparentCommit && grandparentCommit.parentSHAs.length > 0) {
+        parentRef = grandparentCommit.parentSHAs[0]
+      } else {
+        parentRef = null // rebase from root
+      }
+    }
+
+    let commits: ReadonlyArray<Commit | CommitOneLine> | null = null
+    if (parentRef !== null) {
+      commits = await getCommitsInRange(repository, `${parentRef}..HEAD`)
+    } else {
+      commits = await getCommits(repository, 'HEAD', 1000)
+    }
+
+    if (commits === null || commits.length === 0) {
+      return
+    }
+
+    const fullCommits = new Array<Commit>()
+    for (const c of commits) {
+      const fullCommit = this.repositoryStateManager
+        .get(repository)
+        .commitLookup.get(c.sha)
+      if (fullCommit) {
+        fullCommits.push(fullCommit)
+      }
+    }
+
+    const todoList = fullCommits.map(c => {
+      if (c.sha === commit.sha) {
+        return {
+          commit: c,
+          action: 'fixup' as const,
+        }
+      }
+      if (c.sha === parentCommit.sha) {
+        return {
+          commit: c,
+          action: 'reword' as const,
+          newMessage: summary,
+          newBody: body,
+        }
+      }
+      return {
+        commit: c,
+        action: 'pick' as const,
+      }
+    })
+
+    this.appStore._initializeMultiCommitOperation(
+      repository,
+      {
+        kind: MultiCommitOperationKind.InteractiveRebase,
+        commits: fullCommits,
+        currentTip: tip.branch.tip.sha,
+        lastRetainedCommitRef: parentRef,
+      },
+      tip.branch,
+      commits,
+      tip.branch.tip.sha
+    )
+
+    await this.executeInteractiveRebase(repository, todoList)
+  }
+
   /** Execute an interactive rebase with the provided todo list */
   public async executeInteractiveRebase(
     repository: Repository,

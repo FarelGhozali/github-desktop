@@ -79,6 +79,7 @@ export enum PopupType {
   RewordCommit = 'RewordCommit',
   DropCommit = 'DropCommit',
   FixupCommit = 'FixupCommit',
+  SquashCommit = 'SquashCommit',
   WarnLocalChangesBeforeUndo = 'WarnLocalChangesBeforeUndo',
   WarningBeforeReset = 'WarningBeforeReset',
   InvalidatedToken = 'InvalidatedToken',
@@ -265,6 +266,12 @@ export type PopupDetail =
       type: PopupType.FixupCommit
       repository: Repository
       commit: Commit
+    }
+  | {
+      type: PopupType.SquashCommit
+      repository: Repository
+      commit: Commit
+      parentCommit: Commit
     }
   | {
       type: PopupType.CreateTutorialRepository
