@@ -77,6 +77,8 @@ export enum PopupType {
   CommitMessage = 'CommitMessage',
   MultiCommitOperation = 'MultiCommitOperation',
   RewordCommit = 'RewordCommit',
+  DropCommit = 'DropCommit',
+  FixupCommit = 'FixupCommit',
   WarnLocalChangesBeforeUndo = 'WarnLocalChangesBeforeUndo',
   WarningBeforeReset = 'WarningBeforeReset',
   InvalidatedToken = 'InvalidatedToken',
@@ -251,6 +253,16 @@ export type PopupDetail =
     }
   | {
       type: PopupType.RewordCommit
+      repository: Repository
+      commit: Commit
+    }
+  | {
+      type: PopupType.DropCommit
+      repository: Repository
+      commit: Commit
+    }
+  | {
+      type: PopupType.FixupCommit
       repository: Repository
       commit: Commit
     }

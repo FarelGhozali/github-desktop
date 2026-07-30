@@ -667,6 +667,174 @@ export class Dispatcher {
     await this.executeInteractiveRebase(repository, todoList)
   }
 
+  /** Show the dialog to confirm dropping a single commit */
+  public showDropCommitDialog(
+    repository: Repository,
+    commit: Commit
+  ) {
+    this.showPopup({
+      type: PopupType.DropCommit,
+      repository,
+      commit,
+    })
+  }
+
+  /** Execute a single commit drop using interactive rebase */
+  public async executeDropCommit(
+    repository: Repository,
+    commit: Commit
+  ): Promise<void> {
+    const { branchesState } = this.repositoryStateManager.get(repository)
+    const { tip } = branchesState
+
+    if (tip.kind !== TipState.Valid) {
+      return
+    }
+
+    const parentRef =
+      commit.parentSHAs.length > 0 ? commit.parentSHAs[0] : null
+
+    let commits: ReadonlyArray<Commit | CommitOneLine> | null = null
+    if (parentRef !== null) {
+      commits = await getCommitsInRange(repository, `${parentRef}..HEAD`)
+    } else {
+      commits = await getCommits(repository, 'HEAD', 1000)
+    }
+
+    if (commits === null || commits.length === 0) {
+      return
+    }
+
+    const fullCommits = new Array<Commit>()
+    for (const c of commits) {
+      const fullCommit = this.repositoryStateManager
+        .get(repository)
+        .commitLookup.get(c.sha)
+      if (fullCommit) {
+        fullCommits.push(fullCommit)
+      }
+    }
+
+    // We build a todoList where everything is "pick" except the target commit which is "drop"
+    const todoList = fullCommits.map(c => {
+      if (c.sha === commit.sha) {
+        return {
+          commit: c,
+          action: 'drop' as const,
+        }
+      }
+      return {
+        commit: c,
+        action: 'pick' as const,
+      }
+    })
+
+    this.appStore._initializeMultiCommitOperation(
+      repository,
+      {
+        kind: MultiCommitOperationKind.InteractiveRebase,
+        commits: fullCommits,
+        currentTip: tip.branch.tip.sha,
+        lastRetainedCommitRef: parentRef,
+      },
+      tip.branch,
+      commits,
+      tip.branch.tip.sha
+    )
+
+    await this.executeInteractiveRebase(repository, todoList)
+  }
+
+  /** Show the dialog to confirm fixing up a single commit */
+  public showFixupCommitDialog(
+    repository: Repository,
+    commit: Commit
+  ) {
+    this.showPopup({
+      type: PopupType.FixupCommit,
+      repository,
+      commit,
+    })
+  }
+
+  /** Execute a single commit fixup using interactive rebase */
+  public async executeFixupCommit(
+    repository: Repository,
+    commit: Commit
+  ): Promise<void> {
+    const { branchesState } = this.repositoryStateManager.get(repository)
+    const { tip } = branchesState
+
+    if (tip.kind !== TipState.Valid) {
+      return
+    }
+
+    let parentRef =
+      commit.parentSHAs.length > 0 ? commit.parentSHAs[0] : null
+      
+    // For fixup, we must rebase from the grandparent so the parent is included in the todo list
+    if (parentRef !== null) {
+      const parentCommit = this.repositoryStateManager
+        .get(repository)
+        .commitLookup.get(parentRef)
+      if (parentCommit && parentCommit.parentSHAs.length > 0) {
+        parentRef = parentCommit.parentSHAs[0]
+      } else {
+        parentRef = null // rebase from root
+      }
+    }
+
+    let commits: ReadonlyArray<Commit | CommitOneLine> | null = null
+    if (parentRef !== null) {
+      commits = await getCommitsInRange(repository, `${parentRef}..HEAD`)
+    } else {
+      commits = await getCommits(repository, 'HEAD', 1000)
+    }
+
+    if (commits === null || commits.length === 0) {
+      return
+    }
+
+    const fullCommits = new Array<Commit>()
+    for (const c of commits) {
+      const fullCommit = this.repositoryStateManager
+        .get(repository)
+        .commitLookup.get(c.sha)
+      if (fullCommit) {
+        fullCommits.push(fullCommit)
+      }
+    }
+
+    // We build a todoList where everything is "pick" except the target commit which is "fixup"
+    const todoList = fullCommits.map(c => {
+      if (c.sha === commit.sha) {
+        return {
+          commit: c,
+          action: 'fixup' as const,
+        }
+      }
+      return {
+        commit: c,
+        action: 'pick' as const,
+      }
+    })
+
+    this.appStore._initializeMultiCommitOperation(
+      repository,
+      {
+        kind: MultiCommitOperationKind.InteractiveRebase,
+        commits: fullCommits,
+        currentTip: tip.branch.tip.sha,
+        lastRetainedCommitRef: parentRef,
+      },
+      tip.branch,
+      commits,
+      tip.branch.tip.sha
+    )
+
+    await this.executeInteractiveRebase(repository, todoList)
+  }
+
   /** Execute an interactive rebase with the provided todo list */
   public async executeInteractiveRebase(
     repository: Repository,
