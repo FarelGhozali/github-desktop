@@ -145,6 +145,10 @@ import { buildAutocompletionProviders } from './autocompletion'
 import { DragType, DropTargetSelector } from '../models/drag-drop'
 import { dragAndDropManager } from '../lib/drag-and-drop-manager'
 import { MultiCommitOperation } from './multi-commit-operation/multi-commit-operation'
+import { RewordCommitDialog } from './multi-commit-operation/dialog/reword-commit-dialog'
+import { DropCommitDialog } from './multi-commit-operation/dialog/drop-commit-dialog'
+import { FixupCommitDialog } from './multi-commit-operation/dialog/fixup-commit-dialog'
+import { SquashCommitDialog } from './multi-commit-operation/dialog/squash-commit-dialog'
 import { WarnLocalChangesBeforeUndo } from './undo/warn-local-changes-before-undo'
 import { WarningBeforeReset } from './reset/warning-before-reset'
 import { InvalidatedToken } from './invalidated-token/invalidated-token'
@@ -2409,6 +2413,47 @@ export class App extends React.Component<IAppProps, IAppState> {
             openFileInExternalEditor={this.openFileInExternalEditor}
             resolvedExternalEditor={this.state.resolvedExternalEditor}
             openRepositoryInShell={this.openCurrentRepositoryInShell}
+          />
+        )
+      }
+      case PopupType.RewordCommit: {
+        return (
+          <RewordCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.DropCommit: {
+        return (
+          <DropCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.FixupCommit: {
+        return (
+          <FixupCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.SquashCommit: {
+        return (
+          <SquashCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            parentCommit={popup.parentCommit}
+            onDismissed={onPopupDismissedFn}
           />
         )
       }

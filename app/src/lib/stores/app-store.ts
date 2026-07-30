@@ -308,6 +308,8 @@ import {
 import { DragElement } from '../../models/drag-drop'
 import { ILastThankYou } from '../../models/last-thank-you'
 import { squash } from '../git/squash'
+import { performInteractiveRebase } from '../git/interactive-rebase'
+import { IRebaseTodoItem } from '../../models/rebase-todo'
 import { getTipSha } from '../tip'
 import {
   MultiCommitOperationDetail,
@@ -5611,6 +5613,33 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _interactiveRebase(
+    repository: Repository,
+    todoList: ReadonlyArray<IRebaseTodoItem>,
+    lastRetainedCommitRef: string | null
+  ): Promise<RebaseResult> {
+    const progressCallback =
+      this.getMultiCommitOperationProgressCallBack(repository)
+    const gitStore = this.gitStoreCache.get(repository)
+
+    const result = await gitStore.performFailableOperation(() =>
+      performInteractiveRebase(
+        repository,
+        todoList,
+        lastRetainedCommitRef,
+        progressCallback
+      )
+    )
+
+    if (result === RebaseResult.CompletedWithoutError) {
+      this._endMultiCommitOperation(repository)
+    }
+
+    await this._refreshRepository(repository)
+    return result || RebaseResult.Error
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
   public async _abortRebase(repository: Repository) {
     const gitStore = this.gitStoreCache.get(repository)
     return await gitStore.performFailableOperation(() =>
@@ -7587,6 +7616,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         }
         break
       case MultiCommitOperationKind.Rebase:
+      case MultiCommitOperationKind.InteractiveRebase:
       case MultiCommitOperationKind.Merge:
         throw new Error(
           `Unexpected multi commit operation kind to undo ${kind}`
@@ -8284,7 +8314,8 @@ function userIsStartingMultiCommitOperation(
   if (
     state.step.kind === MultiCommitOperationStepKind.ChooseBranch ||
     state.step.kind === MultiCommitOperationStepKind.WarnForcePush ||
-    state.step.kind === MultiCommitOperationStepKind.ShowProgress
+    state.step.kind === MultiCommitOperationStepKind.ShowProgress ||
+    state.step.kind === MultiCommitOperationStepKind.InteractiveRebaseEditor
   ) {
     return true
   }
