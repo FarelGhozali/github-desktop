@@ -585,10 +585,24 @@ export class Dispatcher {
     await this.rebase(repository, baseBranch, targetBranch)
   }
 
-  /** Initialize and start an interactive rebase flow */
-  public async startInteractiveRebaseFlow(
+  /** Show the dialog to reword a single commit */
+  public showRewordDialog(
     repository: Repository,
-    baseCommit: Commit
+    commit: Commit
+  ) {
+    this.showPopup({
+      type: PopupType.RewordCommit,
+      repository,
+      commit,
+    })
+  }
+
+  /** Execute a single commit reword using interactive rebase */
+  public async executeRewordCommit(
+    repository: Repository,
+    commit: Commit,
+    summary: string,
+    body: string
   ): Promise<void> {
     const { branchesState } = this.repositoryStateManager.get(repository)
     const { tip } = branchesState
@@ -598,14 +612,12 @@ export class Dispatcher {
     }
 
     const parentRef =
-      baseCommit.parentSHAs.length > 0 ? baseCommit.parentSHAs[0] : null
+      commit.parentSHAs.length > 0 ? commit.parentSHAs[0] : null
 
     let commits: ReadonlyArray<Commit | CommitOneLine> | null = null
     if (parentRef !== null) {
       commits = await getCommitsInRange(repository, `${parentRef}..HEAD`)
     } else {
-      // If there is no parent, we are rebasing to the root commit
-      // so we fetch all commits (up to a reasonable limit)
       commits = await getCommits(repository, 'HEAD', 1000)
     }
 
@@ -623,6 +635,22 @@ export class Dispatcher {
       }
     }
 
+    // We build a todoList where everything is "pick" except the target commit which is "reword"
+    const todoList = fullCommits.map(c => {
+      if (c.sha === commit.sha) {
+        return {
+          commit: c,
+          action: 'reword' as const,
+          newMessage: summary,
+          newBody: body,
+        }
+      }
+      return {
+        commit: c,
+        action: 'pick' as const,
+      }
+    })
+
     this.appStore._initializeMultiCommitOperation(
       repository,
       {
@@ -636,14 +664,7 @@ export class Dispatcher {
       tip.branch.tip.sha
     )
 
-    this.setMultiCommitOperationStep(repository, {
-      kind: MultiCommitOperationStepKind.InteractiveRebaseEditor,
-    })
-
-    this.showPopup({
-      type: PopupType.MultiCommitOperation,
-      repository,
-    })
+    await this.executeInteractiveRebase(repository, todoList)
   }
 
   /** Execute an interactive rebase with the provided todo list */

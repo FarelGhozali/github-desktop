@@ -76,6 +76,7 @@ export enum PopupType {
   ThankYou = 'ThankYou',
   CommitMessage = 'CommitMessage',
   MultiCommitOperation = 'MultiCommitOperation',
+  RewordCommit = 'RewordCommit',
   WarnLocalChangesBeforeUndo = 'WarnLocalChangesBeforeUndo',
   WarningBeforeReset = 'WarningBeforeReset',
   InvalidatedToken = 'InvalidatedToken',
@@ -247,6 +248,11 @@ export type PopupDetail =
       type: PopupType.ConfirmCheckoutCommit
       repository: Repository
       commit: CommitOneLine
+    }
+  | {
+      type: PopupType.RewordCommit
+      repository: Repository
+      commit: Commit
     }
   | {
       type: PopupType.CreateTutorialRepository

@@ -285,16 +285,13 @@ export class CompareSidebar extends React.Component<
         }
         keyboardReorderData={this.state.keyboardReorderData}
         accounts={this.props.accounts}
-        onStartInteractiveRebase={this.onStartInteractiveRebase}
+        onRewordCommit={this.onRewordCommit}
       />
     )
   }
 
-  private onStartInteractiveRebase = (commit: Commit) => {
-    this.props.dispatcher.startInteractiveRebaseFlow(
-      this.props.repository,
-      commit
-    )
+  private onRewordCommit = (commit: Commit) => {
+    this.props.dispatcher.showRewordDialog(this.props.repository, commit)
   }
 
 

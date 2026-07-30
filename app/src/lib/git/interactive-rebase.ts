@@ -18,23 +18,30 @@ export async function performInteractiveRebase(
   lastRetainedCommitRef: string | null,
   progressCallback?: (progress: IMultiCommitOperationProgress) => void
 ): Promise<RebaseResult> {
-  const todoContent = todoItems
-    .map(item => {
+  const todoContentArray = await Promise.all(
+    todoItems.map(async item => {
       if (item.action === 'reword') {
         const newMessage = item.newMessage ?? item.commit.summary
-        const escapeShellArg = (arg: string) => `'${arg.replace(/'/g, "'\\''")}'`
+        const newBody = item.newBody ?? item.commit.body
+        const fullMessage = newBody ? `${newMessage}\n\n${newBody}` : newMessage
         
-        let execCmd = `exec git commit --amend -m ${escapeShellArg(newMessage)}`
-        const body = item.newBody ?? item.commit.body
-        if (body) {
-          execCmd += ` -m ${escapeShellArg(body)}`
-        }
+        const fs = require('fs/promises')
+        const OS = require('os')
+        const tempDir = await Path.join(OS.tmpdir(), `desktop-reword-${Date.now()}-${Math.random().toString(36).substring(7)}`)
+        await fs.mkdir(tempDir, { recursive: true })
+        const msgPath = Path.join(tempDir, 'message.txt')
+        await fs.writeFile(msgPath, fullMessage)
+        
+        // Escape the file path just in case, though it shouldn't contain spaces normally in tmpdir
+        const escapeShellArg = (arg: string) => `'${arg.replace(/'/g, "'\\''")}'`
+        const execCmd = `exec git commit --amend -F ${escapeShellArg(msgPath)}`
         
         return `pick ${item.commit.sha} ${item.commit.summary}\n${execCmd}`
       }
       return `${item.action} ${item.commit.sha} ${item.commit.summary}`
     })
-    .join('\n')
+  )
+  const todoContent = todoContentArray.join('\n')
 
   const tempDir = await writeFileToTempFile(todoContent)
   const todoPath = Path.join(tempDir, 'git-rebase-todo')

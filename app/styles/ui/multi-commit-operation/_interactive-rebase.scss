@@ -1,29 +1,29 @@
 .interactive-rebase-todo-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 10px;
+  height: 400px;
+  width: 100%;
 
   .rebase-todo-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
     background-color: var(--background-color);
+    height: 100%;
+    box-sizing: border-box;
 
-    .rebase-item-actions {
+    .drag-handle {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      color: var(--text-secondary-color);
+      padding: 4px;
 
-      button {
-        padding: 2px;
-        min-width: 24px;
-        height: 24px;
+      &:active {
+        cursor: grabbing;
       }
     }
 
@@ -31,6 +31,19 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      flex: 1;
+
+      .rebase-item-reword {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        margin-top: 4px;
+        
+        textarea {
+          resize: none;
+        }
+      }
 
       .sha {
         font-family: var(--font-family-mono);

@@ -8,9 +8,12 @@ import { Repository } from '../../../models/repository'
 import { Octicon } from '../../octicons'
 import * as octicons from '../../octicons'
 import { Select } from '../../lib/select'
-import { Button } from '../../lib/button'
 import { TextBox } from '../../lib/text-box'
 import { TextArea } from '../../lib/text-area'
+import { List } from '../../lib/list'
+import { Draggable } from '../../lib/draggable'
+import { dragAndDropManager } from '../../../lib/drag-and-drop-manager'
+import { DragType, DropTargetSelector, DragData } from '../../../models/drag-drop'
 
 interface IInteractiveRebaseEditorDialogProps {
   readonly repository: Repository
@@ -52,22 +55,91 @@ export class InteractiveRebaseEditorDialog extends React.Component<
     this.setState({ todoList: newTodoList })
   }
 
-  private moveUp = (index: number) => {
-    if (index === 0) return
+  private onDragStart = (index: number) => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
+    dragAndDropManager.setDragData({
+      type: DragType.Commit,
+      commits: [this.state.todoList[index].commit],
+    })
+  }
+
+  private onDropDataInsertion = (row: number, data: DragData) => {
+    if (data.type !== DragType.Commit) return
+    const commitToMove = data.commits[0]
+    
+    const currentIndex = this.state.todoList.findIndex(
+      item => item.commit.sha === commitToMove.sha
+    )
+    if (currentIndex === -1 || currentIndex === row) return
+    
     const newTodoList = [...this.state.todoList]
-    const temp = newTodoList[index]
-    newTodoList[index] = newTodoList[index - 1]
-    newTodoList[index - 1] = temp
+    const [movedItem] = newTodoList.splice(currentIndex, 1)
+    
+    const insertRow = currentIndex < row ? row - 1 : row
+    newTodoList.splice(insertRow, 0, movedItem)
+    
     this.setState({ todoList: newTodoList })
   }
 
-  private moveDown = (index: number) => {
-    if (index === this.state.todoList.length - 1) return
-    const newTodoList = [...this.state.todoList]
-    const temp = newTodoList[index]
-    newTodoList[index] = newTodoList[index + 1]
-    newTodoList[index + 1] = temp
-    this.setState({ todoList: newTodoList })
+  private getRowHeight = (info: { index: number }) => {
+    const item = this.state.todoList[info.index]
+    return item.action === 'reword' ? 120 : 45
+  }
+
+  private renderRow = (row: number) => {
+    const item = this.state.todoList[row]
+    return (
+      <div key={item.commit.sha} className="rebase-todo-item">
+        <Draggable
+          isEnabled={true}
+          onDragStart={() => this.onDragStart(row)}
+          onRenderDragElement={() => {}}
+          onRemoveDragElement={() => {}}
+          dropTargetSelectors={[DropTargetSelector.ListInsertionPoint]}
+        >
+          <div className="drag-handle">
+            <Octicon symbol={octicons.threeBars} />
+          </div>
+        </Draggable>
+
+        <Select
+          value={item.action}
+          onChange={event =>
+            this.onActionChanged(row, event.currentTarget.value as RebaseAction)
+          }
+          label="Action"
+        >
+          <option value="pick">Pick</option>
+          <option value="reword">Reword</option>
+          <option value="edit">Edit</option>
+          <option value="squash">Squash</option>
+          <option value="fixup">Fixup</option>
+          <option value="drop">Drop</option>
+        </Select>
+
+        <div className="rebase-item-commit">
+          <span className="sha">{item.commit.sha.substring(0, 7)}</span>
+          {item.action === 'reword' ? (
+            <div className="rebase-item-reword">
+              <TextBox
+                value={item.newMessage ?? item.commit.summary}
+                onValueChanged={value => this.onMessageChanged(row, value)}
+                placeholder="Summary"
+              />
+              <TextArea
+                value={item.newBody ?? item.commit.body}
+                onValueChanged={value => this.onBodyChanged(row, value)}
+                placeholder="Description"
+              />
+            </div>
+          ) : (
+            <span className="summary">{item.commit.summary}</span>
+          )}
+        </div>
+      </div>
+    )
   }
 
   private onSubmit = () => {
@@ -89,56 +161,15 @@ export class InteractiveRebaseEditorDialog extends React.Component<
       >
         <DialogContent>
           <div className="interactive-rebase-todo-list">
-            {this.state.todoList.map((item, index) => (
-              <div key={item.commit.sha} className="rebase-todo-item">
-                <div className="rebase-item-actions">
-                  <Button onClick={() => this.moveUp(index)} disabled={index === 0}>
-                    <Octicon symbol={octicons.chevronUp} />
-                  </Button>
-                  <Button
-                    onClick={() => this.moveDown(index)}
-                    disabled={index === this.state.todoList.length - 1}
-                  >
-                    <Octicon symbol={octicons.chevronDown} />
-                  </Button>
-                </div>
-
-                <Select
-                  value={item.action}
-                  onChange={event =>
-                    this.onActionChanged(index, event.currentTarget.value as RebaseAction)
-                  }
-                  label="Action"
-                >
-                  <option value="pick">Pick</option>
-                  <option value="reword">Reword</option>
-                  <option value="edit">Edit</option>
-                  <option value="squash">Squash</option>
-                  <option value="fixup">Fixup</option>
-                  <option value="drop">Drop</option>
-                </Select>
-
-                <div className="rebase-item-commit">
-                  <span className="sha">{item.commit.sha.substring(0, 7)}</span>
-                  {item.action === 'reword' ? (
-                    <div className="rebase-item-reword">
-                      <TextBox
-                        value={item.newMessage ?? item.commit.summary}
-                        onValueChanged={value => this.onMessageChanged(index, value)}
-                        placeholder="Summary"
-                      />
-                      <TextArea
-                        value={item.newBody ?? item.commit.body}
-                        onValueChanged={value => this.onBodyChanged(index, value)}
-                        placeholder="Description"
-                      />
-                    </div>
-                  ) : (
-                    <span className="summary">{item.commit.summary}</span>
-                  )}
-                </div>
-              </div>
-            ))}
+            <List
+              id="interactive-rebase-todo-list-inner"
+              rowCount={this.state.todoList.length}
+              rowHeight={this.getRowHeight}
+              rowRenderer={this.renderRow}
+              selectedRows={[]}
+              onDropDataInsertion={this.onDropDataInsertion}
+              insertionDragType={DragType.Commit}
+            />
           </div>
         </DialogContent>
 
