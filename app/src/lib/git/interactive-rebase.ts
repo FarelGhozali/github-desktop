@@ -1,7 +1,6 @@
 import { Repository } from '../../models/repository'
 import { rebaseInteractive, RebaseResult } from './rebase'
 import { IRebaseTodoItem } from '../../models/rebase-todo'
-import { writeFile } from 'fs/promises'
 import * as Path from 'path'
 import * as OS from 'os'
 import { IMultiCommitOperationProgress } from '../../models/progress'
@@ -20,7 +19,21 @@ export async function performInteractiveRebase(
   progressCallback?: (progress: IMultiCommitOperationProgress) => void
 ): Promise<RebaseResult> {
   const todoContent = todoItems
-    .map(item => `${item.action} ${item.commit.sha} ${item.commit.summary}`)
+    .map(item => {
+      if (item.action === 'reword') {
+        const newMessage = item.newMessage ?? item.commit.summary
+        const escapeShellArg = (arg: string) => `'${arg.replace(/'/g, "'\\''")}'`
+        
+        let execCmd = `exec git commit --amend -m ${escapeShellArg(newMessage)}`
+        const body = item.newBody ?? item.commit.body
+        if (body) {
+          execCmd += ` -m ${escapeShellArg(body)}`
+        }
+        
+        return `pick ${item.commit.sha} ${item.commit.summary}\n${execCmd}`
+      }
+      return `${item.action} ${item.commit.sha} ${item.commit.summary}`
+    })
     .join('\n')
 
   const tempDir = await writeFileToTempFile(todoContent)

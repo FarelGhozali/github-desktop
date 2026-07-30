@@ -5,9 +5,12 @@ import { Dialog, DialogContent, DialogFooter } from '../../dialog'
 import { OkCancelButtonGroup } from '../../dialog/ok-cancel-button-group'
 import { Dispatcher } from '../../dispatcher'
 import { Repository } from '../../../models/repository'
-import { Octicon, OcticonSymbol } from '../../octicons'
+import { Octicon } from '../../octicons'
+import * as octicons from '../../octicons'
 import { Select } from '../../lib/select'
 import { Button } from '../../lib/button'
+import { TextBox } from '../../lib/text-box'
+import { TextArea } from '../../lib/text-area'
 
 interface IInteractiveRebaseEditorDialogProps {
   readonly repository: Repository
@@ -34,6 +37,18 @@ export class InteractiveRebaseEditorDialog extends React.Component<
   private onActionChanged = (index: number, action: RebaseAction) => {
     const newTodoList = [...this.state.todoList]
     newTodoList[index] = { ...newTodoList[index], action }
+    this.setState({ todoList: newTodoList })
+  }
+
+  private onMessageChanged = (index: number, newMessage: string) => {
+    const newTodoList = [...this.state.todoList]
+    newTodoList[index] = { ...newTodoList[index], newMessage }
+    this.setState({ todoList: newTodoList })
+  }
+
+  private onBodyChanged = (index: number, newBody: string) => {
+    const newTodoList = [...this.state.todoList]
+    newTodoList[index] = { ...newTodoList[index], newBody }
     this.setState({ todoList: newTodoList })
   }
 
@@ -68,6 +83,7 @@ export class InteractiveRebaseEditorDialog extends React.Component<
       <Dialog
         id="interactive-rebase-editor"
         title="Interactive Rebase"
+        backdropDismissable={false}
         onDismissed={this.props.onDismissed}
         onSubmit={this.onSubmit}
       >
@@ -77,20 +93,20 @@ export class InteractiveRebaseEditorDialog extends React.Component<
               <div key={item.commit.sha} className="rebase-todo-item">
                 <div className="rebase-item-actions">
                   <Button onClick={() => this.moveUp(index)} disabled={index === 0}>
-                    <Octicon symbol={OcticonSymbol.chevronUp} />
+                    <Octicon symbol={octicons.chevronUp} />
                   </Button>
                   <Button
                     onClick={() => this.moveDown(index)}
                     disabled={index === this.state.todoList.length - 1}
                   >
-                    <Octicon symbol={OcticonSymbol.chevronDown} />
+                    <Octicon symbol={octicons.chevronDown} />
                   </Button>
                 </div>
 
                 <Select
                   value={item.action}
-                  onSelectionChanged={action =>
-                    this.onActionChanged(index, action as RebaseAction)
+                  onChange={event =>
+                    this.onActionChanged(index, event.currentTarget.value as RebaseAction)
                   }
                   label="Action"
                 >
@@ -104,7 +120,22 @@ export class InteractiveRebaseEditorDialog extends React.Component<
 
                 <div className="rebase-item-commit">
                   <span className="sha">{item.commit.sha.substring(0, 7)}</span>
-                  <span className="summary">{item.commit.summary}</span>
+                  {item.action === 'reword' ? (
+                    <div className="rebase-item-reword">
+                      <TextBox
+                        value={item.newMessage ?? item.commit.summary}
+                        onValueChanged={value => this.onMessageChanged(index, value)}
+                        placeholder="Summary"
+                      />
+                      <TextArea
+                        value={item.newBody ?? item.commit.body}
+                        onValueChanged={value => this.onBodyChanged(index, value)}
+                        placeholder="Description"
+                      />
+                    </div>
+                  ) : (
+                    <span className="summary">{item.commit.summary}</span>
+                  )}
                 </div>
               </div>
             ))}

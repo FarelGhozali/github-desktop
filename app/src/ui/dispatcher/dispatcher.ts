@@ -111,6 +111,7 @@ import { ILastThankYou } from '../../models/last-thank-you'
 import { dragAndDropManager } from '../../lib/drag-and-drop-manager'
 import { IRebaseTodoItem } from '../../models/rebase-todo'
 import { getCommitsInRange } from '../../lib/git/rev-list'
+import { getCommits } from '../../lib/git/log'
 import {
   CreateBranchStep,
   MultiCommitOperationDetail,
@@ -596,12 +597,17 @@ export class Dispatcher {
       return
     }
 
-    // Get all commits from baseCommit (inclusive if we want, but rebase -i usually starts AFTER the ref)
-    // Actually git rebase -i <ref> rebases everything AFTER <ref>.
-    const commits = await getCommitsInRange(
-      repository,
-      `${baseCommit.sha}..HEAD`
-    )
+    const parentRef =
+      baseCommit.parentSHAs.length > 0 ? baseCommit.parentSHAs[0] : null
+
+    let commits: ReadonlyArray<Commit | CommitOneLine> | null = null
+    if (parentRef !== null) {
+      commits = await getCommitsInRange(repository, `${parentRef}..HEAD`)
+    } else {
+      // If there is no parent, we are rebasing to the root commit
+      // so we fetch all commits (up to a reasonable limit)
+      commits = await getCommits(repository, 'HEAD', 1000)
+    }
 
     if (commits === null || commits.length === 0) {
       return
@@ -623,7 +629,7 @@ export class Dispatcher {
         kind: MultiCommitOperationKind.InteractiveRebase,
         commits: fullCommits,
         currentTip: tip.branch.tip.sha,
-        lastRetainedCommitRef: baseCommit.sha,
+        lastRetainedCommitRef: parentRef,
       },
       tip.branch,
       commits,
@@ -3647,8 +3653,9 @@ export class Dispatcher {
         )
         break
       default:
-        // TODO: clear state
+        this.endMultiCommitOperation(repository)
         this.appStore._closePopup()
+        break
     }
   }
 
@@ -3773,11 +3780,14 @@ export class Dispatcher {
         }
         break
       case MultiCommitOperationKind.Rebase:
-        const { sourceBranch } = operationDetail
+      case MultiCommitOperationKind.InteractiveRebase:
+        const baseBranchName = 'sourceBranch' in operationDetail && operationDetail.sourceBranch !== null
+          ? operationDetail.sourceBranch.name
+          : undefined
         banner = {
           type: BannerType.SuccessfulRebase,
           targetBranch: targetBranch !== null ? targetBranch.name : '',
-          baseBranch: sourceBranch !== null ? sourceBranch.name : undefined,
+          baseBranch: baseBranchName,
         }
         break
       case MultiCommitOperationKind.Merge:

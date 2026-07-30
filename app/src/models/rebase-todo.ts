@@ -15,4 +15,8 @@ export interface IRebaseTodoItem {
   readonly action: RebaseAction
   /** The commit to perform the action on. */
   readonly commit: Commit
+  /** Optional new message for reword action */
+  readonly newMessage?: string
+  /** Optional new body for reword action */
+  readonly newBody?: string
 }

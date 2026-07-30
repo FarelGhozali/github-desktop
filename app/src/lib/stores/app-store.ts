@@ -7616,6 +7616,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         }
         break
       case MultiCommitOperationKind.Rebase:
+      case MultiCommitOperationKind.InteractiveRebase:
       case MultiCommitOperationKind.Merge:
         throw new Error(
           `Unexpected multi commit operation kind to undo ${kind}`
@@ -8313,7 +8314,8 @@ function userIsStartingMultiCommitOperation(
   if (
     state.step.kind === MultiCommitOperationStepKind.ChooseBranch ||
     state.step.kind === MultiCommitOperationStepKind.WarnForcePush ||
-    state.step.kind === MultiCommitOperationStepKind.ShowProgress
+    state.step.kind === MultiCommitOperationStepKind.ShowProgress ||
+    state.step.kind === MultiCommitOperationStepKind.InteractiveRebaseEditor
   ) {
     return true
   }

@@ -151,7 +151,7 @@ interface ICommitListProps {
 
   /** Callback to fire when the user wants to start an interactive rebase. */
   readonly onStartInteractiveRebase?: (commit: Commit) => void
-  }
+
   /* Tags that haven't been pushed yet. This is used to show the unpushed indicator */
   readonly tagsToPush?: ReadonlyArray<string>
 

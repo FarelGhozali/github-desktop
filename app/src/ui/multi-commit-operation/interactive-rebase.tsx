@@ -16,6 +16,20 @@ export class InteractiveRebase extends BaseRebase {
     this.endFlowInvalidState()
   }
 
+  protected onChooseBranch = () => {
+    this.endFlowInvalidState()
+  }
+
+  protected renderChooseBranch = () => {
+    this.endFlowInvalidState()
+    return null
+  }
+
+  protected renderCreateBranch = () => {
+    this.endFlowInvalidState()
+    return null
+  }
+
   protected renderInteractiveRebaseEditor = (): JSX.Element | null => {
     const { repository, dispatcher, state } = this.props
     const { step, operationDetail } = state
