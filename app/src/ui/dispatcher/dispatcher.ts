@@ -4390,4 +4390,8 @@ export class Dispatcher {
   public setDiffCheckMarksSetting(diffCheckMarks: boolean) {
     return this.appStore._updateShowDiffCheckMarks(diffCheckMarks)
   }
+
+  public _setShowBlame(showBlame: boolean) {
+    this.appStore._setShowBlame(showBlame)
+  }
 }

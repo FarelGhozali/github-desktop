@@ -189,6 +189,7 @@ import {
   getBranchMergeBaseDiff,
   checkoutCommit,
   getRemoteURL,
+  getBlame,
 } from '../git'
 import {
   installGlobalLFSFilters,
@@ -449,6 +450,9 @@ export const underlineLinksDefault = true
 export const showDiffCheckMarksDefault = true
 export const showDiffCheckMarksKey = 'diff-check-marks-visible'
 
+const showBlameDefault = false
+const showBlameKey = 'show-blame'
+
 export class AppStore extends TypedBaseStore<IAppState> {
   private readonly gitStoreCache: GitStoreCache
 
@@ -598,6 +602,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
   private underlineLinks: boolean = underlineLinksDefault
 
+  private showBlame: boolean = showBlameDefault
+
   public constructor(
     private readonly gitHubUserStore: GitHubUserStore,
     private readonly cloningRepositoriesStore: CloningRepositoriesStore,
@@ -614,6 +620,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
     super()
 
     this.showWelcomeFlow = !hasShownWelcomeFlow()
+
+    this.showBlame = getBoolean(showBlameKey) ?? showBlameDefault
 
     if (__WIN32__) {
       const useWindowsOpenSSH = getBoolean(UseWindowsOpenSSHKey)
@@ -1023,6 +1031,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       currentFoldout: this.currentFoldout,
       errorCount: this.popupManager.getPopupsOfType(PopupType.Error).length,
       showWelcomeFlow: this.showWelcomeFlow,
+      showBlame: this.showBlame,
       focusCommitMessage: this.focusCommitMessage,
       emoji: this.emoji,
       sidebarWidth: this.sidebarWidth,
@@ -1762,7 +1771,6 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.emitUpdate()
   }
 
-  /** This shouldn't be called directly. See `Dispatcher`. */
   public async _changeFileSelection(
     repository: Repository,
     file: CommittedFileChange
@@ -1770,6 +1778,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.repositoryStateCache.updateCommitSelection(repository, () => ({
       file,
       diff: null,
+      blame: null,
     }))
     this.emitUpdate()
 
@@ -1824,9 +1833,26 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
     this.repositoryStateCache.updateCommitSelection(repository, () => ({
       diff,
+      blame: null,
     }))
-
     this.emitUpdate()
+
+    if (this.showBlame && diff.kind === DiffType.Text && shas.length === 1) {
+      const blame = await getBlame(repository, file.path, shas[0])
+      const stateAfterBlame = this.repositoryStateCache.get(repository)
+
+      if (
+        stateAfterBlame.commitSelection.file &&
+        stateAfterBlame.commitSelection.file.id === file.id &&
+        stateAfterBlame.commitSelection.shas.length === 1 &&
+        stateAfterBlame.commitSelection.shas[0] === shas[0]
+      ) {
+        this.repositoryStateCache.updateCommitSelection(repository, () => ({
+          blame,
+        }))
+        this.emitUpdate()
+      }
+    }
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
@@ -3078,11 +3104,12 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
     // We only render diffs when a single file is selected.
     if (selectedFileIDsBeforeLoad.length !== 1) {
-      if (selectionBeforeLoad.diff !== null) {
+      if (selectionBeforeLoad.diff !== null || selectionBeforeLoad.blame !== null) {
         this.repositoryStateCache.updateChangesState(repository, () => ({
           selection: {
             ...selectionBeforeLoad,
             diff: null,
+            blame: null,
           },
         }))
         this.emitUpdate()
@@ -3162,6 +3189,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     const selection: ChangesWorkingDirectorySelection = {
       ...changesState.selection,
       diff,
+      blame: null,
     }
 
     this.repositoryStateCache.updateChangesState(repository, () => ({
@@ -3169,6 +3197,28 @@ export class AppStore extends TypedBaseStore<IAppState> {
       workingDirectory,
     }))
     this.emitUpdate()
+
+    if (this.showBlame && diff.kind === DiffType.Text) {
+      const blame = await getBlame(repository, selectedFileBeforeLoad.path)
+      const stateAfterBlame = this.repositoryStateCache.get(repository)
+
+      if (
+        stateAfterBlame.changesState.selection.kind ===
+          ChangesSelectionKind.WorkingDirectory &&
+        arrayEquals(
+          stateAfterBlame.changesState.selection.selectedFileIDs,
+          selectedFileIDsBeforeLoad
+        )
+      ) {
+        this.repositoryStateCache.updateChangesState(repository, () => ({
+          selection: {
+            ...stateAfterBlame.changesState.selection,
+            blame,
+          },
+        }))
+        this.emitUpdate()
+      }
+    }
   }
 
   public _hideStashedChanges(repository: Repository) {
@@ -3189,6 +3239,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         selection: {
           kind: ChangesSelectionKind.WorkingDirectory,
           diff: null,
+          blame: null,
           selectedFileIDs: selectedFileIds,
         },
       }
@@ -3258,6 +3309,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
           kind: ChangesSelectionKind.Stash,
           selectedStashedFile,
           selectedStashedFileDiff: null,
+          blame: null,
         },
       }
     })
@@ -3306,6 +3358,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
           kind: ChangesSelectionKind.Stash,
           selectedStashedFile: null,
           selectedStashedFileDiff: null,
+          blame: null,
         },
       }))
       this.emitUpdate()
@@ -3331,6 +3384,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         kind: ChangesSelectionKind.Stash,
         selectedStashedFile: file,
         selectedStashedFileDiff: diff,
+        blame: null,
       },
     }))
     this.emitUpdate()
@@ -3805,6 +3859,12 @@ export class AppStore extends TypedBaseStore<IAppState> {
     setBoolean(commitSpellcheckEnabledKey, commitSpellcheckEnabled)
     this.commitSpellcheckEnabled = commitSpellcheckEnabled
 
+    this.emitUpdate()
+  }
+
+  public _setShowBlame(showBlame: boolean) {
+    setBoolean(showBlameKey, showBlame)
+    this.showBlame = showBlame
     this.emitUpdate()
   }
 
@@ -7987,6 +8047,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         changesetData: changesetData ?? emptyChangeSet,
         file: null,
         diff: null,
+        blame: null,
       },
       mergeStatus:
         commitSHAs.length > 0 || !hasMergeBase

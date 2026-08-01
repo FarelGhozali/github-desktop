@@ -252,6 +252,8 @@ export class PullRequestFilesChanged extends React.Component<
           onHideWhitespaceChangesChanged={this.onHideWhitespaceInDiffChanged}
           showSideBySideDiff={showSideBySideDiff}
           onShowSideBySideDiffChanged={this.onShowSideBySideDiffChanged}
+          showBlame={false}
+          onShowBlameChanged={() => {}}
           onDiffOptionsOpened={this.onDiffOptionsOpened}
         />
       </div>
@@ -301,6 +303,9 @@ export class PullRequestFilesChanged extends React.Component<
         readOnly={true}
         hideWhitespaceInDiff={hideWhitespaceInDiff}
         showSideBySideDiff={showSideBySideDiff}
+        showBlame={false}
+        blame={null}
+        onShowBlameChanged={() => {}}
         showDiffCheckMarks={false}
         onOpenBinaryFile={this.onOpenBinaryFile}
         onChangeImageDiffType={this.onChangeImageDiffType}

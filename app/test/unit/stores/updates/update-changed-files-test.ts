@@ -142,6 +142,7 @@ describe('updateChangedFiles', () => {
           kind: ChangesSelectionKind.WorkingDirectory,
           selectedFileIDs: [firstFile],
           diff: null,
+          blame: null,
         },
       })
 
@@ -165,6 +166,7 @@ describe('updateChangedFiles', () => {
           kind: ChangesSelectionKind.WorkingDirectory,
           selectedFileIDs: [firstFile],
           diff: null,
+          blame: null,
         },
       })
 
@@ -190,6 +192,7 @@ describe('updateChangedFiles', () => {
           // an unknown file was set as selected last time
           selectedFileIDs: ['id-from-file-not-in-status'],
           diff: { kind: DiffType.Binary },
+          blame: null,
         },
       })
 
@@ -216,6 +219,7 @@ describe('updateChangedFiles', () => {
           kind: ChangesSelectionKind.WorkingDirectory,
           selectedFileIDs,
           diff,
+          blame: null,
         },
       })
 

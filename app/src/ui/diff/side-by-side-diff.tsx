@@ -9,6 +9,7 @@ import {
   DiffHunkExpansionType,
   DiffSelectionType,
 } from '../../models/diff'
+import { IBlameProfile, IBlameCommit } from '../../models/blame'
 import {
   getLineFilters,
   highlightContents,
@@ -147,6 +148,9 @@ interface ISideBySideDiffProps {
 
   /** Whether or not to show the diff check marks indicating inclusion in a commit */
   readonly showDiffCheckMarks: boolean
+
+  /** The blame information for the current file, if available. */
+  readonly blame: IBlameProfile | null
 
   /** Called when the user changes the hide whitespace in diffs setting. */
   readonly onHideWhitespaceInDiffChanged: (checked: boolean) => void
@@ -577,7 +581,8 @@ export class SideBySideDiff extends React.Component<
     return getDiffRows(
       diff,
       this.props.showSideBySideDiff,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
   }
 
@@ -692,7 +697,8 @@ export class SideBySideDiff extends React.Component<
     const rows = getDiffRows(
       diff,
       this.props.showSideBySideDiff,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
     const row = rows[rowIndex]
 
@@ -856,7 +862,8 @@ export class SideBySideDiff extends React.Component<
     const rows = getDiffRows(
       diff,
       this.props.showSideBySideDiff,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
 
     const row = rows[index]
@@ -904,6 +911,7 @@ export class SideBySideDiff extends React.Component<
             isDiffSelectable={canSelect(this.props.file)}
             rowSelectableGroup={rowSelectableGroupDetails}
             showSideBySideDiff={this.props.showSideBySideDiff}
+            showBlame={this.props.blame !== null}
             hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
             showDiffCheckMarks={this.props.showDiffCheckMarks}
             onStartSelection={this.onStartSelection}
@@ -1157,7 +1165,8 @@ export class SideBySideDiff extends React.Component<
     const rows = getDiffRows(
       diff,
       this.props.showSideBySideDiff,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
     const row = rows[rowNumber]
 
@@ -1634,7 +1643,8 @@ export class SideBySideDiff extends React.Component<
       this.state.diff,
       this.props.showSideBySideDiff,
       searchQuery,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
 
     if (searchResults === undefined || searchResults.length === 0) {
@@ -1754,17 +1764,35 @@ function highlightParametersEqual(
   )
 }
 
+function getBlameCommit(
+  blame: IBlameProfile | null,
+  lineNumber: number | null
+): IBlameCommit | null {
+  if (blame === null || lineNumber === null) {
+    return null
+  }
+
+  const line = blame.lines.get(lineNumber)
+  if (line === undefined) {
+    return null
+  }
+
+  return blame.commits.get(line.sha) ?? null
+}
+
 /**
  * Memoized function to calculate the actual rows to display side by side
  * as a diff.
  *
  * @param diff                The diff to use to calculate the rows.
  * @param showSideBySideDiff  Whether or not show the diff in side by side mode.
+ * @param blame               The blame information for the file.
  */
 const getDiffRows = memoize(function (
   diff: ITextDiff,
   showSideBySideDiff: boolean,
-  enableDiffExpansion: boolean
+  enableDiffExpansion: boolean,
+  blame: IBlameProfile | null
 ): ReadonlyArray<SimplifiedDiffRow> {
   const outputRows = new Array<SimplifiedDiffRow>()
 
@@ -1773,7 +1801,8 @@ const getDiffRows = memoize(function (
       index,
       hunk,
       showSideBySideDiff,
-      enableDiffExpansion
+      enableDiffExpansion,
+      blame
     )) {
       outputRows.push(row)
     }
@@ -1797,7 +1826,8 @@ function getDiffRowsFromHunk(
   hunkIndex: number,
   hunk: DiffHunk,
   showSideBySideDiff: boolean,
-  enableDiffExpansion: boolean
+  enableDiffExpansion: boolean,
+  blame: IBlameProfile | null
 ): ReadonlyArray<SimplifiedDiffRow> {
   const rows = new Array<SimplifiedDiffRow>()
 
@@ -1818,7 +1848,11 @@ function getDiffRowsFromHunk(
     if (modifiedLines.length > 0) {
       // If the current line is not added/deleted and we have any added/deleted
       // line stored, we need to process them.
-      for (const row of getModifiedRows(modifiedLines, showSideBySideDiff)) {
+      for (const row of getModifiedRows(
+        modifiedLines,
+        showSideBySideDiff,
+        blame
+      )) {
         rows.push(row)
       }
       modifiedLines = []
@@ -1853,6 +1887,8 @@ function getDiffRowsFromHunk(
         afterLineNumber: line.newLineNumber,
         beforeTokens: [],
         afterTokens: [],
+        beforeBlame: getBlameCommit(blame, line.oldLineNumber),
+        afterBlame: getBlameCommit(blame, line.newLineNumber),
       })
       continue
     }
@@ -1862,7 +1898,11 @@ function getDiffRowsFromHunk(
 
   // Do one more pass to process the remaining list of modified lines.
   if (modifiedLines.length > 0) {
-    for (const row of getModifiedRows(modifiedLines, showSideBySideDiff)) {
+    for (const row of getModifiedRows(
+      modifiedLines,
+      showSideBySideDiff,
+      blame
+    )) {
       rows.push(row)
     }
   }
@@ -1872,7 +1912,8 @@ function getDiffRowsFromHunk(
 
 function getModifiedRows(
   addedOrDeletedLines: ReadonlyArray<ModifiedLine>,
-  showSideBySideDiff: boolean
+  showSideBySideDiff: boolean,
+  blame: IBlameProfile | null
 ): ReadonlyArray<SimplifiedDiffRow> {
   if (addedOrDeletedLines.length === 0) {
     return []
@@ -1939,12 +1980,14 @@ function getModifiedRows(
       beforeData: getDataFromLine(
         deletedLine,
         'oldLineNumber',
-        diffTokensBefore.shift()
+        diffTokensBefore.shift(),
+        blame
       ),
       afterData: getDataFromLine(
         addedLine,
         'newLineNumber',
-        diffTokensAfter.shift()
+        diffTokensAfter.shift(),
+        blame
       ),
       hunkStartLine,
     })
@@ -1957,7 +2000,7 @@ function getModifiedRows(
 
     output.push({
       type: DiffRowType.Deleted,
-      data: getDataFromLine(line, 'oldLineNumber', diffTokensBefore.shift()),
+      data: getDataFromLine(line, 'oldLineNumber', diffTokensBefore.shift(), blame),
       hunkStartLine,
     })
   }
@@ -1968,7 +2011,7 @@ function getModifiedRows(
     // Added line
     output.push({
       type: DiffRowType.Added,
-      data: getDataFromLine(line, 'newLineNumber', diffTokensAfter.shift()),
+      data: getDataFromLine(line, 'newLineNumber', diffTokensAfter.shift(), blame),
       hunkStartLine,
     })
   }
@@ -1979,7 +2022,8 @@ function getModifiedRows(
 function getDataFromLine(
   { line, diffLineNumber }: { line: DiffLine; diffLineNumber: number },
   lineToUse: 'oldLineNumber' | 'newLineNumber',
-  diffTokens: ILineTokens | undefined
+  diffTokens: ILineTokens | undefined,
+  blame: IBlameProfile | null
 ): SimplifiedDiffRowData {
   const lineNumber = forceUnwrap(
     `Expecting ${lineToUse} value for ${line}`,
@@ -1998,6 +2042,7 @@ function getDataFromLine(
     diffLineNumber: line.originalLineNumber,
     noNewLineIndicator: line.noTrailingNewLine,
     tokens,
+    blame: getBlameCommit(blame, lineNumber),
   }
 }
 
@@ -2048,7 +2093,8 @@ function calcSearchTokens(
   diff: ITextDiff,
   showSideBySideDiffs: boolean,
   searchQuery: string,
-  enableDiffExpansion: boolean
+  enableDiffExpansion: boolean,
+  blame: IBlameProfile | null
 ): SearchResults | undefined {
   if (searchQuery.length === 0) {
     return undefined
@@ -2056,7 +2102,12 @@ function calcSearchTokens(
 
   const hits = new SearchResults()
   const searchRe = new RegExp(escapeRegExp(searchQuery), 'gi')
-  const rows = getDiffRows(diff, showSideBySideDiffs, enableDiffExpansion)
+  const rows = getDiffRows(
+    diff,
+    showSideBySideDiffs,
+    enableDiffExpansion,
+    blame
+  )
 
   for (const [rowNumber, row] of rows.entries()) {
     if (row.type === DiffRowType.Hunk) {

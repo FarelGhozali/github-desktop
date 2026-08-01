@@ -125,6 +125,9 @@ export class CompareView extends React.Component<ICompareViewProps> {
               imageDiffType={this.props.imageDiffType}
               hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
               showSideBySideDiff={this.props.showSideBySideDiff}
+              showBlame={false}
+              blame={null}
+              onShowBlameChanged={() => {}}
               readOnly={true}
               onOpenBinaryFile={this.noop}
               onChangeImageDiffType={this.noop}

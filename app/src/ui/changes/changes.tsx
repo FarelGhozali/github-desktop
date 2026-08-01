@@ -6,6 +6,7 @@ import {
   ImageDiffType,
   ITextDiff,
 } from '../../models/diff'
+import { IBlameProfile } from '../../models/blame'
 import { WorkingDirectoryFileChange } from '../../models/status'
 import { Repository } from '../../models/repository'
 import { Dispatcher } from '../dispatcher'
@@ -22,6 +23,7 @@ interface IChangesProps {
   /** Whether a commit is in progress */
   readonly isCommitting: boolean
   readonly hideWhitespaceInDiff: boolean
+  readonly blame: IBlameProfile | null
 
   /**
    * Called when the user requests to open a binary file in an the
@@ -48,6 +50,9 @@ interface IChangesProps {
    * Whether we should display side by side diffs.
    */
   readonly showSideBySideDiff: boolean
+
+  /** Whether we should display blame annotations. */
+  readonly showBlame: boolean
 
   /** Whether or not to show the diff check marks indicating inclusion in a commit */
   readonly showDiffCheckMarks: boolean
@@ -110,6 +115,8 @@ export class Changes extends React.Component<IChangesProps, {}> {
           onShowSideBySideDiffChanged={this.onShowSideBySideDiffChanged}
           hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
           onHideWhitespaceInDiffChanged={this.onHideWhitespaceInDiffChanged}
+          showBlame={this.props.showBlame}
+          onShowBlameChanged={this.onShowBlameChanged}
           onDiffOptionsOpened={this.props.onDiffOptionsOpened}
         />
 
@@ -123,6 +130,9 @@ export class Changes extends React.Component<IChangesProps, {}> {
           diff={this.props.diff}
           hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
           showSideBySideDiff={this.props.showSideBySideDiff}
+          showBlame={this.props.showBlame}
+          blame={this.props.blame}
+          onShowBlameChanged={this.onShowBlameChanged}
           showDiffCheckMarks={this.props.showDiffCheckMarks}
           askForConfirmationOnDiscardChanges={
             this.props.askForConfirmationOnDiscardChanges
@@ -138,6 +148,10 @@ export class Changes extends React.Component<IChangesProps, {}> {
 
   private onShowSideBySideDiffChanged = (showSideBySideDiff: boolean) => {
     this.props.dispatcher.onShowSideBySideDiffChanged(showSideBySideDiff)
+  }
+
+  private onShowBlameChanged = (showBlame: boolean) => {
+    this.props.dispatcher._setShowBlame(showBlame)
   }
 
   private onHideWhitespaceInDiffChanged = (hideWhitespaceInDiff: boolean) => {

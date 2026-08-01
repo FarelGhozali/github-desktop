@@ -51,6 +51,7 @@ interface IRepositoryViewProps {
   readonly hideWhitespaceInChangesDiff: boolean
   readonly hideWhitespaceInHistoryDiff: boolean
   readonly showSideBySideDiff: boolean
+  readonly showBlame: boolean
   readonly showDiffCheckMarks: boolean
   readonly askForConfirmationOnDiscardChanges: boolean
   readonly askForConfirmationOnDiscardStash: boolean
@@ -525,7 +526,7 @@ export class RepositoryView extends React.Component<
       return this.renderStashedChangesContent()
     }
 
-    const { selectedFileIDs, diff } = selection
+    const { selectedFileIDs, diff, blame } = selection
 
     if (selectedFileIDs.length > 1) {
       return <MultipleSelection count={selectedFileIDs.length} />
@@ -570,6 +571,8 @@ export class RepositoryView extends React.Component<
           imageDiffType={this.props.imageDiffType}
           hideWhitespaceInDiff={this.props.hideWhitespaceInChangesDiff}
           showSideBySideDiff={this.props.showSideBySideDiff}
+          showBlame={this.props.showBlame}
+          blame={blame}
           showDiffCheckMarks={this.props.showDiffCheckMarks}
           onOpenBinaryFile={this.onOpenBinaryFile}
           onOpenSubmodule={this.onOpenSubmodule}

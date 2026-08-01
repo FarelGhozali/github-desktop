@@ -14,6 +14,7 @@ export function createState<K extends keyof IChangesState>(
       kind: ChangesSelectionKind.WorkingDirectory,
       selectedFileIDs: [],
       diff: null,
+      blame: null,
     },
     commitMessage: DefaultCommitMessage,
     showCoAuthoredBy: false,
