@@ -8,9 +8,8 @@ import {
   DiffSelection,
   DiffHunkExpansionType,
   DiffSelectionType,
-  ITextDiff,
 } from '../../models/diff'
-import { IBlameProfile } from '../../models/blame'
+import { IBlameProfile, IBlameCommit } from '../../models/blame'
 import {
   getLineFilters,
   highlightContents,
@@ -698,7 +697,8 @@ export class SideBySideDiff extends React.Component<
     const rows = getDiffRows(
       diff,
       this.props.showSideBySideDiff,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
     const row = rows[rowIndex]
 
@@ -862,7 +862,8 @@ export class SideBySideDiff extends React.Component<
     const rows = getDiffRows(
       diff,
       this.props.showSideBySideDiff,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
 
     const row = rows[index]
@@ -910,6 +911,7 @@ export class SideBySideDiff extends React.Component<
             isDiffSelectable={canSelect(this.props.file)}
             rowSelectableGroup={rowSelectableGroupDetails}
             showSideBySideDiff={this.props.showSideBySideDiff}
+            showBlame={this.props.blame !== null}
             hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
             showDiffCheckMarks={this.props.showDiffCheckMarks}
             onStartSelection={this.onStartSelection}
@@ -1163,7 +1165,8 @@ export class SideBySideDiff extends React.Component<
     const rows = getDiffRows(
       diff,
       this.props.showSideBySideDiff,
-      this.canExpandDiff()
+      this.canExpandDiff(),
+      this.props.blame
     )
     const row = rows[rowNumber]
 

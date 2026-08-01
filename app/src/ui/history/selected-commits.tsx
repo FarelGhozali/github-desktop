@@ -167,6 +167,9 @@ export class SelectedCommits extends React.Component<
           hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
           showDiffCheckMarks={false}
           showSideBySideDiff={this.props.showSideBySideDiff}
+          showBlame={false}
+          blame={null}
+          onShowBlameChanged={() => {}}
           onOpenBinaryFile={this.props.onOpenBinaryFile}
           onChangeImageDiffType={this.props.onChangeImageDiffType}
           onHideWhitespaceInDiffChanged={this.onHideWhitespaceInDiffChanged}
@@ -191,6 +194,8 @@ export class SelectedCommits extends React.Component<
         status={status}
         showSideBySideDiff={this.props.showSideBySideDiff}
         onShowSideBySideDiffChanged={this.onShowSideBySideDiffChanged}
+        showBlame={false}
+        onShowBlameChanged={() => {}}
         hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
         onHideWhitespaceInDiffChanged={this.onHideWhitespaceInDiffChanged}
         onDiffOptionsOpened={this.props.onDiffOptionsOpened}

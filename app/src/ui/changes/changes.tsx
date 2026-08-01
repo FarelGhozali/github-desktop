@@ -6,6 +6,7 @@ import {
   ImageDiffType,
   ITextDiff,
 } from '../../models/diff'
+import { IBlameProfile } from '../../models/blame'
 import { WorkingDirectoryFileChange } from '../../models/status'
 import { Repository } from '../../models/repository'
 import { Dispatcher } from '../dispatcher'
@@ -22,6 +23,7 @@ interface IChangesProps {
   /** Whether a commit is in progress */
   readonly isCommitting: boolean
   readonly hideWhitespaceInDiff: boolean
+  readonly blame: IBlameProfile | null
 
   /**
    * Called when the user requests to open a binary file in an the
@@ -129,7 +131,8 @@ export class Changes extends React.Component<IChangesProps, {}> {
           hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
           showSideBySideDiff={this.props.showSideBySideDiff}
           showBlame={this.props.showBlame}
-          blame={null}
+          blame={this.props.blame}
+          onShowBlameChanged={this.onShowBlameChanged}
           showDiffCheckMarks={this.props.showDiffCheckMarks}
           askForConfirmationOnDiscardChanges={
             this.props.askForConfirmationOnDiscardChanges
@@ -138,7 +141,6 @@ export class Changes extends React.Component<IChangesProps, {}> {
           onOpenSubmodule={this.props.onOpenSubmodule}
           onChangeImageDiffType={this.props.onChangeImageDiffType}
           onHideWhitespaceInDiffChanged={this.onHideWhitespaceInDiffChanged}
-          onShowBlameChanged={this.onShowBlameChanged}
         />
       </div>
     )

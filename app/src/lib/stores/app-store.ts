@@ -3239,6 +3239,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         selection: {
           kind: ChangesSelectionKind.WorkingDirectory,
           diff: null,
+          blame: null,
           selectedFileIDs: selectedFileIds,
         },
       }
@@ -3308,6 +3309,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
           kind: ChangesSelectionKind.Stash,
           selectedStashedFile,
           selectedStashedFileDiff: null,
+          blame: null,
         },
       }
     })
@@ -3356,6 +3358,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
           kind: ChangesSelectionKind.Stash,
           selectedStashedFile: null,
           selectedStashedFileDiff: null,
+          blame: null,
         },
       }))
       this.emitUpdate()
@@ -3381,6 +3384,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         kind: ChangesSelectionKind.Stash,
         selectedStashedFile: file,
         selectedStashedFileDiff: diff,
+        blame: null,
       },
     }))
     this.emitUpdate()
@@ -8043,6 +8047,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         changesetData: changesetData ?? emptyChangeSet,
         file: null,
         diff: null,
+        blame: null,
       },
       mergeStatus:
         commitSHAs.length > 0 || !hasMergeBase

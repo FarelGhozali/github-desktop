@@ -114,6 +114,9 @@ export class StashDiffViewer extends React.PureComponent<IStashDiffViewerProps> 
           hideWhitespaceInDiff={false}
           showDiffCheckMarks={false}
           showSideBySideDiff={this.props.showSideBySideDiff}
+          showBlame={false}
+          blame={null}
+          onShowBlameChanged={() => {}}
           onOpenBinaryFile={onOpenBinaryFile}
           onChangeImageDiffType={onChangeImageDiffType}
           onHideWhitespaceInDiffChanged={

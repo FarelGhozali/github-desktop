@@ -100,6 +100,7 @@ export function updateChangedFiles(
         kind: ChangesSelectionKind.WorkingDirectory,
         selectedFileIDs,
         diff,
+        blame: null,
       },
     }
   } else if (state.selection.kind === ChangesSelectionKind.Stash) {
@@ -348,6 +349,7 @@ export function selectWorkingDirectoryFiles(
       kind: ChangesSelectionKind.WorkingDirectory as ChangesSelectionKind.WorkingDirectory,
       selectedFileIDs,
       diff: null,
+      blame: null,
     },
   }
 }
