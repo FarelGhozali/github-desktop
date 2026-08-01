@@ -2,6 +2,7 @@ import * as React from 'react'
 import memoize from 'memoize-one'
 import { GitHubRepository } from '../../models/github-repository'
 import { Commit, CommitOneLine } from '../../models/commit'
+import { buildGraph } from '../../lib/history-graph'
 import { CommitListItem } from './commit-list-item'
 import { KeyboardInsertionData, List } from '../lib/list'
 import { arrayEquals } from '../../lib/equality'
@@ -208,6 +209,15 @@ export class CommitList extends React.Component<
       new Map(commitSHAs.map((sha, index) => [sha, index]))
   )
 
+  private graphRows = memoizeOne(
+    (commitSHAs: ReadonlyArray<string>, commitLookup: Map<string, Commit>) => {
+      const commits = commitSHAs
+        .map(sha => commitLookup.get(sha))
+        .filter(c => c !== undefined) as Commit[]
+      return buildGraph(commits)
+    }
+  )
+
   private containerRef = React.createRef<HTMLDivElement>()
   private listRef = React.createRef<List>()
 
@@ -292,6 +302,12 @@ export class CommitList extends React.Component<
       (isLocal || unpushedTags.length > 0) &&
       this.props.isLocalRepository === false
 
+    const graphRows = this.graphRows(
+      this.props.commitSHAs,
+      this.props.commitLookup
+    )
+    const graphRow = graphRows[row]
+
     return (
       <CommitListItem
         key={commit.sha}
@@ -302,6 +318,7 @@ export class CommitList extends React.Component<
           unpushedTags.length
         )}
         commit={commit}
+        graphRow={graphRow}
         emoji={this.props.emoji}
         isDraggable={
           this.props.isMultiCommitOperationInProgress === false &&

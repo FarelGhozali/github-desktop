@@ -20,10 +20,13 @@ import classNames from 'classnames'
 import { TooltippedContent } from '../lib/tooltipped-content'
 import { Account } from '../../models/account'
 import { Emoji } from '../../lib/emoji'
+import { IGraphRow } from '../../models/history-graph'
+import { CommitGraph } from './commit-graph'
 
 interface ICommitProps {
   readonly gitHubRepository: GitHubRepository | null
   readonly commit: Commit
+  readonly graphRow?: IGraphRow
   readonly selectedCommits: ReadonlyArray<Commit>
   readonly emoji: Map<string, Emoji>
   readonly onRenderCommitDragElement?: (commit: Commit) => void
@@ -144,6 +147,9 @@ export class CommitListItem extends React.PureComponent<
           onMouseLeave={this.onMouseLeave}
           onMouseUp={this.onMouseUp}
         >
+          {this.props.graphRow && (
+            <CommitGraph graphRow={this.props.graphRow} height={50} />
+          )}
           <div className="info">
             <RichText
               className={summaryClassNames}
