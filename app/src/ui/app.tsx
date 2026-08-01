@@ -145,6 +145,10 @@ import { buildAutocompletionProviders } from './autocompletion'
 import { DragType, DropTargetSelector } from '../models/drag-drop'
 import { dragAndDropManager } from '../lib/drag-and-drop-manager'
 import { MultiCommitOperation } from './multi-commit-operation/multi-commit-operation'
+import { RewordCommitDialog } from './multi-commit-operation/dialog/reword-commit-dialog'
+import { DropCommitDialog } from './multi-commit-operation/dialog/drop-commit-dialog'
+import { FixupCommitDialog } from './multi-commit-operation/dialog/fixup-commit-dialog'
+import { SquashCommitDialog } from './multi-commit-operation/dialog/squash-commit-dialog'
 import { WarnLocalChangesBeforeUndo } from './undo/warn-local-changes-before-undo'
 import { WarningBeforeReset } from './reset/warning-before-reset'
 import { InvalidatedToken } from './invalidated-token/invalidated-token'
@@ -453,6 +457,8 @@ export class App extends React.Component<IAppProps, IAppState> {
         return this.renameBranch()
       case 'delete-branch':
         return this.deleteBranch()
+      case 'compare-with-branch':
+        return this.showBranchComparison()
       case 'discard-all-changes':
         return this.discardAllChanges()
       case 'stash-all-changes':
@@ -1036,6 +1042,40 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   private showAbout() {
     this.props.dispatcher.showPopup({ type: PopupType.About })
+  }
+
+  private showBranchComparison() {
+    const repository = this.getRepository()
+    if (!(repository instanceof Repository)) {
+      return
+    }
+
+    const state = this.state.selectedState
+    if (state === null || state.type !== SelectionType.Repository) {
+      return
+    }
+
+    const { branchesState } = state.state
+    const { tip, defaultBranch, allBranches } = branchesState
+    const currentBranch = tip.kind === TipState.Valid ? tip.branch : null
+
+    if (!currentBranch) {
+      return
+    }
+
+    // Default to comparing current branch with default branch,
+    // or the first other branch if no default branch exists.
+    const comparisonBranch =
+      defaultBranch && defaultBranch.name !== currentBranch.name
+        ? defaultBranch
+        : allBranches.find((b: any) => b.name !== currentBranch.name) ||
+          currentBranch
+
+    this.props.dispatcher.enterBranchComparisonMode(
+      repository,
+      currentBranch,
+      comparisonBranch
+    )
   }
 
   private async showHistory(
@@ -2373,6 +2413,47 @@ export class App extends React.Component<IAppProps, IAppState> {
             openFileInExternalEditor={this.openFileInExternalEditor}
             resolvedExternalEditor={this.state.resolvedExternalEditor}
             openRepositoryInShell={this.openCurrentRepositoryInShell}
+          />
+        )
+      }
+      case PopupType.RewordCommit: {
+        return (
+          <RewordCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.DropCommit: {
+        return (
+          <DropCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.FixupCommit: {
+        return (
+          <FixupCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.SquashCommit: {
+        return (
+          <SquashCommitDialog
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            commit={popup.commit}
+            parentCommit={popup.parentCommit}
+            onDismissed={onPopupDismissedFn}
           />
         )
       }

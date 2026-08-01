@@ -1,0 +1,66 @@
+.interactive-rebase-todo-list {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  width: 100%;
+
+  .rebase-todo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    height: 100%;
+    box-sizing: border-box;
+
+    .drag-handle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      color: var(--text-secondary-color);
+      padding: 4px;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    .rebase-item-commit {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex: 1;
+
+      .rebase-item-reword {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        margin-top: 4px;
+        
+        textarea {
+          resize: none;
+        }
+      }
+
+      .sha {
+        font-family: var(--font-family-mono);
+        font-size: 12px;
+        color: var(--text-secondary-color);
+      }
+
+      .summary {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 600;
+      }
+    }
+
+    select {
+      min-width: 100px;
+    }
+  }
+}
