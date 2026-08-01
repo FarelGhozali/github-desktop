@@ -148,6 +148,8 @@ import {
   getAuthorIdentity,
   getChangedFiles,
   getCommitDiff,
+  getBranchComparisonChangedFiles,
+  getBranchComparisonDiff,
   getMergeBase,
   getRemotes,
   getWorkingDirectoryDiff,
@@ -306,6 +308,8 @@ import {
 import { DragElement } from '../../models/drag-drop'
 import { ILastThankYou } from '../../models/last-thank-you'
 import { squash } from '../git/squash'
+import { performInteractiveRebase } from '../git/interactive-rebase'
+import { IRebaseTodoItem } from '../../models/rebase-todo'
 import { getTipSha } from '../tip'
 import {
   MultiCommitOperationDetail,
@@ -2933,6 +2937,116 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }
   }
 
+  public async _enterBranchComparisonMode(
+    repository: Repository,
+    baseBranch: Branch,
+    comparisonBranch: Branch
+  ): Promise<void> {
+    const { files } = await getBranchComparisonChangedFiles(
+      repository,
+      baseBranch.name,
+      comparisonBranch.name
+    )
+
+    const selectedFile = files[0] || null
+
+    this.repositoryStateCache.update(repository, state => {
+      return {
+        selectedSection: RepositorySectionTab.Comparison,
+        branchComparisonState: {
+          baseBranch,
+          comparisonBranch,
+          files,
+          selectedFile,
+          diff: null,
+        },
+      }
+    })
+
+    this.emitUpdate()
+
+    if (selectedFile !== null) {
+      await this.updateBranchComparisonDiff(repository)
+    }
+  }
+
+  public async _exitBranchComparisonMode(
+    repository: Repository
+  ): Promise<void> {
+    this.repositoryStateCache.update(repository, state => {
+      return {
+        selectedSection: RepositorySectionTab.History,
+        branchComparisonState: null,
+      }
+    })
+
+    this.emitUpdate()
+  }
+
+  public async _changeBranchComparisonFileSelection(
+    repository: Repository,
+    file: CommittedFileChange
+  ): Promise<void> {
+    this.repositoryStateCache.updateBranchComparisonState(repository, state => {
+      return { ...state, selectedFile: file, diff: null }
+    })
+
+    this.emitUpdate()
+    await this.updateBranchComparisonDiff(repository)
+  }
+
+  private async updateBranchComparisonDiff(
+    repository: Repository
+  ): Promise<void> {
+    const state = this.repositoryStateCache.get(repository)
+    const { branchComparisonState } = state
+
+    if (
+      branchComparisonState === null ||
+      branchComparisonState.selectedFile === null
+    ) {
+      return
+    }
+
+    const { baseBranch, comparisonBranch, selectedFile } = branchComparisonState
+
+    const diff = await getBranchComparisonDiff(
+      repository,
+      selectedFile,
+      baseBranch.name,
+      comparisonBranch.name,
+      this.getState().hideWhitespaceInHistoryDiff // Re-use this setting
+    )
+
+    this.repositoryStateCache.updateBranchComparisonState(repository, s => {
+      // Check if the selected file is still the same to avoid race conditions
+      if (s.selectedFile?.id === selectedFile.id) {
+        return { ...s, diff }
+      }
+      return s
+    })
+
+    this.emitUpdate()
+  }
+
+  public async _swapBranchComparisonBranches(
+    repository: Repository
+  ): Promise<void> {
+    const state = this.repositoryStateCache.get(repository)
+    const { branchComparisonState } = state
+
+    if (branchComparisonState === null) {
+      return
+    }
+
+    const { baseBranch, comparisonBranch } = branchComparisonState
+    await this._enterBranchComparisonMode(
+      repository,
+      comparisonBranch,
+      baseBranch
+    )
+  }
+
   /**
    * Changes the selection in the changes view to the working directory and
    * optionally selects one or more files from the working directory.
@@ -3522,6 +3636,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
         includingStatus: false,
         clearPartialState: false,
       })
+    } else if (section === 2 /* RepositorySectionTab.Comparison */) {
+      refreshSectionPromise = Promise.resolve()
     } else {
       return assertNever(section, `Unknown section: ${section}`)
     }
@@ -5508,6 +5624,33 @@ export class AppStore extends TypedBaseStore<IAppState> {
       }
     )
 
+    return result || RebaseResult.Error
+  }
+
+  /** This shouldn't be called directly. See `Dispatcher`. */
+  public async _interactiveRebase(
+    repository: Repository,
+    todoList: ReadonlyArray<IRebaseTodoItem>,
+    lastRetainedCommitRef: string | null
+  ): Promise<RebaseResult> {
+    const progressCallback =
+      this.getMultiCommitOperationProgressCallBack(repository)
+    const gitStore = this.gitStoreCache.get(repository)
+
+    const result = await gitStore.performFailableOperation(() =>
+      performInteractiveRebase(
+        repository,
+        todoList,
+        lastRetainedCommitRef,
+        progressCallback
+      )
+    )
+
+    if (result === RebaseResult.CompletedWithoutError) {
+      this._endMultiCommitOperation(repository)
+    }
+
+    await this._refreshRepository(repository)
     return result || RebaseResult.Error
   }
 
@@ -7535,6 +7678,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
         }
         break
       case MultiCommitOperationKind.Rebase:
+      case MultiCommitOperationKind.InteractiveRebase:
       case MultiCommitOperationKind.Merge:
         throw new Error(
           `Unexpected multi commit operation kind to undo ${kind}`
@@ -8232,7 +8376,8 @@ function userIsStartingMultiCommitOperation(
   if (
     state.step.kind === MultiCommitOperationStepKind.ChooseBranch ||
     state.step.kind === MultiCommitOperationStepKind.WarnForcePush ||
-    state.step.kind === MultiCommitOperationStepKind.ShowProgress
+    state.step.kind === MultiCommitOperationStepKind.ShowProgress ||
+    state.step.kind === MultiCommitOperationStepKind.InteractiveRebaseEditor
   ) {
     return true
   }
