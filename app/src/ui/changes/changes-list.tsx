@@ -18,7 +18,7 @@ import {
 } from '../../models/repository'
 import { Account } from '../../models/account'
 import { Author, UnknownAuthor } from '../../models/author'
-import { List, ClickSource } from '../lib/list'
+import { ClickSource } from '../lib/list'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import {
   isSafeFileExtension,
@@ -31,13 +31,11 @@ import {
   CopySelectedRelativePathsLabel,
 } from '../lib/context-menu'
 import { CommitMessage } from './commit-message'
-import { ChangedFile } from './changed-file'
 import { ChangesTreeView } from './changes-tree-view'
-import { buildTrees, flattenTree } from '../../lib/tree-builder'
-import { IDirectoryNode, TreeNodeKind } from '../../models/tree-node'
+import { buildTrees } from '../../lib/tree-builder'
+import { TreeNodeKind, ITreeNode } from '../../models/tree-node'
 import { IAutocompletionProvider } from '../autocompletion'
 import { showContextualMenu } from '../../lib/menu-item'
-import { arrayEquals } from '../../lib/equality'
 import { clipboard } from 'electron'
 import { basename } from 'path'
 import { Commit, ICommitContext } from '../../models/commit'
@@ -62,7 +60,6 @@ import { RepoRulesInfo } from '../../models/repo-rules'
 import { IAheadBehind } from '../../models/branch'
 import { StashDiffViewerId } from '../stashing'
 
-const RowHeight = 29
 const StashIcon: OcticonSymbolVariant = {
   w: 16,
   h: 16,
@@ -867,22 +864,6 @@ export class ChangesList extends React.Component<
     this.props.onOpenItemInExternalEditor(file.path)
   }
 
-  private onRowKeyDown = (
-    _row: number,
-    event: React.KeyboardEvent<HTMLDivElement>
-  ) => {
-    // The commit is already in-flight but this check prevents the
-    // user from changing selection.
-    if (
-      this.props.isCommitting &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      event.preventDefault()
-    }
-
-    return
-  }
-
   private onTreeViewContextMenu = (
     node: ITreeNode,
     event: React.MouseEvent<HTMLDivElement>
@@ -1007,13 +988,4 @@ export class ChangesList extends React.Component<
     this.props.onFileSelectionChanged(rows)
   }
 
-  private onRowFocus = (row: number) => {
-    this.setState({ focusedRow: row })
-  }
-
-  private onRowBlur = (row: number) => {
-    if (this.state.focusedRow === row) {
-      this.setState({ focusedRow: null })
-    }
-  }
 }

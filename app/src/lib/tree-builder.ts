@@ -1,4 +1,3 @@
-import * as Path from 'path'
 import { WorkingDirectoryFileChange } from '../models/status'
 import { DiffSelectionType } from '../models/diff'
 import { ITreeNode, TreeNodeKind, IDirectoryNode } from '../models/tree-node'

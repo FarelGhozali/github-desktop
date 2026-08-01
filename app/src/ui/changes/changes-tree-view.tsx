@@ -5,7 +5,6 @@ import { List, ClickSource } from '../lib/list'
 import { ChangedFile } from './changed-file'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
-import classNames from 'classnames'
 import { DiffSelectionType } from '../../models/diff'
 
 interface IChangesTreeViewProps {
