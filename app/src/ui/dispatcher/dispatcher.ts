@@ -21,6 +21,7 @@ import {
   CherryPickConflictState,
   MultiCommitOperationConflictState,
   IMultiCommitOperationState,
+  IHistoryFilter,
 } from '../../lib/app-state'
 import { assertNever, fatalError } from '../../lib/fatal-error'
 import {
@@ -2779,6 +2780,14 @@ export class Dispatcher {
     newState: Pick<ICompareFormUpdate, K>
   ) {
     return this.appStore._updateCompareForm(repository, newState)
+  }
+
+  /** Update the history filter for the current repository */
+  public updateHistoryFilter(
+    repository: Repository,
+    filter: IHistoryFilter
+  ): Promise<void> {
+    return this.appStore._updateHistoryFilter(repository, filter)
   }
 
   /**

@@ -31,6 +31,44 @@
     flex: initial;
     padding: var(--spacing-half);
     border-bottom: var(--base-border);
+    display: flex;
+    gap: 8px;
+
+    .text-box-component {
+      flex: 1;
+    }
+
+    .advanced-filter-button {
+      flex: initial;
+      padding: 0 8px;
+    }
+  }
+
+  .history-filter-view {
+    padding: var(--spacing);
+    border-bottom: var(--base-border);
+    background: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+
+    .history-filter-date-range {
+      display: flex;
+      gap: var(--spacing);
+
+      .text-box-component {
+        flex: 1;
+      }
+    }
+
+    .clear-filters-button {
+      align-self: flex-start;
+      color: var(--text-secondary-color);
+      
+      .octicon {
+        margin-right: 4px;
+      }
+    }
   }
 
   .compare-commit-list {
