@@ -89,6 +89,7 @@ export class Reflog extends React.Component<IReflogProps, IReflogState> {
               rowCount={this.state.entries.length}
               rowHeight={RowHeight}
               rowRenderer={this.renderRow}
+              selectedRows={[]}
               id="reflog-list"
             />
           )}

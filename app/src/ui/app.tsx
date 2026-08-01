@@ -1052,6 +1052,8 @@ export class App extends React.Component<IAppProps, IAppState> {
     if (repository instanceof Repository) {
       this.props.dispatcher.showPopup({ type: PopupType.Reflog, repository })
     }
+  }
+
   private showBranchComparison() {
     const repository = this.getRepository()
     if (!(repository instanceof Repository)) {
