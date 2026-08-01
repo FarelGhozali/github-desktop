@@ -16,6 +16,7 @@ export const enum MultiCommitOperationKind {
   Squash = 'Squash',
   Merge = 'Merge',
   Reorder = 'Reorder',
+  InteractiveRebase = 'InteractiveRebase',
 }
 
 /** Type guard which narrows a string to a MultiCommitOperationKind */
@@ -26,13 +27,15 @@ export function isIdMultiCommitOperation(
   | MultiCommitOperationKind.CherryPick
   | MultiCommitOperationKind.Squash
   | MultiCommitOperationKind.Merge
-  | MultiCommitOperationKind.Reorder {
+  | MultiCommitOperationKind.Reorder
+  | MultiCommitOperationKind.InteractiveRebase {
   return (
     id === MultiCommitOperationKind.Rebase ||
     id === MultiCommitOperationKind.CherryPick ||
     id === MultiCommitOperationKind.Squash ||
     id === MultiCommitOperationKind.Merge ||
-    id === MultiCommitOperationKind.Reorder
+    id === MultiCommitOperationKind.Reorder ||
+    id === MultiCommitOperationKind.InteractiveRebase
   )
 }
 
@@ -48,6 +51,7 @@ export type MultiCommitOperationStep =
   | HideConflictsStep
   | ConfirmAbortStep
   | CreateBranchStep
+  | InteractiveRebaseEditorStep
 
 /**
  * Possible kinds of steps that may happen during a multi commit operation such
@@ -105,6 +109,12 @@ export const enum MultiCommitOperationStepKind {
    * Example: Cherry-picking to a new branch.
    */
   CreateBranch = 'CreateBranch',
+
+  /**
+   * The step where the user can manipulate the commit list for an interactive
+   * rebase (pick, reword, edit, squash, fixup, drop, reorder).
+   */
+  InteractiveRebaseEditor = 'InteractiveRebaseEditor',
 }
 
 export type ChooseBranchStep = {
@@ -150,6 +160,10 @@ export type CreateBranchStep = {
   upstreamGhRepo: GitHubRepository | null
   tip: IUnbornRepository | IDetachedHead | IValidBranch
   targetBranchName: string
+}
+
+export type InteractiveRebaseEditorStep = {
+  readonly kind: MultiCommitOperationStepKind.InteractiveRebaseEditor
 }
 
 interface IBaseInteractiveRebaseDetails {
@@ -236,12 +250,17 @@ interface IMergeDetails extends ISourceBranchDetails {
   readonly isSquash: boolean
 }
 
+interface IInteractiveRebaseFullDetails extends IInteractiveRebaseDetails {
+  readonly kind: MultiCommitOperationKind.InteractiveRebase
+}
+
 export type MultiCommitOperationDetail =
   | ISquashDetails
   | IReorderDetails
   | ICherryPickDetails
   | IRebaseDetails
   | IMergeDetails
+  | IInteractiveRebaseFullDetails
 
 export function instanceOfIBaseRebaseDetails(
   object: any

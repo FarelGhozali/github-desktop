@@ -39,6 +39,12 @@ interface IBranchSelectProps {
 
   /** Optional: No branches message */
   readonly noBranchesMessage?: string | JSX.Element
+
+  /** The label to display next to the button. */
+  readonly label?: string
+
+  /** The title to display in the popover. */
+  readonly contentTitle?: string
 }
 
 interface IBranchSelectState {
@@ -96,9 +102,9 @@ export class BranchSelect extends React.Component<
 
     return (
       <PopoverDropdown
-        contentTitle="Choose a base branch"
+        contentTitle={this.props.contentTitle ?? 'Choose a base branch'}
         buttonContent={selectedBranch?.name ?? ''}
-        label="base:"
+        label={this.props.label ?? 'base:'}
         ref={this.popoverRef}
       >
         <BranchList

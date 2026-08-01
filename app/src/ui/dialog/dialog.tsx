@@ -609,6 +609,10 @@ export class Dialog extends React.Component<DialogProps, IDialogState> {
       this.disableClickDismissal = false
       this.disableClickDismissalTimeoutId = null
     }, DisableClickDismissalDelay)
+
+    if (this.dialogElement && !this.dialogElement.open && this.context.isTopMost) {
+      this.dialogElement.showModal()
+    }
   }
 
   private clearClickDismissalTimer() {
