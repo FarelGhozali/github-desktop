@@ -182,6 +182,41 @@ export async function getBranchMergeBaseDiff(
 }
 
 /**
+ * Render the diff between two branches for a file
+ */
+export async function getBranchComparisonDiff(
+  repository: Repository,
+  file: FileChange,
+  baseBranchName: string,
+  comparisonBranchName: string,
+  hideWhitespaceInDiff: boolean = false
+): Promise<IDiff> {
+  const args = [
+    'diff',
+    `${baseBranchName}..${comparisonBranchName}`,
+    ...(hideWhitespaceInDiff ? ['-w'] : []),
+    '--patch-with-raw',
+    '-z',
+    '--no-color',
+    '--',
+    file.path,
+  ]
+
+  if (
+    file.status.kind === AppFileStatusKind.Renamed ||
+    file.status.kind === AppFileStatusKind.Copied
+  ) {
+    args.push(file.status.oldPath)
+  }
+
+  const result = await git(args, repository.path, 'getBranchComparisonDiff', {
+    encoding: 'buffer',
+  })
+
+  return buildDiff(result.stdout, repository, file, comparisonBranchName)
+}
+
+/**
  * Render the difference between two commits for a file
  *
  */
@@ -282,6 +317,34 @@ export async function getBranchMergeBaseChangedFiles(
     `${latestComparisonBranchCommitRef}`,
     mergeBaseCommit
   )
+}
+
+/**
+ * Get the files that were changed between two branches.
+ */
+export async function getBranchComparisonChangedFiles(
+  repository: Repository,
+  baseBranchName: string,
+  comparisonBranchName: string
+): Promise<IChangesetData> {
+  const args = [
+    'diff',
+    `${baseBranchName}..${comparisonBranchName}`,
+    '-C',
+    '-M',
+    '-z',
+    '--raw',
+    '--numstat',
+    '--',
+  ]
+
+  const { stdout } = await git(
+    args,
+    repository.path,
+    'getBranchComparisonChangedFiles'
+  )
+
+  return parseRawLogWithNumstat(stdout, comparisonBranchName, baseBranchName)
 }
 
 export async function getCommitRangeChangedFiles(
