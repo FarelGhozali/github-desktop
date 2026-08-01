@@ -129,6 +129,7 @@ import {
   IMultiCommitOperationState,
   IConstrainedValue,
   ICompareState,
+  IHistoryFilter,
 } from '../app-state'
 import {
   findEditorOrDefault,
@@ -1691,7 +1692,10 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }))
 
     const { compareState } = this.repositoryStateCache.get(repository)
-    return this._executeCompare(repository, compareState.formState)
+    return this._executeCompare(
+      repository,
+      getInitialAction(compareState.formState)
+    )
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */
