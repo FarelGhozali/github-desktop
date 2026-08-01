@@ -100,6 +100,7 @@ export enum PopupType {
   UnknownAuthors = 'UnknownAuthors',
   TestIcons = 'TestIcons',
   ConfirmRestart = 'ConfirmRestart',
+  Reflog = 'Reflog',
 }
 
 interface IBasePopup {
@@ -448,6 +449,10 @@ export type PopupDetail =
     }
   | {
       type: PopupType.TestIcons
+    }
+  | {
+      type: PopupType.Reflog
+      repository: Repository
     }
   | { type: PopupType.ConfirmRestart }
 

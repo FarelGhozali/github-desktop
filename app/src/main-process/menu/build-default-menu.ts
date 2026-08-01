@@ -320,6 +320,11 @@ export function buildDefaultMenu({
         click: emit('view-repository-on-github'),
       },
       {
+        id: 'view-reflog',
+        label: __DARWIN__ ? 'View Reflog' : 'View Reflo&g',
+        click: emit('show-reflog'),
+      },
+      {
         label: __DARWIN__
           ? `Open in ${selectedShell ?? 'Shell'}`
           : `O&pen in ${selectedShell ?? 'shell'}`,

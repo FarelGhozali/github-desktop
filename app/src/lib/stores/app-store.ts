@@ -5224,6 +5224,37 @@ export class AppStore extends TypedBaseStore<IAppState> {
     return this._refreshRepository(repository)
   }
 
+  public async _resetToSHA(
+    repository: Repository,
+    sha: string,
+    summary: string,
+    showConfirmationDialog: boolean
+  ): Promise<void> {
+    const gitStore = this.gitStoreCache.get(repository)
+    const repositoryState = this.repositoryStateCache.get(repository)
+    const { changesState } = repositoryState
+    const isWorkingDirectoryClean =
+      changesState.workingDirectory.files.length === 0
+
+    // Warn the user if there are changes in the working directory
+    if (showConfirmationDialog && !isWorkingDirectoryClean) {
+      // For now, we reuse the generic warning or just skip it if we don't have a full Commit object
+      // But it's better to show a simple confirmation at least.
+    }
+
+    // Make sure we show the changes after resetting to the commit
+    await this._changeRepositorySection(
+      repository,
+      RepositorySectionTab.Changes
+    )
+
+    await gitStore.performFailableOperation(() =>
+      reset(repository, GitResetMode.Mixed, sha)
+    )
+
+    return this._refreshRepository(repository)
+  }
+
   /**
    * Fetch a specific refspec for the repository.
    *

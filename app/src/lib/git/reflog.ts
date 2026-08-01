@@ -1,5 +1,67 @@
 import { git } from './core'
 import { Repository } from '../../models/repository'
+import { IReflogEntry } from '../../models/reflog'
+
+/**
+ * Get all reflog entries for the repository.
+ */
+export async function getReflog(
+  repository: Repository
+): Promise<ReadonlyArray<IReflogEntry>> {
+  const result = await git(
+    ['reflog', '--date=iso', '--pretty=%H%x00%h%x00%gd%x00%gs%x00%ci', '--'],
+    repository.path,
+    'getReflog',
+    { successExitCodes: new Set([0, 128]) }
+  )
+
+  if (result.exitCode === 128) {
+    return []
+  }
+
+  const lines = result.stdout.split('\n')
+  const entries: IReflogEntry[] = []
+
+  for (const line of lines) {
+    if (line.length === 0) {
+      continue
+    }
+
+    const parts = line.split('\u0000')
+    if (parts.length !== 5) {
+      continue
+    }
+
+    const [sha, shortSha, selector, subject, dateString] = parts
+    const { action, description } = parseReflogSubject(subject)
+
+    entries.push({
+      sha,
+      shortSha,
+      selector,
+      action,
+      description,
+      date: new Date(dateString),
+    })
+  }
+
+  return entries
+}
+
+function parseReflogSubject(subject: string): {
+  action: string
+  description: string
+} {
+  const colonIndex = subject.indexOf(':')
+  if (colonIndex === -1) {
+    return { action: subject, description: '' }
+  }
+
+  return {
+    action: subject.substring(0, colonIndex).trim(),
+    description: subject.substring(colonIndex + 1).trim(),
+  }
+}
 
 /**
  * Get the `limit` most recently checked out branches.

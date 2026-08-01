@@ -1363,6 +1363,21 @@ export class Dispatcher {
     )
   }
 
+  /** Reset to a given SHA. */
+  public resetToSHA(
+    repository: Repository,
+    sha: string,
+    summary: string,
+    showConfirmationDialog: boolean = true
+  ): Promise<void> {
+    return this.appStore._resetToSHA(
+      repository,
+      sha,
+      summary,
+      showConfirmationDialog
+    )
+  }
+
   /** Revert the commit with the given SHA */
   public revertCommit(repository: Repository, commit: Commit): Promise<void> {
     return this.appStore._revertCommit(repository, commit)
