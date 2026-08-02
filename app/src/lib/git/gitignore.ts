@@ -70,7 +70,8 @@ export async function untrackFiles(
 
   await git(['rm', '-r', '--cached', '--', ...paths], repository.path, 'untrackFiles')
 }
- *
+
+/**
  * If the repository root doesn't contain a .gitignore file one
  * will be created, otherwise the current file will be overwritten.
  */

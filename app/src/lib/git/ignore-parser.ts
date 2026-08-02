@@ -26,7 +26,6 @@ export function parseGitIgnore(text: string): ReadonlyArray<IIgnoreLine> {
     }
 
     if (line.startsWith('#')) {
-      const content = line.substring(1).trim()
       // If the comment looks like a disabled pattern (starts with a space),
       // we could potentially treat it as such.
       // But for simplicity, let's see if it's just a regular comment or a disabled pattern.

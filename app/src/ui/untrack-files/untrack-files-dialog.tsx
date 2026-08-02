@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { Repository } from '../../../models/repository'
+import { Repository } from '../../models/repository'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
-import { untrackFiles } from '../../../lib/git/gitignore'
+import { untrackFiles } from '../../lib/git/gitignore'
 import { Dispatcher } from '../dispatcher'
-import { PathLabel } from '../lib/path-label'
+import { PathText } from '../lib/path-text'
 
 interface IUntrackFilesProps {
   readonly repository: Repository
@@ -48,7 +48,7 @@ export class UntrackFilesDialog extends React.Component<
           </p>
           <div className="file-list">
             {this.props.files.map(f => (
-              <PathLabel key={f} path={f} />
+              <PathText key={f} path={f} />
             ))}
           </div>
         </DialogContent>
