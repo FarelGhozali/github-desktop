@@ -1066,6 +1066,8 @@ export class App extends React.Component<IAppProps, IAppState> {
         repository,
       })
     }
+  }
+
   private showBranchComparison() {
     const repository = this.getRepository()
     if (!(repository instanceof Repository)) {
@@ -2782,7 +2784,7 @@ export class App extends React.Component<IAppProps, IAppState> {
         )
       }
       case PopupType.ManageWorktree: {
-        const repositoryState = this.props.repositoryStateCache.get(popup.repository)
+        const repositoryState = this.props.repositoryStateManager.get(popup.repository)
         return (
           <WorktreeManager
             repository={popup.repository}
@@ -2793,7 +2795,7 @@ export class App extends React.Component<IAppProps, IAppState> {
         )
       }
       case PopupType.AddWorktree: {
-        const repositoryState = this.props.repositoryStateCache.get(popup.repository)
+        const repositoryState = this.props.repositoryStateManager.get(popup.repository)
         return (
           <AddWorktreeDialog
             repository={popup.repository}

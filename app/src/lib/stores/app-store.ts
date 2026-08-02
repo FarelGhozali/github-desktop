@@ -113,6 +113,7 @@ import {
   Foldout,
   FoldoutType,
   IAppState,
+  IHistoryFilter,
   ICompareBranch,
   ICompareFormUpdate,
   ICompareToBranch,
@@ -189,6 +190,8 @@ import {
   getBranchMergeBaseDiff,
   checkoutCommit,
   getRemoteURL,
+  addWorktree,
+  removeWorktree,
 } from '../git'
 import {
   installGlobalLFSFilters,
@@ -1690,7 +1693,20 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }))
 
     const { compareState } = this.repositoryStateCache.get(repository)
-    return this._executeCompare(repository, compareState.formState)
+    const { formState } = compareState
+
+    let action: CompareAction
+    if (formState.kind === HistoryTabMode.History) {
+      action = { kind: HistoryTabMode.History }
+    } else {
+      action = {
+        kind: HistoryTabMode.Compare,
+        branch: formState.comparisonBranch,
+        comparisonMode: formState.comparisonMode,
+      }
+    }
+
+    return this._executeCompare(repository, action)
   }
 
   /** This shouldn't be called directly. See `Dispatcher`. */

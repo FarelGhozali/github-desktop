@@ -321,7 +321,7 @@ export function buildDefaultMenu({
       },
       {
         id: 'view-reflog',
-        label: __DARWIN__ ? 'View Reflog' : 'View &Reflog',
+        label: __DARWIN__ ? 'View Reflog' : 'View Reflo&g',
         click: emit('show-reflog'),
       },
       {

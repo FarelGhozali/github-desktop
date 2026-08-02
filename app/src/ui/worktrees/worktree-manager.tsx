@@ -75,6 +75,7 @@ export class WorktreeManager extends React.Component<IWorktreeManagerProps, {}> 
               rowCount={this.props.worktrees.length}
               rowHeight={RowHeight}
               rowRenderer={this.renderRow}
+              selectedRows={[]}
               id="worktree-list"
             />
           </div>
