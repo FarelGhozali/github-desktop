@@ -348,6 +348,7 @@ function getInitialRepositoryState(): IRepositoryState {
       isLoadingPullRequests: false,
       forcePushBranches: new Map<string, string>(),
     },
+    worktrees: [],
     compareState: {
       formState: {
         kind: HistoryTabMode.History,
@@ -356,6 +357,7 @@ function getInitialRepositoryState(): IRepositoryState {
       mergeStatus: null,
       showBranchList: false,
       filterText: '',
+      historyFilter: {},
       commitSHAs: [],
       shasToHighlight: [],
       branches: new Array<Branch>(),

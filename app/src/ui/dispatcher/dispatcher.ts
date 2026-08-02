@@ -21,6 +21,7 @@ import {
   CherryPickConflictState,
   MultiCommitOperationConflictState,
   IMultiCommitOperationState,
+  IHistoryFilter,
 } from '../../lib/app-state'
 import { assertNever, fatalError } from '../../lib/fatal-error'
 import {
@@ -211,6 +212,24 @@ export class Dispatcher {
     moveToTrash: boolean
   ): Promise<void> {
     return this.appStore._removeRepository(repository, moveToTrash)
+  }
+
+  /** Add a new worktree to the current repository */
+  public addWorktree(
+    repository: Repository,
+    path: string,
+    branch: string
+  ): Promise<void> {
+    return this.appStore._addWorktree(repository, path, branch)
+  }
+
+  /** Remove a worktree from the current repository */
+  public removeWorktree(
+    repository: Repository,
+    path: string,
+    force: boolean = false
+  ): Promise<void> {
+    return this.appStore._removeWorktree(repository, path, force)
   }
 
   /** Update the repository's `missing` flag. */
@@ -1366,6 +1385,21 @@ export class Dispatcher {
   /** Revert the commit with the given SHA */
   public revertCommit(repository: Repository, commit: Commit): Promise<void> {
     return this.appStore._revertCommit(repository, commit)
+  }
+
+  /** Reset to a given SHA. */
+  public resetToSHA(
+    repository: Repository,
+    sha: string,
+    summary: string,
+    showConfirmationDialog: boolean = true
+  ): Promise<void> {
+    return this.appStore._resetToSHA(
+      repository,
+      sha,
+      summary,
+      showConfirmationDialog
+    )
   }
 
   /**
@@ -2779,6 +2813,14 @@ export class Dispatcher {
     newState: Pick<ICompareFormUpdate, K>
   ) {
     return this.appStore._updateCompareForm(repository, newState)
+  }
+
+  /** Update the history filter for the current repository */
+  public updateHistoryFilter(
+    repository: Repository,
+    filter: IHistoryFilter
+  ): Promise<void> {
+    return this.appStore._updateHistoryFilter(repository, filter)
   }
 
   /**

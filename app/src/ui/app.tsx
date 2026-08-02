@@ -170,6 +170,9 @@ import { getRepositoryType } from '../lib/git'
 import { SSHUserPassword } from './ssh/ssh-user-password'
 import { showContextualMenu } from '../lib/menu-item'
 import { UnreachableCommitsDialog } from './history/unreachable-commits-dialog'
+import { Reflog } from './reflog/reflog'
+import { WorktreeManager } from './worktrees/worktree-manager'
+import { AddWorktreeDialog } from './worktrees/add-worktree-dialog'
 import { OpenPullRequestDialog } from './open-pull-request/open-pull-request-dialog'
 import { sendNonFatalException } from '../lib/helpers/non-fatal-exception'
 import { createCommitURL } from '../lib/commit-url'
@@ -557,6 +560,10 @@ export class App extends React.Component<IAppProps, IAppState> {
         return this.showFakeMergeSuccessfulBanner()
       case 'show-icon-test-dialog':
         return this.showIconTestDialog()
+      case 'show-reflog':
+        return this.showReflog()
+      case 'show-worktrees':
+        return this.showWorktreeManager()
       default:
         return assertNever(name, `Unknown menu event name: ${name}`)
     }
@@ -1042,6 +1049,23 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   private showAbout() {
     this.props.dispatcher.showPopup({ type: PopupType.About })
+  }
+
+  private showReflog() {
+    const repository = this.getRepository()
+    if (repository instanceof Repository) {
+      this.props.dispatcher.showPopup({ type: PopupType.Reflog, repository })
+    }
+  }
+
+  private showWorktreeManager() {
+    const repository = this.getRepository()
+    if (repository instanceof Repository) {
+      this.props.dispatcher.showPopup({
+        type: PopupType.ManageWorktree,
+        repository,
+      })
+    }
   }
 
   private showBranchComparison() {
@@ -2749,6 +2773,37 @@ export class App extends React.Component<IAppProps, IAppState> {
       }
       case PopupType.ConfirmRestart: {
         return <ConfirmRestart onDismissed={onPopupDismissedFn} />
+      }
+      case PopupType.Reflog: {
+        return (
+          <Reflog
+            repository={popup.repository}
+            dispatcher={this.props.dispatcher}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.ManageWorktree: {
+        const repositoryState = this.props.repositoryStateManager.get(popup.repository)
+        return (
+          <WorktreeManager
+            repository={popup.repository}
+            worktrees={repositoryState.worktrees}
+            dispatcher={this.props.dispatcher}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
+      }
+      case PopupType.AddWorktree: {
+        const repositoryState = this.props.repositoryStateManager.get(popup.repository)
+        return (
+          <AddWorktreeDialog
+            repository={popup.repository}
+            allBranches={repositoryState.branchesState.allBranches}
+            dispatcher={this.props.dispatcher}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
       }
       default:
         return assertNever(popup, `Unknown popup type: ${popup}`)

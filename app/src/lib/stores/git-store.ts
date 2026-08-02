@@ -22,7 +22,7 @@ import {
   ICommitMessage,
   DefaultCommitMessage,
 } from '../../models/commit-message'
-import { ComparisonMode } from '../app-state'
+import { ComparisonMode, IHistoryFilter } from '../app-state'
 
 import { IAppShell } from '../app-shell'
 import {
@@ -91,6 +91,7 @@ import { formatCommitMessage } from '../format-commit-message'
 import { GitAuthor } from '../../models/git-author'
 import { BaseStore } from './base-store'
 import { getStashes, getStashedFiles } from '../git/stash'
+import { IWorktree, getWorktrees } from '../git/worktree'
 import { IStashEntry, StashedChangesLoadStates } from '../../models/stash-entry'
 import { PullRequest } from '../../models/pull-request'
 import { StatsStore } from '../stats'
@@ -118,6 +119,8 @@ export class GitStore extends BaseStore {
 
   private _history: ReadonlyArray<string> = []
 
+  private _historyFilter: IHistoryFilter = {}
+
   private readonly requestsInFight = new Set<string>()
 
   private _tip: Tip = { kind: TipState.Unknown }
@@ -131,6 +134,8 @@ export class GitStore extends BaseStore {
   private _allBranches: ReadonlyArray<Branch> = []
 
   private _recentBranches: ReadonlyArray<Branch> = []
+
+  private _worktrees: ReadonlyArray<IWorktree> = []
 
   private _localCommitSHAs: ReadonlyArray<string> = []
 
@@ -186,7 +191,14 @@ export class GitStore extends BaseStore {
     const range = revRange('HEAD', mergeBase)
 
     const commits = await this.performFailableOperation(() =>
-      getCommits(this.repository, range, CommitBatchSize)
+      getCommits(
+        this.repository,
+        range,
+        CommitBatchSize,
+        undefined,
+        [],
+        this._historyFilter
+      )
     )
     if (commits == null) {
       return
@@ -227,7 +239,14 @@ export class GitStore extends BaseStore {
     this.requestsInFight.add(requestKey)
 
     const commits = await this.performFailableOperation(() =>
-      getCommits(this.repository, commitish, CommitBatchSize, skip)
+      getCommits(
+        this.repository,
+        commitish,
+        CommitBatchSize,
+        skip,
+        [],
+        this._historyFilter
+      )
     )
 
     this.requestsInFight.delete(requestKey)
@@ -237,6 +256,21 @@ export class GitStore extends BaseStore {
 
     this.storeCommits(commits)
     return commits.map(c => c.sha)
+  }
+
+  public updateHistoryFilter(filter: IHistoryFilter) {
+    this._historyFilter = filter
+  }
+
+  public async refreshWorktrees() {
+    const worktrees = await this.performFailableOperation(() =>
+      getWorktrees(this.repository)
+    )
+
+    if (worktrees !== undefined) {
+      this._worktrees = worktrees
+      this.emitUpdate()
+    }
   }
 
   public async refreshTags() {
@@ -403,6 +437,8 @@ export class GitStore extends BaseStore {
     // refreshRecentBranches is dependent on having a default branch
     await this.refreshDefaultBranch()
     this.refreshRecentBranches(recentBranchNames)
+
+    await this.refreshWorktrees()
 
     await this.checkPullWithRebase()
 
@@ -591,6 +627,11 @@ export class GitStore extends BaseStore {
   /** The most recently checked out branches. */
   public get recentBranches(): ReadonlyArray<Branch> {
     return this._recentBranches
+  }
+
+  /** The worktrees associated with the repository. */
+  public get worktrees(): ReadonlyArray<IWorktree> {
+    return this._worktrees
   }
 
   /**

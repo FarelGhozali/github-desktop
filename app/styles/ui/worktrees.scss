@@ -1,0 +1,55 @@
+.worktree-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--base-border-color);
+
+  .worktree-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+
+    .worktree-path {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-weight: 600;
+      color: var(--text-color);
+
+      .main-badge {
+        background-color: var(--button-bg-color);
+        color: var(--button-text-color);
+        font-size: var(--font-size-xs);
+        padding: 1px 4px;
+        border-radius: 3px;
+        text-transform: uppercase;
+      }
+    }
+
+    .worktree-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: var(--font-size-sm);
+      color: var(--secondary-text-color);
+      margin-top: 4px;
+
+      .octicon {
+        margin-right: -8px;
+      }
+
+      .worktree-head {
+        font-family: var(--font-family-mono);
+        background-color: var(--button-secondary-bg-color);
+        padding: 1px 4px;
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .button-component {
+    margin-left: 12px;
+  }
+}
