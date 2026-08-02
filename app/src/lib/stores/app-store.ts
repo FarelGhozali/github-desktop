@@ -439,11 +439,11 @@ const customEditorKey = 'custom-editor'
 export const useCustomShellKey = 'use-custom-shell'
 const customShellKey = 'custom-shell'
 
-const underlineLinksKey = 'underline-links'
+export const underlineLinksKey = 'underline-links'
 export const underlineLinksDefault = true
 
-const showDiffCheckMarksDefault = true
-const showDiffCheckMarksKey = 'diff-check-marks-visible'
+export const showDiffCheckMarksDefault = true
+export const showDiffCheckMarksKey = 'diff-check-marks-visible'
 
 const isHistoryFocusModeActiveKey = 'history-focus-mode-active'
 const isHistoryFocusModeActiveDefault = false
@@ -597,7 +597,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
   private underlineLinks: boolean = underlineLinksDefault
 
-  private isHistoryFocusModeActive: boolean
+  private isHistoryFocusModeActive: boolean = isHistoryFocusModeActiveDefault
 
   public constructor(
     private readonly gitHubUserStore: GitHubUserStore,

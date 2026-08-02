@@ -25,6 +25,7 @@ describe('GitStoreCache', () => {
     const cache = new GitStoreCache(
       shell,
       statsStore,
+      () => false,
       onGitStoreUpdated,
       onDidError
     )
@@ -39,6 +40,7 @@ describe('GitStoreCache', () => {
     const cache = new GitStoreCache(
       shell,
       statsStore,
+      () => false,
       onGitStoreUpdated,
       onDidError
     )

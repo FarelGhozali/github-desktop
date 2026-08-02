@@ -35,6 +35,7 @@ describe('BranchPruner', () => {
     gitStoreCache = new GitStoreCache(
       shell,
       statsStore,
+      () => false,
       onGitStoreUpdated,
       onDidError
     )
