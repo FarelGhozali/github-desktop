@@ -29,6 +29,9 @@ interface IBranchListItemProps {
 
   /** When a drag element has landed on the current branch */
   readonly onDropOntoCurrentBranch?: () => void
+
+  /** Called when the user clicks the compare button */
+  readonly onCompareClick?: (branchName: string) => void
 }
 
 interface IBranchListItemState {
@@ -91,7 +94,7 @@ export class BranchListItem extends React.Component<
   }
 
   public render() {
-    const { lastCommitDate, isCurrentBranch, name } = this.props
+    const { lastCommitDate, isCurrentBranch, name, onCompareClick } = this.props
     const icon = isCurrentBranch ? octicons.check : octicons.gitBranch
     const className = classNames('branches-list-item', {
       'drop-target': this.state.isDragInProgress,
@@ -114,6 +117,15 @@ export class BranchListItem extends React.Component<
         >
           <HighlightText text={name} highlight={this.props.matches.title} />
         </TooltippedContent>
+        {onCompareClick && !isCurrentBranch && (
+          <button
+            className="compare-icon"
+            onClick={this.onCompareClick}
+            title="Compare to branch"
+          >
+            <Octicon symbol={octicons.diff} />
+          </button>
+        )}
         {lastCommitDate && (
           <RelativeTime
             className="description"
@@ -123,5 +135,11 @@ export class BranchListItem extends React.Component<
         )}
       </div>
     )
+  }
+
+  private onCompareClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    this.props.onCompareClick?.(this.props.name)
   }
 }
