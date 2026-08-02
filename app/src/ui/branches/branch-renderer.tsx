@@ -12,7 +12,8 @@ export function renderDefaultBranch(
   matches: IMatches,
   currentBranch: Branch | null,
   onDropOntoBranch?: (branchName: string) => void,
-  onDropOntoCurrentBranch?: () => void
+  onDropOntoCurrentBranch?: () => void,
+  onCompareClick?: (branchName: string) => void
 ): JSX.Element {
   const branch = item.branch
   const commit = branch.tip
@@ -25,6 +26,7 @@ export function renderDefaultBranch(
       matches={matches}
       onDropOntoBranch={onDropOntoBranch}
       onDropOntoCurrentBranch={onDropOntoCurrentBranch}
+      onCompareClick={onCompareClick}
     />
   )
 }

@@ -16,6 +16,7 @@ import {
   ChangesSelectionKind,
   IConstrainedValue,
 } from '../lib/app-state'
+import { CompareView } from './comparison/compare-view'
 import { Dispatcher } from './dispatcher'
 import { IssuesStore, GitHubUserStore } from '../lib/stores'
 import { assertNever } from '../lib/fatal-error'
@@ -177,7 +178,7 @@ export class RepositoryView extends React.Component<
       this.props.state.changesState.workingDirectory.files.length
 
     if (filesChangedCount <= 0) {
-      return null
+      return <></>
     }
 
     return <FilesChangedBadge filesChangedCount={filesChangedCount} />
@@ -331,6 +332,8 @@ export class RepositoryView extends React.Component<
       return this.renderChangesSidebar()
     } else if (selectedSection === RepositorySectionTab.History) {
       return this.renderCompareSidebar()
+    } else if (selectedSection === RepositorySectionTab.Comparison) {
+      return <></>
     } else {
       return assertNever(selectedSection, 'Unknown repository section')
     }
@@ -405,6 +408,32 @@ export class RepositoryView extends React.Component<
     }
 
     return null
+  }
+
+  private renderComparison(): JSX.Element | null {
+    const { branchComparisonState, branchesState } = this.props.state
+    if (branchComparisonState === null) {
+      return null
+    }
+
+    const { tip, allBranches, recentBranches, defaultBranch } = branchesState
+    const currentBranch = tip.kind === TipState.Valid ? tip.branch : null
+
+    return (
+      <CompareView
+        repository={this.props.repository}
+        dispatcher={this.props.dispatcher}
+        state={branchComparisonState}
+        imageDiffType={this.props.imageDiffType}
+        hideWhitespaceInDiff={this.props.hideWhitespaceInHistoryDiff}
+        showSideBySideDiff={this.props.showSideBySideDiff}
+        sidebarWidth={this.props.sidebarWidth}
+        allBranches={allBranches}
+        recentBranches={recentBranches}
+        defaultBranch={defaultBranch}
+        currentBranch={currentBranch}
+      />
+    )
   }
 
   private onHideWhitespaceInDiffChanged = (hideWhitespaceInDiff: boolean) => {
@@ -576,12 +605,22 @@ export class RepositoryView extends React.Component<
       return this.renderContentForChanges()
     } else if (selectedSection === RepositorySectionTab.History) {
       return this.renderContentForHistory()
+    } else if (selectedSection === RepositorySectionTab.Comparison) {
+      return this.renderComparison()
     } else {
       return assertNever(selectedSection, 'Unknown repository section')
     }
   }
 
   public render() {
+    if (this.props.state.selectedSection === RepositorySectionTab.Comparison) {
+      return (
+        <UiView id="repository">
+          {this.renderContent()}
+        </UiView>
+      )
+    }
+
     return (
       <UiView id="repository">
         {this.renderSidebar()}
