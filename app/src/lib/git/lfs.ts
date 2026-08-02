@@ -35,6 +35,83 @@ export async function isUsingLFS(repository: Repository): Promise<boolean> {
   return result.stdout.length > 0
 }
 
+/** Get the list of tracked patterns from Git LFS. */
+export async function getLFSTrackedPatterns(
+  repository: Repository
+): Promise<ReadonlyArray<string>> {
+  const env = {
+    GIT_LFS_TRACK_NO_INSTALL_HOOKS: '1',
+  }
+  const result = await git(['lfs', 'track'], repository.path, 'getLFSTrackedPatterns', {
+    env,
+  })
+
+  // Output format of `git lfs track`:
+  // Listing tracked patterns
+  //     *.psd (.gitattributes)
+  //     *.mp4 (.gitattributes)
+  const lines = result.stdout.split('\n')
+  const patterns = new Array<string>()
+  const patternRegex = /^\s+(.*)\s+\(.gitattributes\)$/
+
+  for (const line of lines) {
+    const match = patternRegex.exec(line)
+    if (match) {
+      patterns.push(match[1])
+    }
+  }
+
+  return patterns
+}
+
+/** Track a new pattern with Git LFS. */
+export async function trackPattern(
+  repository: Repository,
+  pattern: string
+): Promise<void> {
+  await git(['lfs', 'track', pattern], repository.path, 'trackPattern')
+  await git(['add', '.gitattributes'], repository.path, 'stageGitAttributes')
+}
+
+/** Untrack a pattern from Git LFS. */
+export async function untrackPattern(
+  repository: Repository,
+  pattern: string
+): Promise<void> {
+  await git(['lfs', 'untrack', pattern], repository.path, 'untrackPattern')
+  await git(['add', '.gitattributes'], repository.path, 'stageGitAttributes')
+}
+
+/**
+ * The metadata about a file tracked by Git LFS.
+ */
+export interface ILFSFile {
+  readonly sha: string
+  readonly path: string
+}
+
+/** Get the list of files tracked by Git LFS. */
+export async function getLFSFiles(
+  repository: Repository
+): Promise<ReadonlyArray<ILFSFile>> {
+  const result = await git(['lfs', 'ls-files'], repository.path, 'getLFSFiles')
+  
+  // Output format of `git lfs ls-files`:
+  // <sha> * <path>
+  // <sha> - <path>
+  const lines = result.stdout.split('\n')
+  const files = new Array<ILFSFile>()
+  
+  for (const line of lines) {
+    const parts = line.split(' ')
+    if (parts.length >= 3) {
+      files.push({ sha: parts[0], path: parts.slice(2).join(' ') })
+    }
+  }
+  
+  return files
+}
+
 /**
  * Check if a provided file path is being tracked by Git LFS
  *

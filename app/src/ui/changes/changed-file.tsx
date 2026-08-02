@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { PathLabel } from '../lib/path-label'
 import { Octicon, iconForStatus } from '../octicons'
+import * as octicons from '../octicons/octicons.generated'
 import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { mapStatus } from '../../lib/status'
 import { WorkingDirectoryFileChange } from '../../models/status'
@@ -91,6 +92,17 @@ export class ChangedFile extends React.Component<IChangedFileProps, {}> {
         />
 
         <AriaLiveContainer message={pathScreenReaderMessage} />
+        {file.exceedsLFSThreshold && (
+          <TooltippedContent
+            tooltip="This file is excessively large. Consider tracking it with LFS before committing to prevent repository bloat."
+            direction={TooltipDirection.EAST}
+          >
+            <Octicon
+              symbol={octicons.alert}
+              className="lfs-threshold-warning"
+            />
+          </TooltippedContent>
+        )}
         <TooltippedContent
           ancestorFocused={focused}
           openOnFocus={true}
