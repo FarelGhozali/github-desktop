@@ -1860,7 +1860,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
   }
 
   public async _openNewRepositoryTab(): Promise<void> {
-    this.popupManager.showPopup({ type: 1 /* PopupType.RepositoryList or similar, but 1 is usually something. For simplicity, just emit */ } as any)
+    this._showPopup({ type: 1 /* PopupType.RepositoryList or similar, but 1 is usually something. For simplicity, just emit */ } as any)
     this.emitUpdate()
   }
 

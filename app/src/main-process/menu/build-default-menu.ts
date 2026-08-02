@@ -188,13 +188,13 @@ export function buildDefaultMenu({
         click: emit('choose-repository'),
       },
       {
-        label: __DARWIN__ ? 'Close Tab' : '&Close Tab',
+        label: __DARWIN__ ? 'Close Tab' : 'C&lose Tab',
         id: 'close-tab',
         accelerator: 'CmdOrCtrl+W',
         click: emit('close-tab'),
       },
       {
-        label: __DARWIN__ ? 'Next Tab' : '&Next Tab',
+        label: __DARWIN__ ? 'Next Tab' : 'Ne&xt Tab',
         id: 'next-tab',
         accelerator: 'Ctrl+Tab',
         click: emit('next-tab'),

@@ -558,6 +558,10 @@ export class App extends React.Component<IAppProps, IAppState> {
         return this.showFakeMergeSuccessfulBanner()
       case 'show-icon-test-dialog':
         return this.showIconTestDialog()
+      case 'close-tab':
+      case 'next-tab':
+      case 'previous-tab':
+        return
       default:
         return assertNever(name, `Unknown menu event name: ${name}`)
     }
