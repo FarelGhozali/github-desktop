@@ -1,0 +1,114 @@
+.gitignore-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .gitignore-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing);
+
+    p {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .link-button-component {
+      margin-left: var(--spacing);
+      white-space: nowrap;
+    }
+  }
+
+  .advanced-ignore-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+
+    .add-pattern-row, .template-row {
+      display: flex;
+      gap: var(--spacing);
+      margin-bottom: var(--spacing);
+      align-items: flex-end;
+
+      .text-box-component, .select-component {
+        flex: 1;
+      }
+
+      button {
+        flex-shrink: 0;
+      }
+    }
+
+    .ignore-list-container {
+      flex: 1;
+      overflow-y: auto;
+      border: var(--base-border);
+      border-radius: var(--border-radius);
+      background-color: var(--background-color);
+      padding: var(--spacing-half);
+    }
+  }
+}
+
+.ignore-pattern-list {
+  .ignore-line {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-half);
+    gap: var(--spacing);
+    border-bottom: 1px solid var(--base-border);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.comment {
+      background-color: var(--pushed-indicator-color); // subtle highlight
+      font-style: italic;
+      color: var(--text-secondary-color);
+
+      .comment-content {
+        flex: 1;
+        @include ellipsis;
+      }
+    }
+
+    &.pattern {
+      .pattern-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        color: var(--text-color);
+        padding: 4px;
+
+        &:focus {
+          outline: 1px solid var(--accent-color);
+          background-color: var(--background-color);
+        }
+
+        &:disabled {
+          text-decoration: line-through;
+          color: var(--text-secondary-color);
+        }
+      }
+    }
+
+    &.empty {
+      height: 8px;
+    }
+
+    .remove-button {
+      padding: 4px;
+      height: auto;
+      min-width: auto;
+      background: transparent;
+      color: var(--text-secondary-color);
+
+      &:hover {
+        color: var(--error-color);
+      }
+    }
+  }
+}
