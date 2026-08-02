@@ -290,13 +290,16 @@ export class CompareSidebar extends React.Component<
         bisectState={this.props.bisectState}
         onStartBisect={this.onStartBisect}
         onMarkBisect={this.onMarkBisect}
+        onRewordCommit={this.onRewordCommit}
+        onFixupCommit={this.onFixupCommit}
+        onSquashCommit={this.onSquashCommit}
+        onDropCommit={this.onDropCommit}
       />
     )
   }
 
   private onStartBisect = (commit: Commit, kind: 'good' | 'bad') => {
     if (kind === 'bad') {
-      this.props.dispatcher.startBisect(this.props.repository, commit.sha)
     } else {
       // If marking as good first, we need a bad revision. Default to HEAD.
       this.props.dispatcher.startBisect(
@@ -315,9 +318,24 @@ export class CompareSidebar extends React.Component<
     }
   }
 
+  private onRewordCommit = (commit: Commit) => {
+    this.props.dispatcher.showRewordDialog(this.props.repository, commit)
+
+  private onFixupCommit = (commit: Commit) => {
+    this.props.dispatcher.showFixupCommitDialog(this.props.repository, commit)
+  }
+
+  private onSquashCommit = (commit: Commit) => {
+    this.props.dispatcher.showSquashCommitDialog(this.props.repository, commit)
+  }
+
+  private onDropCommit = (commit: Commit) => {
+    this.props.dispatcher.showDropCommitDialog(this.props.repository, commit)
+  }
+
+
   private onCancelKeyboardReorder = () => {
     this.setState({ keyboardReorderData: undefined })
-  }
 
   private onDropCommitInsertion = async (
     baseCommit: Commit | null,

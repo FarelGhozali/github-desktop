@@ -159,6 +159,12 @@ interface ICommitListProps {
   /** Callback to mark a commit as good/bad in an active bisect */
   readonly onMarkBisect?: (commit: Commit, kind: 'good' | 'bad') => void
   }
+  /** Callback to fire when the user wants to start an interactive rebase. */
+  readonly onRewordCommit?: (commit: Commit) => void
+  readonly onFixupCommit?: (commit: Commit) => void
+  readonly onSquashCommit?: (commit: Commit) => void
+  readonly onDropCommit?: (commit: Commit) => void
+
   /* Tags that haven't been pushed yet. This is used to show the unpushed indicator */
   readonly tagsToPush?: ReadonlyArray<string>
 
@@ -671,6 +677,42 @@ export class CommitList extends React.Component<
     }
 
     const items: IMenuItem[] = []
+
+    if (this.props.onRewordCommit !== undefined) {
+      items.push({
+        label: __DARWIN__
+          ? 'Reword Commit…'
+          : 'Reword commit…',
+        action: () => this.props.onRewordCommit?.(commit),
+      })
+    }
+    if (this.props.onFixupCommit !== undefined && commit.parentSHAs.length > 0) {
+      items.push({
+        label: __DARWIN__
+          ? 'Fixup with Previous Commit…'
+          : 'Fixup with previous commit…',
+        action: () => this.props.onFixupCommit?.(commit),
+      })
+    }
+    if (this.props.onSquashCommit !== undefined && commit.parentSHAs.length > 0) {
+      items.push({
+        label: __DARWIN__
+          ? 'Squash with Previous Commit…'
+          : 'Squash with previous commit…',
+        action: () => this.props.onSquashCommit?.(commit),
+      })
+    }
+    if (this.props.onDropCommit !== undefined) {
+      items.push({
+        label: __DARWIN__
+          ? 'Drop Commit…'
+          : 'Drop commit…',
+        action: () => this.props.onDropCommit?.(commit),
+      })
+    }
+    if (this.props.onRewordCommit !== undefined || this.props.onFixupCommit !== undefined || this.props.onSquashCommit !== undefined || this.props.onDropCommit !== undefined) {
+      items.push({ type: 'separator' })
+    }
 
     if (canBeAmended) {
       items.push({

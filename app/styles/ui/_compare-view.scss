@@ -1,0 +1,41 @@
+#compare-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+
+  .compare-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--base-border-color);
+    background-color: var(--header-background-color);
+
+    .branch-selectors {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .swap-button {
+        padding: 5px;
+      }
+    }
+  }
+
+  .compare-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+
+    .file-list {
+      height: 100%;
+    }
+
+    .diff-container {
+      flex: 1;
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+}
