@@ -80,6 +80,16 @@ export interface IAppState {
   readonly repositories: ReadonlyArray<Repository | CloningRepository>
 
   /**
+   * The array of repositories currently open in tabs
+   */
+  readonly openRepositories: ReadonlyArray<Repository>
+
+  /**
+   * The index of the currently active repository tab
+   */
+  readonly activeRepositoryIndex: number
+
+  /**
    * List of IDs of the most recently opened repositories (most recent first)
    */
   readonly recentRepositories: ReadonlyArray<number>

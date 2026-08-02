@@ -285,6 +285,18 @@ export class Dispatcher {
     return this.appStore._selectRepository(repository)
   }
 
+  public selectRepositoryTab(index: number): Promise<void> {
+    return this.appStore._selectRepositoryTab(index)
+  }
+
+  public closeRepositoryTab(index: number): Promise<void> {
+    return this.appStore._closeRepositoryTab(index)
+  }
+
+  public openNewRepositoryTab(): Promise<void> {
+    return this.appStore._openNewRepositoryTab()
+  }
+
   /** Change the selected section in the repository. */
   public changeRepositorySection(
     repository: Repository,

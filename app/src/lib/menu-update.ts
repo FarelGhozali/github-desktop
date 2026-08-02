@@ -124,7 +124,7 @@ const allMenuIds: ReadonlyArray<MenuIDs> = [
   'create-branch',
   'show-changes',
   'show-history',
-  'show-repository-list',
+  'new-tab',
   'show-branches-list',
   'open-working-directory',
   'show-repository-settings',
@@ -413,7 +413,7 @@ function getInWelcomeFlowBuilder(inWelcomeFlow: boolean): MenuStateBuilder {
 
 function getNoRepositoriesBuilder(state: IAppState): MenuStateBuilder {
   const noRepositoriesDisabledIds: ReadonlyArray<MenuIDs> = [
-    'show-repository-list',
+    'new-tab',
   ]
 
   const menuStateBuilder = new MenuStateBuilder()

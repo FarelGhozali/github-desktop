@@ -182,10 +182,28 @@ export function buildDefaultMenu({
         click: emit('show-history'),
       },
       {
-        label: __DARWIN__ ? 'Show Repository List' : 'Repository &list',
-        id: 'show-repository-list',
+        label: __DARWIN__ ? 'New Tab' : '&New Tab',
+        id: 'new-tab',
         accelerator: 'CmdOrCtrl+T',
         click: emit('choose-repository'),
+      },
+      {
+        label: __DARWIN__ ? 'Close Tab' : 'C&lose Tab',
+        id: 'close-tab',
+        accelerator: 'CmdOrCtrl+W',
+        click: emit('close-tab'),
+      },
+      {
+        label: __DARWIN__ ? 'Next Tab' : 'Ne&xt Tab',
+        id: 'next-tab',
+        accelerator: 'Ctrl+Tab',
+        click: emit('next-tab'),
+      },
+      {
+        label: __DARWIN__ ? 'Previous Tab' : '&Previous Tab',
+        id: 'previous-tab',
+        accelerator: 'Ctrl+Shift+Tab',
+        click: emit('previous-tab'),
       },
       {
         label: __DARWIN__ ? 'Show Branches List' : '&Branches list',
