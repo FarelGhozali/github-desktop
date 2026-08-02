@@ -110,9 +110,26 @@ export class BranchDropdown extends React.Component<IBranchDropdownProps> {
         emoji={this.props.emoji}
         onDeleteBranch={this.onDeleteBranch}
         onRenameBranch={this.onRenameBranch}
+        onCompareToBranch={this.onCompareToBranch}
         underlineLinks={this.props.underlineLinks}
       />
     )
+  }
+
+  private onCompareToBranch = (branchName: string) => {
+    const branches = this.props.repositoryState.branchesState.allBranches
+    const comparisonBranch = branches.find(b => b.name === branchName)
+    const tip = this.props.repositoryState.branchesState.tip
+    const currentBranch = tip.kind === TipState.Valid ? tip.branch : null
+
+    if (comparisonBranch && currentBranch) {
+      this.props.dispatcher.enterBranchComparisonMode(
+        this.props.repository,
+        currentBranch,
+        comparisonBranch
+      )
+      this.props.onDropDownStateChanged('closed')
+    }
   }
 
   private onDropDownStateChanged = (state: DropdownState) => {

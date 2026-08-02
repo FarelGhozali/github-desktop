@@ -12,6 +12,7 @@ export type MenuEvent =
   | 'create-repository'
   | 'rename-branch'
   | 'delete-branch'
+  | 'compare-with-branch'
   | 'discard-all-changes'
   | 'stash-all-changes'
   | 'show-preferences'
