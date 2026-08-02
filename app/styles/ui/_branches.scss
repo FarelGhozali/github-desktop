@@ -203,6 +203,31 @@
       }
     }
 
+    .compare-icon {
+      background: none;
+      border: none;
+      color: var(--text-secondary-color);
+      padding: var(--spacing-half);
+      margin-right: var(--spacing-half);
+      cursor: pointer;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+      outline: none;
+
+      &:hover {
+        color: var(--text-color);
+        background-color: var(--box-alt-background-color);
+      }
+      
+      &:focus {
+        outline: 1px solid var(--focus-color);
+        outline-offset: -1px;
+      }
+    }
+
     .description {
       margin-right: var(--spacing-half);
       color: var(--text-secondary-color);
