@@ -417,6 +417,9 @@ const commitSpellcheckEnabledKey = 'commit-spellcheck-enabled'
 export const tabSizeDefault: number = 8
 const tabSizeKey: string = 'tab-size'
 
+export const syntaxHighlightingEnabledDefault = true
+const syntaxHighlightingEnabledKey = 'syntax-highlighting-enabled'
+
 const shellKey = 'shell'
 
 const repositoryIndicatorsEnabledKey = 'enable-repository-indicators'
@@ -560,6 +563,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
   private selectedTheme = ApplicationTheme.System
   private currentTheme: ApplicableTheme = ApplicationTheme.Light
   private selectedTabSize = tabSizeDefault
+  private syntaxHighlightingEnabled = syntaxHighlightingEnabledDefault
   private titleBarStyle: TitleBarStyle = 'native'
 
   private useWindowsOpenSSH: boolean = false
@@ -1063,6 +1067,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       selectedTheme: this.selectedTheme,
       currentTheme: this.currentTheme,
       selectedTabSize: this.selectedTabSize,
+      syntaxHighlightingEnabled: this.syntaxHighlightingEnabled,
       titleBarStyle: this.titleBarStyle,
       apiRepositories: this.apiRepositoriesStore.getState(),
       useWindowsOpenSSH: this.useWindowsOpenSSH,
@@ -2263,6 +2268,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.currentTheme = await getCurrentlyAppliedTheme()
 
     this.selectedTabSize = getNumber(tabSizeKey, tabSizeDefault)
+
+    this.syntaxHighlightingEnabled = getBoolean(
+      syntaxHighlightingEnabledKey,
+      syntaxHighlightingEnabledDefault
+    )
 
     themeChangeMonitor.onThemeChanged(theme => {
       this.currentTheme = theme
@@ -6853,6 +6863,15 @@ export class AppStore extends TypedBaseStore<IAppState> {
     }
 
     return Promise.resolve()
+  }
+
+  /**
+   * Set whether syntax highlighting is enabled in diffs
+   */
+  public _setSyntaxHighlightingEnabled(enabled: boolean) {
+    this.syntaxHighlightingEnabled = enabled
+    setBoolean(syntaxHighlightingEnabledKey, enabled)
+    this.emitUpdate()
   }
 
   /*

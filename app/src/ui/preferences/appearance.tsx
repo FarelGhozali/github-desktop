@@ -9,6 +9,7 @@ import { Row } from '../lib/row'
 import { DialogContent } from '../dialog'
 import { RadioGroup } from '../lib/radio-group'
 import { Select } from '../lib/select'
+import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { encodePathAsUrl } from '../../lib/path'
 import { tabSizeDefault } from '../../lib/stores/app-store'
 
@@ -17,6 +18,8 @@ interface IAppearanceProps {
   readonly onSelectedThemeChanged: (theme: ApplicationTheme) => void
   readonly selectedTabSize: number
   readonly onSelectedTabSizeChanged: (tabSize: number) => void
+  readonly syntaxHighlightingEnabled: boolean
+  readonly onSyntaxHighlightingEnabledChanged: (enabled: boolean) => void
   readonly titleBarStyle: TitleBarStyle
   readonly onTitleBarStyleChanged: (titleBarStyle: TitleBarStyle) => void
 }
@@ -24,6 +27,7 @@ interface IAppearanceProps {
 interface IAppearanceState {
   readonly selectedTheme: ApplicationTheme | null
   readonly selectedTabSize: number
+  readonly syntaxHighlightingEnabled: boolean
   readonly titleBarStyle: TitleBarStyle
 }
 
@@ -50,6 +54,7 @@ export class Appearance extends React.Component<
     this.state = {
       selectedTheme: usePropTheme ? props.selectedTheme : null,
       selectedTabSize: props.selectedTabSize,
+      syntaxHighlightingEnabled: props.syntaxHighlightingEnabled,
       titleBarStyle: props.titleBarStyle,
     }
 
@@ -72,14 +77,25 @@ export class Appearance extends React.Component<
       : await getCurrentlyAppliedTheme()
 
     const selectedTabSize = this.props.selectedTabSize
+    const syntaxHighlightingEnabled = this.props.syntaxHighlightingEnabled
 
-    this.setState({ selectedTheme, selectedTabSize })
+    this.setState({
+      selectedTheme,
+      selectedTabSize,
+      syntaxHighlightingEnabled,
+    })
   }
 
   private initializeSelectedTheme = async () => {
     const selectedTheme = await getCurrentlyAppliedTheme()
     const selectedTabSize = this.props.selectedTabSize
-    this.setState({ selectedTheme, selectedTabSize })
+    const syntaxHighlightingEnabled = this.props.syntaxHighlightingEnabled
+
+    this.setState({
+      selectedTheme,
+      selectedTabSize,
+      syntaxHighlightingEnabled,
+    })
   }
 
   private onSelectedThemeChanged = (theme: ApplicationTheme) => {
@@ -90,6 +106,12 @@ export class Appearance extends React.Component<
     event: React.FormEvent<HTMLSelectElement>
   ) => {
     this.props.onSelectedTabSizeChanged(parseInt(event.currentTarget.value))
+  }
+
+  private onSyntaxHighlightingEnabledChanged = (
+    event: React.FormEvent<HTMLInputElement>
+  ) => {
+    this.props.onSyntaxHighlightingEnabledChanged(event.currentTarget.checked)
   }
 
   private onSelectChanged = (event: React.FormEvent<HTMLSelectElement>) => {
@@ -188,12 +210,22 @@ export class Appearance extends React.Component<
     )
   }
 
-  private renderSelectedTabSize() {
+  private renderDiffSection() {
     const availableTabSizes: number[] = [1, 2, 3, 4, 5, 6, 8, 10, 12]
 
     return (
       <div className="appearance-section">
         <h2 id="diff-heading">{'Diff'}</h2>
+
+        <Checkbox
+          label="Enable syntax highlighting in diff views"
+          value={
+            this.state.syntaxHighlightingEnabled
+              ? CheckboxValue.On
+              : CheckboxValue.Off
+          }
+          onChange={this.onSyntaxHighlightingEnabledChanged}
+        />
 
         <Select
           value={this.state.selectedTabSize.toString()}
@@ -214,7 +246,7 @@ export class Appearance extends React.Component<
     return (
       <DialogContent>
         {this.renderSelectedTheme()}
-        {this.renderSelectedTabSize()}
+        {this.renderDiffSection()}
         {this.renderTitleBarStyleDropdown()}
       </DialogContent>
     )

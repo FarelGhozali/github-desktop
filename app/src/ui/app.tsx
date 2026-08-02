@@ -1794,6 +1794,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             selectedShell={this.state.selectedShell}
             selectedTheme={this.state.selectedTheme}
             selectedTabSize={this.state.selectedTabSize}
+            syntaxHighlightingEnabled={this.state.syntaxHighlightingEnabled}
             useCustomEditor={this.state.useCustomEditor}
             customEditor={this.state.customEditor}
             useCustomShell={this.state.useCustomShell}
@@ -2675,6 +2676,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             repository={repository}
             externalEditorLabel={externalEditorLabel}
             showSideBySideDiff={showSideBySideDiff}
+            syntaxHighlightingEnabled={this.state.syntaxHighlightingEnabled}
             currentBranchHasPullRequest={currentBranchHasPullRequest}
             onDismissed={onPopupDismissedFn}
             onOpenInExternalEditor={this.onOpenInExternalEditor}
@@ -3478,6 +3480,7 @@ export class App extends React.Component<IAppProps, IAppState> {
           hideWhitespaceInHistoryDiff={state.hideWhitespaceInHistoryDiff}
           showDiffCheckMarks={state.showDiffCheckMarks}
           showSideBySideDiff={state.showSideBySideDiff}
+          syntaxHighlightingEnabled={state.syntaxHighlightingEnabled}
           focusCommitMessage={state.focusCommitMessage}
           askForConfirmationOnDiscardChanges={
             state.askForConfirmationOnDiscardChanges

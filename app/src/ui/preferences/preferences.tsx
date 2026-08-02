@@ -74,6 +74,7 @@ interface IPreferencesProps {
   readonly selectedShell: Shell
   readonly selectedTheme: ApplicationTheme
   readonly selectedTabSize: number
+  readonly syntaxHighlightingEnabled: boolean
   readonly useCustomEditor: boolean
   readonly customEditor: ICustomIntegration | null
   readonly useCustomShell: boolean
@@ -128,6 +129,7 @@ interface IPreferencesState {
 
   readonly initiallySelectedTheme: ApplicationTheme
   readonly initiallySelectedTabSize: number
+  readonly initiallySyntaxHighlightingEnabled: boolean
 
   readonly isLoadingGitConfig: boolean
   readonly globalGitConfigPath: string | null
@@ -189,6 +191,7 @@ export class Preferences extends React.Component<
       repositoryIndicatorsEnabled: this.props.repositoryIndicatorsEnabled,
       initiallySelectedTheme: this.props.selectedTheme,
       initiallySelectedTabSize: this.props.selectedTabSize,
+      initiallySyntaxHighlightingEnabled: this.props.syntaxHighlightingEnabled,
       isLoadingGitConfig: true,
       globalGitConfigPath: null,
       underlineLinks: this.props.underlineLinks,
@@ -269,6 +272,15 @@ export class Preferences extends React.Component<
     }
     if (this.state.initiallySelectedTabSize !== this.props.selectedTabSize) {
       this.onSelectedTabSizeChanged(this.state.initiallySelectedTabSize)
+    }
+
+    if (
+      this.state.initiallySyntaxHighlightingEnabled !==
+      this.props.syntaxHighlightingEnabled
+    ) {
+      this.onSyntaxHighlightingEnabledChanged(
+        this.state.initiallySyntaxHighlightingEnabled
+      )
     }
 
     this.props.onDismissed()
@@ -464,6 +476,10 @@ export class Preferences extends React.Component<
             onSelectedThemeChanged={this.onSelectedThemeChanged}
             selectedTabSize={this.props.selectedTabSize}
             onSelectedTabSizeChanged={this.onSelectedTabSizeChanged}
+            syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
+            onSyntaxHighlightingEnabledChanged={
+              this.onSyntaxHighlightingEnabledChanged
+            }
             titleBarStyle={this.props.titleBarStyle}
             onTitleBarStyleChanged={this.onTitleBarStyleChanged}
           />
@@ -681,6 +697,10 @@ export class Preferences extends React.Component<
 
   private onSelectedTabSizeChanged = (tabSize: number) => {
     this.props.dispatcher.setSelectedTabSize(tabSize)
+  }
+
+  private onSyntaxHighlightingEnabledChanged = (enabled: boolean) => {
+    this.props.dispatcher.setSyntaxHighlightingEnabled(enabled)
   }
 
   private onTitleBarStyleChanged = (titleBarStyle: TitleBarStyle) => {

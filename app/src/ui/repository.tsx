@@ -51,6 +51,7 @@ interface IRepositoryViewProps {
   readonly hideWhitespaceInChangesDiff: boolean
   readonly hideWhitespaceInHistoryDiff: boolean
   readonly showSideBySideDiff: boolean
+  readonly syntaxHighlightingEnabled: boolean
   readonly showDiffCheckMarks: boolean
   readonly askForConfirmationOnDiscardChanges: boolean
   readonly askForConfirmationOnDiscardStash: boolean
@@ -395,6 +396,7 @@ export class RepositoryView extends React.Component<
             this.props.askForConfirmationOnDiscardStash
           }
           showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
           onOpenBinaryFile={this.onOpenBinaryFile}
           onOpenSubmodule={this.onOpenSubmodule}
           onChangeImageDiffType={this.onChangeImageDiffType}
@@ -424,6 +426,7 @@ export class RepositoryView extends React.Component<
         imageDiffType={this.props.imageDiffType}
         hideWhitespaceInDiff={this.props.hideWhitespaceInHistoryDiff}
         showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
         sidebarWidth={this.props.sidebarWidth}
         allBranches={allBranches}
         recentBranches={recentBranches}
@@ -476,6 +479,7 @@ export class RepositoryView extends React.Component<
         onViewCommitOnGitHub={this.props.onViewCommitOnGitHub}
         hideWhitespaceInDiff={this.props.hideWhitespaceInHistoryDiff}
         showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
         onOpenBinaryFile={this.onOpenBinaryFile}
         onOpenSubmodule={this.onOpenSubmodule}
         onChangeImageDiffType={this.onChangeImageDiffType}
@@ -570,6 +574,7 @@ export class RepositoryView extends React.Component<
           imageDiffType={this.props.imageDiffType}
           hideWhitespaceInDiff={this.props.hideWhitespaceInChangesDiff}
           showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
           showDiffCheckMarks={this.props.showDiffCheckMarks}
           onOpenBinaryFile={this.onOpenBinaryFile}
           onOpenSubmodule={this.onOpenSubmodule}

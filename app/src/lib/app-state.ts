@@ -293,6 +293,9 @@ export interface IAppState {
   /** The selected tab size preference */
   readonly selectedTabSize: number
 
+  /** Whether syntax highlighting is enabled in diffs */
+  readonly syntaxHighlightingEnabled: boolean
+
   /** The selected title bar style for the application */
   readonly titleBarStyle: TitleBarStyle
 

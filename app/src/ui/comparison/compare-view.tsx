@@ -21,6 +21,7 @@ interface ICompareViewProps {
   readonly imageDiffType: ImageDiffType
   readonly hideWhitespaceInDiff: boolean
   readonly showSideBySideDiff: boolean
+  readonly syntaxHighlightingEnabled: boolean
   readonly sidebarWidth: IConstrainedValue
   readonly allBranches: ReadonlyArray<Branch>
   readonly recentBranches: ReadonlyArray<Branch>
@@ -125,6 +126,7 @@ export class CompareView extends React.Component<ICompareViewProps> {
               imageDiffType={this.props.imageDiffType}
               hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
               showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
               readOnly={true}
               onOpenBinaryFile={this.noop}
               onChangeImageDiffType={this.noop}
