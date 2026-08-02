@@ -52,7 +52,7 @@ import { hasWritePermission } from '../../models/github-repository'
 import { hasConflictedFiles } from '../../lib/status'
 import { createObservableRef } from '../lib/observable-ref'
 import { TooltipDirection } from '../lib/tooltip'
-import { Popup } from '../../models/popup'
+import { Popup, PopupType } from '../../models/popup'
 import { EOL } from 'os'
 import { TooltippedContent } from '../lib/tooltipped-content'
 import { RepoRulesInfo } from '../../models/repo-rules'
@@ -581,7 +581,6 @@ export class ChangesList extends React.Component<
             path: file.path,
           }),
       })
-    }
 
       // Even on Windows, the path separator is '/' for git operations so cannot
       // use Path.sep

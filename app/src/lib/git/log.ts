@@ -375,7 +375,7 @@ export async function getFileHistory(
   limit?: number,
   skip?: number
 ): Promise<ReadonlyArray<IFileCommit>> {
-  const { formatArgs, parse } = createLogParser({
+  const { formatArgs } = createLogParser({
     sha: '%H',
     shortSha: '%h',
     summary: '%s',

@@ -3,7 +3,7 @@ import { Repository } from '../../models/repository'
 import { Dispatcher } from '../dispatcher'
 import { Commit } from '../../models/commit'
 import { getFileHistory, IFileCommit } from '../../lib/git'
-import { Dialog, DialogFooter } from '../dialog'
+import { Dialog } from '../dialog'
 import { CommitList } from '../history/commit-list'
 import { Account } from '../../models/account'
 import { Emoji } from '../../lib/emoji'
@@ -85,7 +85,7 @@ export class FileHistoryDialog extends React.Component<
     const { repository } = this.props
     const { commit, path, status } = fileCommit
 
-    const file = new CommittedFileChange(path, status, commit.sha)
+    const file = new CommittedFileChange(path, status, commit.sha, commit.parentSHAs[0] || '')
 
     try {
       const diff = await getCommitDiff(repository, file, commit.sha)
@@ -115,6 +115,7 @@ export class FileHistoryDialog extends React.Component<
               commitSHAs={commitSHAs}
               selectedSHAs={selectedSHAs}
               localCommitSHAs={[]}
+              isLocalRepository={this.props.repository.gitHubRepository === null}
               emoji={this.props.emoji}
               onCommitsSelected={this.onCommitsSelected}
               accounts={this.props.accounts}
@@ -141,18 +142,21 @@ export class FileHistoryDialog extends React.Component<
     const file = new CommittedFileChange(
       fileCommit.path,
       fileCommit.status,
-      fileCommit.commit.sha
+      fileCommit.commit.sha,
+      fileCommit.commit.parentSHAs[0] || ''
     )
 
     return (
       <SeamlessDiffSwitcher
         repository={this.props.repository}
-        dispatcher={this.props.dispatcher}
-        imageDiffType={ImageDiffType.Rendered}
+        imageDiffType={ImageDiffType.TwoUp}
         file={file}
         diff={this.state.currentDiff}
         hideWhitespaceInDiff={false}
         showSideBySideDiff={false}
+        readOnly={true}
+        showDiffCheckMarks={false}
+        onHideWhitespaceInDiffChanged={() => {}}
         onOpenBinaryFile={() => {}}
         onChangeImageDiffType={() => {}}
       />
