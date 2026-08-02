@@ -1116,6 +1116,34 @@ export class Dispatcher {
     })
   }
 
+  /**
+   * Show the tag manager dialog.
+   */
+  public showTagManager(
+    repository: Repository,
+    targetCommitSha: string
+  ): Promise<void> {
+    return this.showPopup({
+      type: PopupType.TagManager,
+      repository,
+      targetCommitSha,
+    })
+  }
+
+  /**
+   * Push a tag to the remote.
+   */
+  public pushTag(repository: Repository, tagName: string): Promise<void> {
+    return this.appStore._pushTag(repository, tagName)
+  }
+
+  /**
+   * Delete a tag from the remote.
+   */
+  public deleteRemoteTag(repository: Repository, tagName: string): Promise<void> {
+    return this.appStore._deleteRemoteTag(repository, tagName)
+  }
+
   /** Check out the given branch. */
   public checkoutBranch(
     repository: Repository,

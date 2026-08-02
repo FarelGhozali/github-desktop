@@ -1,0 +1,78 @@
+.tag-manager-content {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+
+  .tag-manager-header {
+    padding: 8px;
+    border-bottom: 1px solid var(--color-border-default);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .filter-list {
+    flex: 1;
+  }
+}
+
+.tag-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  height: 40px;
+
+  &:hover {
+    background-color: var(--color-bg-subtle);
+  }
+
+  .tag-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+
+    .tag-name {
+      display: flex;
+      align-items: center;
+      font-weight: var(--font-weight-bold);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .octicon {
+        margin-right: 8px;
+        color: var(--color-fg-muted);
+      }
+    }
+
+    .tag-meta {
+      display: flex;
+      font-size: var(--font-size-small);
+      color: var(--color-fg-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .tag-message {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .tag-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  &:hover .tag-actions {
+    opacity: 1;
+  }
+}
+
+.tag-manager-footer {
+  font-size: var(--font-size-small);
+  color: var(--color-fg-muted);
+}

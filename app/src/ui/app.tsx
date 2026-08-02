@@ -122,6 +122,7 @@ import {
 } from '../models/github-repository'
 import { CreateTag } from './create-tag'
 import { DeleteTag } from './delete-tag'
+import { TagManager } from './tags/tag-manager-dialog'
 import { ChooseForkSettings } from './choose-fork-settings'
 import { DiscardSelection } from './discard-changes/discard-selection-dialog'
 import { LocalChangesOverwrittenDialog } from './local-changes-overwritten/local-changes-overwritten-dialog'
@@ -485,6 +486,8 @@ export class App extends React.Component<IAppProps, IAppState> {
         return this.showRebaseDialog()
       case 'show-repository-settings':
         return this.showRepositorySettings()
+      case 'manage-tags':
+        return this.showTagManager()
       case 'view-repository-on-github':
         return this.viewRepositoryOnGitHub()
       case 'compare-on-github':
@@ -1481,6 +1484,24 @@ export class App extends React.Component<IAppProps, IAppState> {
     })
   }
 
+  private showTagManager() {
+    const repository = this.getRepository()
+
+    if (!repository || repository instanceof CloningRepository) {
+      return
+    }
+
+    const state = this.props.repositoryStateManager.get(repository)
+    if (state === undefined || state.branchesState.tip.kind !== TipState.Valid) {
+      return
+    }
+
+    this.props.dispatcher.showTagManager(
+      repository,
+      state.branchesState.tip.branch.tip.sha
+    )
+  }
+
   /**
    * Opens a browser to the issue creation page
    * of the current GitHub repository.
@@ -2263,6 +2284,22 @@ export class App extends React.Component<IAppProps, IAppState> {
             onDismissed={onPopupDismissedFn}
             dispatcher={this.props.dispatcher}
             tagName={popup.tagName}
+          />
+        )
+      }
+      case PopupType.TagManager: {
+        const repositoryState = this.props.repositoryStateManager.get(
+          popup.repository
+        )
+        const tagsDetails = repositoryState?.tagsDetails ?? []
+        return (
+          <TagManager
+            key="tag-manager"
+            dispatcher={this.props.dispatcher}
+            repository={popup.repository}
+            tags={tagsDetails}
+            targetCommitSha={popup.targetCommitSha}
+            onDismissed={onPopupDismissedFn}
           />
         )
       }

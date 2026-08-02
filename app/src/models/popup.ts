@@ -100,6 +100,7 @@ export enum PopupType {
   UnknownAuthors = 'UnknownAuthors',
   TestIcons = 'TestIcons',
   ConfirmRestart = 'ConfirmRestart',
+  TagManager = 'TagManager',
 }
 
 interface IBasePopup {
@@ -448,6 +449,11 @@ export type PopupDetail =
     }
   | {
       type: PopupType.TestIcons
+    }
+  | {
+      type: PopupType.TagManager
+      repository: Repository
+      targetCommitSha: string
     }
   | { type: PopupType.ConfirmRestart }
 

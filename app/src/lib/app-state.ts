@@ -37,6 +37,7 @@ import { IAccountRepositories } from './stores/api-repositories-store'
 import { ManualConflictResolution } from '../models/manual-conflict-resolution'
 import { Banner } from '../models/banner'
 import { IStashEntry } from '../models/stash-entry'
+import { ITagDetails } from '../models/tag'
 import { TutorialStep } from '../models/tutorial-step'
 import { UncommittedChangesStrategy } from '../models/uncommitted-changes-strategy'
 import { DragElement } from '../models/drag-drop'
@@ -562,6 +563,9 @@ export interface IRepositoryState {
   readonly revertProgress: IRevertProgress | null
 
   readonly localTags: Map<string, string> | null
+
+  /** The tags with details in the repository. */
+  readonly tagsDetails: ReadonlyArray<ITagDetails> | null
 
   /** Undo state associated with a multi commit operation operation */
   readonly multiCommitOperationUndoState: IMultiCommitOperationUndoState | null

@@ -2,6 +2,8 @@ import { git } from './core'
 import { Repository } from '../../models/repository'
 import { IRemote } from '../../models/remote'
 import { envForRemoteOperation } from './environment'
+import { ITagDetails } from '../../models/tag'
+import { createForEachRefParser } from './git-delimiter-parser'
 
 /**
  * Create a new tag on the given target commit.
@@ -76,10 +78,82 @@ export async function getAllTags(
 }
 
 /**
+ * Gets all tags with details.
+ *
+ * @param repository The repository in which to get all the tags from.
+ */
+export async function getAllTagsWithDetails(
+  repository: Repository
+): Promise<ReadonlyArray<ITagDetails>> {
+  const { formatArgs, parse } = createForEachRefParser({
+    name: '%(refname:short)',
+    commitSha: '%(objectname)',
+    message: '%(contents:subject)',
+    date: '%(creatordate:iso8601)',
+  })
+
+  const result = await git(
+    ['for-each-ref', ...formatArgs, 'refs/tags'],
+    repository.path,
+    'getAllTagsWithDetails'
+  )
+
+  const tags = new Array<ITagDetails>()
+  for (const ref of parse(result.stdout)) {
+    tags.push({
+      name: ref.name,
+      commitSha: ref.commitSha,
+      message: ref.message,
+      date: new Date(ref.date),
+      isRemote: false, // This only gets local tags
+    })
+  }
+
+  return tags
+}
+
+/**
+ * Push a tag to the remote.
+ *
+ * @param repository The repository in which to push the tag.
+ * @param remote     The remote to push the tag to.
+ * @param tagName    The name of the tag to push.
+ */
+export async function pushTag(
+  repository: Repository,
+  remote: IRemote,
+  tagName: string
+): Promise<void> {
+  const args = ['push', remote.name, `refs/tags/${tagName}`]
+
+  await git(args, repository.path, 'pushTag', {
+    env: await envForRemoteOperation(remote.url),
+  })
+}
+
+/**
+ * Delete a tag from the remote.
+ *
+ * @param repository The repository in which to delete the tag.
+ * @param remote     The remote to delete the tag from.
+ * @param tagName    The name of the tag to delete.
+ */
+export async function deleteRemoteTag(
+  repository: Repository,
+  remote: IRemote,
+  tagName: string
+): Promise<void> {
+  const args = ['push', remote.name, '--delete', `refs/tags/${tagName}`]
+
+  await git(args, repository.path, 'deleteRemoteTag', {
+    env: await envForRemoteOperation(remote.url),
+  })
+}
+
+/**
  * Fetches the tags that will get pushed to the remote repository (it does a network request).
  *
  * @param repository  - The repository in which to check for unpushed tags
- * @param account     - The account to use when authenticating with the remote
  * @param remote      - The remote to check for unpushed tags
  * @param branchName  - The branch that will be used on the push command
  */

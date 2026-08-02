@@ -73,7 +73,7 @@ export function enableCheckoutCommit(): boolean {
 
 /** Should we show previous tags as suggestions? */
 export function enablePreviousTagSuggestions(): boolean {
-  return enableBetaFeatures()
+  return true
 }
 
 /** Should we show a pull-requests quick view? */

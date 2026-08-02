@@ -70,7 +70,10 @@ import {
   removeRemote,
   createTag,
   getAllTags,
+  getAllTagsWithDetails,
   deleteTag,
+  pushTag,
+  deleteRemoteTag,
   MergeResult,
   createBranch,
   updateRemoteHEAD,
@@ -92,6 +95,7 @@ import { GitAuthor } from '../../models/git-author'
 import { BaseStore } from './base-store'
 import { getStashes, getStashedFiles } from '../git/stash'
 import { IStashEntry, StashedChangesLoadStates } from '../../models/stash-entry'
+import { ITagDetails } from '../../models/tag'
 import { PullRequest } from '../../models/pull-request'
 import { StatsStore } from '../stats'
 import { getTagsToPush, storeTagsToPush } from './helpers/tags-to-push-storage'
@@ -127,6 +131,8 @@ export class GitStore extends BaseStore {
   private _upstreamDefaultBranch: Branch | null = null
 
   private _localTags: Map<string, string> | null = null
+
+  private _tagsDetails: ReadonlyArray<ITagDetails> | null = null
 
   private _allBranches: ReadonlyArray<Branch> = []
 
@@ -241,21 +247,29 @@ export class GitStore extends BaseStore {
 
   public async refreshTags() {
     const previousTags = this._localTags
-    const newTags = await this.performFailableOperation(() =>
-      getAllTags(this.repository)
+    const result = await this.performFailableOperation(
+      async () => {
+        return Promise.all([
+          getAllTags(this.repository),
+          getAllTagsWithDetails(this.repository),
+        ])
+      }
     )
 
-    if (newTags === undefined) {
+    if (result === undefined) {
       return
     }
 
+    const [newTags, newTagsDetails] = result
+
     this._localTags = newTags
+    this._tagsDetails = newTagsDetails
 
     // Remove any unpushed tag that cannot be found in the list
     // of local tags. This can happen when the user deletes an
     // unpushed tag from outside of Desktop.
     for (const tagToPush of this._tagsToPush) {
-      if (!this._localTags.has(tagToPush)) {
+      if (!newTags.has(tagToPush)) {
         this.removeTagToPush(tagToPush)
       }
     }
@@ -263,7 +277,7 @@ export class GitStore extends BaseStore {
     if (previousTags !== null) {
       // We don't await for the emition of updates to finish
       // to make this method return earlier.
-      this.emitUpdatesForChangedTags(previousTags, this._localTags)
+      this.emitUpdatesForChangedTags(previousTags, newTags)
     }
   }
 
@@ -369,6 +383,33 @@ export class GitStore extends BaseStore {
     this.statsStore.increment('tagsDeleted')
   }
 
+  public async pushTag(tagName: string) {
+    const remote = this._currentRemote
+    if (remote === null) {
+      return
+    }
+
+    await this.performFailableOperation(() =>
+      pushTag(this.repository, remote, tagName)
+    )
+
+    this.removeTagToPush(tagName)
+    await this.refreshTags()
+  }
+
+  public async deleteRemoteTag(tagName: string) {
+    const remote = this._currentRemote
+    if (remote === null) {
+      return
+    }
+
+    await this.performFailableOperation(() =>
+      deleteRemoteTag(this.repository, remote, tagName)
+    )
+
+    await this.refreshTags()
+  }
+
   /** The list of ordered SHAs. */
   public get history(): ReadonlyArray<string> {
     return this._history
@@ -380,6 +421,10 @@ export class GitStore extends BaseStore {
 
   public get localTags(): Map<string, string> | null {
     return this._localTags
+  }
+
+  public get tagsDetails(): ReadonlyArray<ITagDetails> | null {
+    return this._tagsDetails
   }
 
   /** Load all the branches. */

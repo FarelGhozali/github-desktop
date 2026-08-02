@@ -360,6 +360,12 @@ export function buildDefaultMenu({
         id: 'show-repository-settings',
         click: emit('show-repository-settings'),
       },
+      separator,
+      {
+        label: __DARWIN__ ? 'Manage Tags…' : 'Manage &tags…',
+        id: 'manage-tags',
+        click: emit('manage-tags'),
+      },
     ],
   })
 
