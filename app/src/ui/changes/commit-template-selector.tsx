@@ -32,7 +32,7 @@ export class CommitTemplateSelector extends React.Component<ICommitTemplateSelec
         tooltip="Select a commit template"
         disabled={this.props.disabled}
       >
-        <Octicon symbol={octicons.fileText} />
+        <Octicon symbol={octicons.file} />
       </Button>
     )
   }

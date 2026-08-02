@@ -328,7 +328,7 @@ export class Preferences extends React.Component<
               Accessibility
             </span>
             <span id={this.getTabId(PreferencesTab.CommitTemplates)}>
-              <Octicon className="icon" symbol={octicons.fileText} />
+              <Octicon className="icon" symbol={octicons.file} />
               Templates
             </span>
           </TabBar>

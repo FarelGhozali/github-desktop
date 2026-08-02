@@ -11,6 +11,7 @@ import {
   SignInStore,
   UpstreamRemoteName,
 } from '.'
+import { ICommitTemplate } from '../../models/commit-template'
 import { Account } from '../../models/account'
 import { AppMenu, IMenu } from '../../models/app-menu'
 import { Author } from '../../models/author'

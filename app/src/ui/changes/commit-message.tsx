@@ -59,7 +59,6 @@ import {
   CommitTemplateSelector,
 } from './commit-template-selector'
 import {
-  ConventionalCommitTemplates,
   ICommitTemplate,
 } from '../../models/commit-template'
 

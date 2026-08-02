@@ -245,13 +245,11 @@ export interface IAppState {
 
   /** Whether or not the app should show the commit length warning */
   readonly showCommitLengthWarning: boolean
-/** The current setting for whether the user has disable usage reports */
-readonly optOutOfUsageTracking: boolean
+  /** The current setting for whether the user has disable usage reports */
+  readonly optOutOfUsageTracking: boolean
 
-/** The user's custom commit templates. */
-readonly commitTemplates: ReadonlyArray<ICommitTemplate>
-}
-
+  /** The user's custom commit templates. */
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
   /**
    * A cached entry representing an external editor found on the user's machine:
    *

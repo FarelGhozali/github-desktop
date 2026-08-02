@@ -58,6 +58,7 @@ import { TooltippedContent } from '../lib/tooltipped-content'
 import { RepoRulesInfo } from '../../models/repo-rules'
 import { IAheadBehind } from '../../models/branch'
 import { StashDiffViewerId } from '../stashing'
+import { ICommitTemplate } from '../../models/commit-template'
 import { ConventionalCommitTemplates } from '../../models/commit-template'
 
 const RowHeight = 29

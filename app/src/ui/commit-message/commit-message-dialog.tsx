@@ -17,7 +17,7 @@ import { Foldout } from '../../lib/app-state'
 import { Account } from '../../models/account'
 import { RepoRulesInfo } from '../../models/repo-rules'
 import { IAheadBehind } from '../../models/branch'
-import { ConventionalCommitTemplates } from '../../models/commit-template'
+import { ConventionalCommitTemplates, ICommitTemplate } from '../../models/commit-template'
 
 interface ICommitMessageDialogProps {
   /**

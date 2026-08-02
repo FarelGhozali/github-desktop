@@ -63,8 +63,8 @@ export class CommitTemplates extends React.Component<
     this.setState({ newTemplateName: name })
   }
 
-  private onNewTemplateTextChanged = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ newTemplateText: event.target.value })
+  private onNewTemplateTextChanged = (text: string) => {
+    this.setState({ newTemplateText: text })
   }
 
   private onRemoveTemplate = (id: string) => {
