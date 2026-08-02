@@ -61,6 +61,7 @@ export abstract class BaseMultiCommitOperation extends React.Component<IMultiCom
   protected abstract onConflictsDialogDismissed: () => void
   protected abstract renderChooseBranch: () => JSX.Element | null
   protected abstract renderCreateBranch: () => JSX.Element | null
+  protected abstract renderInteractiveRebaseEditor: () => JSX.Element | null
 
   protected onFlowEnded = () => {
     this.props.dispatcher.closePopup(PopupType.MultiCommitOperation)
@@ -238,6 +239,8 @@ export abstract class BaseMultiCommitOperation extends React.Component<IMultiCom
         )
       case MultiCommitOperationStepKind.CreateBranch:
         return this.renderCreateBranch()
+      case MultiCommitOperationStepKind.InteractiveRebaseEditor:
+        return this.renderInteractiveRebaseEditor()
       case MultiCommitOperationStepKind.HideConflicts:
         return null
       default:
