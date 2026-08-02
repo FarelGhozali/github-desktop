@@ -25,6 +25,10 @@ export interface ICommitContext {
    * An optional array of commit trailers (for example Co-Authored-By trailers) which will be appended to the commit message in accordance with the Git trailer configuration.
    */
   readonly trailers?: ReadonlyArray<ITrailer>
+  /**
+   * Whether or not to skip git hooks (optional, default: false)
+   */
+  readonly noVerify?: boolean
 }
 
 /**

@@ -53,7 +53,7 @@ export interface IGitExecutionOptions extends DugiteExecutionOptions {
    * The git errors which are expected by the caller. Unexpected errors will
    * be logged and an error thrown.
    */
-  readonly expectedErrors?: ReadonlySet<DugiteError>
+  readonly expectedErrors?: ReadonlySet<DugiteError | DesktopGitError>
 
   /** Should it track & report LFS progress? */
   readonly trackLFSProgress?: boolean
@@ -66,6 +66,14 @@ export interface IGitExecutionOptions extends DugiteExecutionOptions {
 }
 
 /**
+ * The git errors which are expected by the caller. Unexpected errors will
+ * be logged and an error thrown.
+ */
+export enum DesktopGitError {
+  PreCommitHookFailed = 100000,
+}
+
+/**
  * The result of using `git`. This wraps dugite's results to provide
  * the parsed error if one occurs.
  */
@@ -75,7 +83,7 @@ export interface IGitResult extends DugiteResult {
    * the `successExitCodes`, or when dugite was unable to parse the
    * error.
    */
-  readonly gitError: DugiteError | null
+  readonly gitError: DugiteError | DesktopGitError | null
 
   /** The human-readable error description, based on `gitError`. */
   readonly gitErrorDescription: string | null
@@ -242,7 +250,7 @@ export async function git(
 
       const exitCode = result.exitCode
 
-      let gitError: DugiteError | null = null
+      let gitError: DugiteError | DesktopGitError | null = null
       const acceptableExitCode = opts.successExitCodes
         ? opts.successExitCodes.has(exitCode)
         : false
@@ -250,6 +258,18 @@ export async function git(
         gitError = parseError(coerceToString(result.stderr))
         if (gitError === null) {
           gitError = parseError(coerceToString(result.stdout))
+        }
+
+        if (gitError === null) {
+          const combined =
+            coerceToString(result.stderr) + coerceToString(result.stdout)
+          if (
+            combined.includes('pre-commit hook failed') ||
+            combined.includes('hook declined to update') ||
+            combined.includes('add --no-verify to bypass')
+          ) {
+            gitError = DesktopGitError.PreCommitHookFailed
+          }
         }
       }
 
@@ -318,12 +338,16 @@ export async function git(
  * equally in terms of error message and presentation to the user.
  */
 export function isAuthFailureError(
-  error: DugiteError
+  error: DugiteError | DesktopGitError
 ): error is
   | DugiteError.SSHAuthenticationFailed
   | DugiteError.SSHPermissionDenied
   | DugiteError.HTTPSAuthenticationFailed {
-  switch (error) {
+  if (typeof error === 'number' && error in DesktopGitError) {
+    return false
+  }
+
+  switch (error as DugiteError) {
     case DugiteError.SSHAuthenticationFailed:
     case DugiteError.SSHPermissionDenied:
     case DugiteError.HTTPSAuthenticationFailed:
@@ -370,10 +394,17 @@ export function parseConfigLockFilePathFromError(result: IGitResult) {
 }
 
 export function getDescriptionForError(
-  error: DugiteError,
+  error: DugiteError | DesktopGitError,
   stderr: string
 ): string | null {
-  if (isAuthFailureError(error)) {
+  if (typeof error === 'number' && error in DesktopGitError) {
+    switch (error as DesktopGitError) {
+      case DesktopGitError.PreCommitHookFailed:
+        return 'The pre-commit hook failed. You can bypass this if necessary.'
+    }
+  }
+
+  if (isAuthFailureError(error as DugiteError)) {
     const menuHint = __DARWIN__
       ? 'GitHub Desktop > Settings.'
       : 'File > Options.'
@@ -505,7 +536,7 @@ export function getDescriptionForError(
     case DugiteError.PathExistsButNotInRef:
       return null
     default:
-      return assertNever(error, `Unknown error: ${error}`)
+      return assertNever(error as never, `Unknown error: ${error}`)
   }
 }
 

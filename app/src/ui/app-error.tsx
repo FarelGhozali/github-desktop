@@ -7,7 +7,11 @@ import {
   DefaultDialogFooter,
 } from './dialog'
 import { dialogTransitionTimeout } from './app'
-import { GitError, isAuthFailureError } from '../lib/git/core'
+import {
+  GitError,
+  isAuthFailureError,
+  DesktopGitError,
+} from '../lib/git/core'
 import { Popup, PopupType } from '../models/popup'
 import { OkCancelButtonGroup } from './dialog/ok-cancel-button-group'
 import { ErrorWithMetadata } from '../lib/error-with-metadata'
@@ -84,6 +88,24 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
       const { retryAction } = error.metadata
       if (retryAction !== undefined) {
         this.props.onRetryAction(retryAction)
+      }
+    }
+  }
+
+  private onBypassHook = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    this.props.onDismissed()
+
+    const { error } = this.state
+
+    if (error !== null && isErrorWithMetaData(error)) {
+      const { retryAction } = error.metadata
+      if (
+        retryAction !== undefined &&
+        (retryAction.type === RetryActionType.Commit ||
+          retryAction.type === RetryActionType.Push)
+      ) {
+        this.props.onRetryAction({ ...retryAction, noVerify: true })
       }
     }
   }
@@ -170,12 +192,30 @@ export class AppError extends React.Component<IAppErrorProps, IAppErrorState> {
 
     if (isGitError(underlyingError)) {
       const { gitError } = underlyingError.result
-      if (gitError !== null && isAuthFailureError(gitError)) {
-        return this.renderOpenPreferencesFooter()
+      if (gitError !== null) {
+        if (gitError === DesktopGitError.PreCommitHookFailed) {
+          return this.renderGitHookBypassFooter()
+        }
+
+        if (isAuthFailureError(gitError)) {
+          return this.renderOpenPreferencesFooter()
+        }
       }
     }
 
     return this.renderDefaultFooter()
+  }
+
+  private renderGitHookBypassFooter() {
+    return (
+      <DialogFooter>
+        <OkCancelButtonGroup
+          okButtonText="Bypass Hook & Try Again"
+          onOkButtonClick={this.onBypassHook}
+          onCancelButtonClick={this.onCloseButtonClick}
+        />
+      </DialogFooter>
+    )
   }
 
   private renderRetryCloneFooter() {
