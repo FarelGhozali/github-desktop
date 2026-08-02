@@ -29,6 +29,9 @@ type StashResult = {
   /** The stash entries created by Desktop */
   readonly desktopEntries: ReadonlyArray<IStashEntry>
 
+  /** All stash entries in the repository */
+  readonly allEntries: ReadonlyArray<IStashEntry>
+
   /**
    * The total amount of stash entries,
    * i.e. stash entries created both by Desktop and outside of Desktop
@@ -60,9 +63,10 @@ export async function getStashes(repository: Repository): Promise<StashResult> {
   // There's no refs/stashes reflog in the repository or it's not
   // even a repository. In either case we don't care
   if (result.exitCode === 128) {
-    return { desktopEntries: [], stashEntryCount: 0 }
+    return { desktopEntries: [], allEntries: [], stashEntryCount: 0 }
   }
 
+  const allEntries: Array<IStashEntry> = []
   const desktopEntries: Array<IStashEntry> = []
   const files: StashedFileChanges = { kind: StashedChangesLoadStates.NotLoaded }
 
@@ -70,20 +74,28 @@ export async function getStashes(repository: Repository): Promise<StashResult> {
 
   for (const { name, message, stashSha, tree, parents } of entries) {
     const branchName = extractBranchFromMessage(message)
+    const entry: IStashEntry = {
+      name,
+      stashSha,
+      branchName,
+      summary: message,
+      isDesktopStash: branchName !== null,
+      tree,
+      parents: parents.length > 0 ? parents.split(' ') : [],
+      files,
+    }
 
+    allEntries.push(entry)
     if (branchName !== null) {
-      desktopEntries.push({
-        name,
-        stashSha,
-        branchName,
-        tree,
-        parents: parents.length > 0 ? parents.split(' ') : [],
-        files,
-      })
+      desktopEntries.push(entry)
     }
   }
 
-  return { desktopEntries, stashEntryCount: entries.length - 1 }
+  return {
+    desktopEntries,
+    allEntries,
+    stashEntryCount: entries.length,
+  }
 }
 
 /**
@@ -111,7 +123,7 @@ export async function moveStashEntry(
     'moveStashEntryToBranch'
   )
 
-  await dropDesktopStashEntry(repository, stashSha)
+  await dropStashEntry(repository, stashSha)
 }
 
 /**
@@ -188,21 +200,17 @@ export async function createDesktopStashEntry(
   return true
 }
 
-async function getStashEntryMatchingSha(repository: Repository, sha: string) {
-  const stash = await getStashes(repository)
-  return stash.desktopEntries.find(e => e.stashSha === sha) || null
-}
-
 /**
  * Removes the given stash entry if it exists
  *
  * @param stashSha the SHA that identifies the stash entry
  */
-export async function dropDesktopStashEntry(
+export async function dropStashEntry(
   repository: Repository,
   stashSha: string
 ) {
-  const entryToDelete = await getStashEntryMatchingSha(repository, stashSha)
+  const stash = await getStashes(repository)
+  const entryToDelete = stash.allEntries.find(e => e.stashSha === stashSha) || null
 
   if (entryToDelete !== null) {
     const args = ['stash', 'drop', entryToDelete.name]
@@ -225,7 +233,9 @@ export async function popStashEntry(
   // implementing the stash conflict flow
   const expectedErrors = new Set<DugiteError>([DugiteError.MergeConflicts])
   const successExitCodes = new Set<number>([0, 1])
-  const stashToPop = await getStashEntryMatchingSha(repository, stashSha)
+  
+  const stash = await getStashes(repository)
+  const stashToPop = stash.allEntries.find(e => e.stashSha === stashSha) || null
 
   if (stashToPop !== null) {
     const args = ['stash', 'pop', '--quiet', `${stashToPop.name}`]
@@ -247,7 +257,7 @@ export async function popStashEntry(
         `[popStashEntry] a stash was popped successfully but exit code ${result.exitCode} reported.`
       )
       // bye bye
-      await dropDesktopStashEntry(repository, stashSha)
+      await dropStashEntry(repository, stashSha)
     }
   }
 }

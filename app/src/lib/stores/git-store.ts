@@ -156,6 +156,8 @@ export class GitStore extends BaseStore {
 
   private _desktopStashEntries = new Map<string, IStashEntry>()
 
+  private _allStashEntries: ReadonlyArray<IStashEntry> = []
+
   private _stashEntryCount = 0
 
   public constructor(
@@ -1172,7 +1174,7 @@ export class GitStore extends BaseStore {
     for (const entry of stash.desktopEntries) {
       // we only want the first entry we find for each branch,
       // so we skip all subsequent ones
-      if (!map.has(entry.branchName)) {
+      if (entry.branchName !== null && !map.has(entry.branchName)) {
         const existing = this._desktopStashEntries.get(entry.branchName)
 
         // If we've already loaded the files for this stash there's
@@ -1187,6 +1189,7 @@ export class GitStore extends BaseStore {
     }
 
     this._desktopStashEntries = map
+    this._allStashEntries = stash.allEntries
     this._stashEntryCount = stash.stashEntryCount
     this.emitUpdate()
 
@@ -1205,6 +1208,10 @@ export class GitStore extends BaseStore {
 
   public get desktopStashEntries(): ReadonlyMap<string, IStashEntry> {
     return this._desktopStashEntries
+  }
+
+  public get allStashEntries(): ReadonlyArray<IStashEntry> {
+    return this._allStashEntries
   }
 
   /** The total number of stash entries */
@@ -1231,6 +1238,10 @@ export class GitStore extends BaseStore {
     }
 
     const { branchName } = stashEntry
+
+    if (branchName === null) {
+      return
+    }
 
     this._desktopStashEntries.set(branchName, {
       ...stashEntry,

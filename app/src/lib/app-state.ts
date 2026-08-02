@@ -746,6 +746,11 @@ export interface IChangesState {
   readonly stashEntry: IStashEntry | null
 
   /**
+   * All stash entries in the repository.
+   */
+  readonly allStashEntries: ReadonlyArray<IStashEntry>
+
+  /**
    * The current selection state in the Changes view. Can be either
    * working directory or a stash. In the case of a working directory
    * selection multiple files may be selected. See `ChangesSelection`

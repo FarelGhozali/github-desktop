@@ -7,7 +7,7 @@ import {
   createDesktopStashMessage,
   createDesktopStashEntry,
   getLastDesktopStashEntryForBranch,
-  dropDesktopStashEntry,
+  dropStashEntry,
   popStashEntry,
   getStashes,
 } from '../../../src/lib/git/stash'
@@ -179,7 +179,7 @@ describe('git/stash', () => {
       expect(entries.length).toBe(2)
 
       const stashToDelete = entries[1]
-      await dropDesktopStashEntry(repository, stashToDelete.stashSha)
+      await dropStashEntry(repository, stashToDelete.stashSha)
 
       // using this function to get stashSha since it parses
       // the output from git into easy to use objects
@@ -195,13 +195,15 @@ describe('git/stash', () => {
         name: 'refs/stash@{0}',
         branchName: 'master',
         stashSha: 'xyz',
+        summary: 'Should get filtered',
+        isDesktopStash: true,
         tree: 'xyz',
         parents: ['abc'],
         files: { kind: StashedChangesLoadStates.NotLoaded },
       }
 
       try {
-        await dropDesktopStashEntry(repository, doesNotExist.stashSha)
+        await dropStashEntry(repository, doesNotExist.stashSha)
       } catch {
         didFail = true
       }
@@ -215,6 +217,8 @@ describe('git/stash', () => {
         name: 'refs/stash@{4}',
         branchName: 'master',
         stashSha: 'xyz',
+        summary: 'Should get filtered',
+        isDesktopStash: true,
         tree: 'xyz',
         parents: ['abc'],
         files: { kind: StashedChangesLoadStates.NotLoaded },
@@ -224,7 +228,7 @@ describe('git/stash', () => {
       await generateTestStashEntry(repository, 'master', true)
 
       try {
-        await dropDesktopStashEntry(repository, doesNotExist.stashSha)
+        await dropStashEntry(repository, doesNotExist.stashSha)
       } catch {
         didFail = true
       }
