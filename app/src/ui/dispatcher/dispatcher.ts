@@ -535,6 +535,44 @@ export class Dispatcher {
     })
   }
 
+  /** Start a new bisect session */
+  public async startBisect(
+    repository: Repository,
+    badRevision: string,
+    goodRevision?: string
+  ): Promise<void> {
+    return this.appStore._startBisect(repository, badRevision, goodRevision)
+  }
+
+  /** Mark the current revision as good */
+  public async markBisectGood(
+    repository: Repository,
+    revision?: string
+  ): Promise<void> {
+    return this.appStore._markBisectGood(repository, revision)
+  }
+
+  /** Mark the current revision as bad */
+  public async markBisectBad(
+    repository: Repository,
+    revision?: string
+  ): Promise<void> {
+    return this.appStore._markBisectBad(repository, revision)
+  }
+
+  /** Skip the current revision in bisect */
+  public async skipBisect(
+    repository: Repository,
+    revision?: string
+  ): Promise<void> {
+    return this.appStore._skipBisect(repository, revision)
+  }
+
+  /** Reset the current bisect session */
+  public async resetBisect(repository: Repository): Promise<void> {
+    return this.appStore._resetBisect(repository)
+  }
+
   /** Initialize and start the rebase operation */
   public async startRebase(
     repository: Repository,

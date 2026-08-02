@@ -33,6 +33,7 @@ import { doMergeCommitsExistAfterCommit } from '../../lib/git'
 import { KeyboardInsertionData } from '../lib/list'
 import { Account } from '../../models/account'
 import { Emoji } from '../../lib/emoji'
+import { IBisectState } from '../../models/bisect'
 
 interface ICompareSidebarProps {
   readonly repository: Repository
@@ -60,6 +61,7 @@ interface ICompareSidebarProps {
   readonly isMultiCommitOperationInProgress?: boolean
   readonly shasToHighlight: ReadonlyArray<string>
   readonly accounts: ReadonlyArray<Account>
+  readonly bisectState: IBisectState | null
 }
 
 interface ICompareSidebarState {
@@ -285,12 +287,35 @@ export class CompareSidebar extends React.Component<
         }
         keyboardReorderData={this.state.keyboardReorderData}
         accounts={this.props.accounts}
+        bisectState={this.props.bisectState}
+        onStartBisect={this.onStartBisect}
+        onMarkBisect={this.onMarkBisect}
         onRewordCommit={this.onRewordCommit}
         onFixupCommit={this.onFixupCommit}
         onSquashCommit={this.onSquashCommit}
         onDropCommit={this.onDropCommit}
       />
     )
+  }
+
+  private onStartBisect = (commit: Commit, kind: 'good' | 'bad') => {
+    if (kind === 'bad') {
+    } else {
+      // If marking as good first, we need a bad revision. Default to HEAD.
+      this.props.dispatcher.startBisect(
+        this.props.repository,
+        'HEAD',
+        commit.sha
+      )
+    }
+  }
+
+  private onMarkBisect = (commit: Commit, kind: 'good' | 'bad') => {
+    if (kind === 'bad') {
+      this.props.dispatcher.markBisectBad(this.props.repository, commit.sha)
+    } else {
+      this.props.dispatcher.markBisectGood(this.props.repository, commit.sha)
+    }
   }
 
   private onRewordCommit = (commit: Commit) => {

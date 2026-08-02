@@ -1,3 +1,4 @@
+import { IBisectState } from '../../models/bisect'
 import * as React from 'react'
 import memoize from 'memoize-one'
 import { GitHubRepository } from '../../models/github-repository'
@@ -148,6 +149,15 @@ interface ICommitListProps {
 
   /* Whether the repository is local (it has no remotes) */
   readonly isLocalRepository: boolean
+
+  /** The state of an ongoing bisect operation, or null if no bisect is in progress. */
+  readonly bisectState: IBisectState | null
+
+  /** Callback to start bisecting from a commit */
+  readonly onStartBisect?: (commit: Commit, kind: 'good' | 'bad') => void
+
+  /** Callback to mark a commit as good/bad in an active bisect */
+  readonly onMarkBisect?: (commit: Commit, kind: 'good' | 'bad') => void
 
   /** Callback to fire when the user wants to start an interactive rebase. */
   readonly onRewordCommit?: (commit: Commit) => void
@@ -780,8 +790,39 @@ export class CommitList extends React.Component<
         label: 'Create Tag…',
         action: () => this.props.onCreateTag?.(commit.sha),
         enabled: this.props.onCreateTag !== undefined,
-      }
+      },
+      { type: 'separator' }
     )
+
+    if (this.props.bisectState === null) {
+      items.push({
+        label: 'Bisect',
+        submenu: [
+          {
+            label: 'Mark as Bad',
+            action: () => this.props.onStartBisect?.(commit, 'bad'),
+          },
+          {
+            label: 'Mark as Good',
+            action: () => this.props.onStartBisect?.(commit, 'good'),
+          },
+        ],
+      })
+    } else {
+      items.push({
+        label: 'Bisect',
+        submenu: [
+          {
+            label: 'Mark as Bad',
+            action: () => this.props.onMarkBisect?.(commit, 'bad'),
+          },
+          {
+            label: 'Mark as Good',
+            action: () => this.props.onMarkBisect?.(commit, 'good'),
+          },
+        ],
+      })
+    }
 
     const deleteTagsMenuItem = this.getDeleteTagsMenuItem(commit)
 

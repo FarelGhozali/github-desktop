@@ -375,6 +375,7 @@ function getInitialRepositoryState(): IRepositoryState {
     commitToAmend: null,
     lastFetched: null,
     checkoutProgress: null,
+    bisectState: null,
     pushPullFetchProgress: null,
     revertProgress: null,
     multiCommitOperationUndoState: null,

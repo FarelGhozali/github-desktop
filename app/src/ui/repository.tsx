@@ -318,6 +318,7 @@ export class RepositoryView extends React.Component<
           this.props.askForConfirmationOnCheckoutCommit
         }
         accounts={this.props.accounts}
+        bisectState={state.bisectState}
       />
     )
   }
