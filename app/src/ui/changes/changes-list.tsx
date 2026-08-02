@@ -52,7 +52,7 @@ import { hasWritePermission } from '../../models/github-repository'
 import { hasConflictedFiles } from '../../lib/status'
 import { createObservableRef } from '../lib/observable-ref'
 import { TooltipDirection } from '../lib/tooltip'
-import { Popup } from '../../models/popup'
+import { Popup, PopupType } from '../../models/popup'
 import { EOL } from 'os'
 import { TooltippedContent } from '../lib/tooltipped-content'
 import { RepoRulesInfo } from '../../models/repo-rules'
@@ -572,6 +572,16 @@ export class ChangesList extends React.Component<
         enabled,
       })
 
+      items.push({
+        label: __DARWIN__ ? 'View File History' : 'View file history',
+        action: () =>
+          this.props.dispatcher.showPopup({
+            type: PopupType.FileHistory,
+            repository: this.props.repository,
+            path: file.path,
+          }),
+      })
+
       // Even on Windows, the path separator is '/' for git operations so cannot
       // use Path.sep
       const pathComponents = path.split('/').slice(0, -1)
@@ -694,6 +704,15 @@ export class ChangesList extends React.Component<
     items.push(
       this.getCopyPathMenuItem(file),
       this.getCopyRelativePathMenuItem(file),
+      {
+        label: __DARWIN__ ? 'View File History' : 'View file history',
+        action: () =>
+          this.props.dispatcher.showPopup({
+            type: PopupType.FileHistory,
+            repository: this.props.repository,
+            path: file.path,
+          }),
+      },
       { type: 'separator' },
       this.getRevealInFileManagerMenuItem(file),
       this.getOpenInExternalEditorMenuItem(file, enabled),

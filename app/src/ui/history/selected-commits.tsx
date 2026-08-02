@@ -6,6 +6,7 @@ import { Repository } from '../../models/repository'
 import { CommittedFileChange } from '../../models/status'
 import { Commit } from '../../models/commit'
 import { IDiff, ImageDiffType } from '../../models/diff'
+import { PopupType } from '../../models/popup'
 
 import { encodePathAsUrl } from '../../lib/path'
 import { revealInFileManager } from '../../lib/app-shell'
@@ -425,6 +426,15 @@ export class SelectedCommits extends React.Component<
       {
         label: CopyRelativeFilePathLabel,
         action: () => clipboard.writeText(Path.normalize(file.path)),
+      },
+      {
+        label: __DARWIN__ ? 'View File History' : 'View file history',
+        action: () =>
+          this.props.dispatcher.showPopup({
+            type: PopupType.FileHistory,
+            repository,
+            path: file.path,
+          }),
       },
       { type: 'separator' },
     ]

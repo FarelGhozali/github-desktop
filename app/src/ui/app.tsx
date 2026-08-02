@@ -170,6 +170,7 @@ import { getRepositoryType } from '../lib/git'
 import { SSHUserPassword } from './ssh/ssh-user-password'
 import { showContextualMenu } from '../lib/menu-item'
 import { UnreachableCommitsDialog } from './history/unreachable-commits-dialog'
+import { FileHistoryDialog } from './file-history/file-history-dialog'
 import { OpenPullRequestDialog } from './open-pull-request/open-pull-request-dialog'
 import { sendNonFatalException } from '../lib/helpers/non-fatal-exception'
 import { createCommitURL } from '../lib/commit-url'
@@ -2749,6 +2750,19 @@ export class App extends React.Component<IAppProps, IAppState> {
       }
       case PopupType.ConfirmRestart: {
         return <ConfirmRestart onDismissed={onPopupDismissedFn} />
+      }
+      case PopupType.FileHistory: {
+        return (
+          <FileHistoryDialog
+            key="file-history"
+            repository={popup.repository}
+            path={popup.path}
+            dispatcher={this.props.dispatcher}
+            emoji={this.state.emoji}
+            accounts={this.state.accounts}
+            onDismissed={onPopupDismissedFn}
+          />
+        )
       }
       default:
         return assertNever(popup, `Unknown popup type: ${popup}`)

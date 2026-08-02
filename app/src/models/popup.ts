@@ -100,6 +100,7 @@ export enum PopupType {
   UnknownAuthors = 'UnknownAuthors',
   TestIcons = 'TestIcons',
   ConfirmRestart = 'ConfirmRestart',
+  FileHistory = 'FileHistory',
 }
 
 interface IBasePopup {
@@ -450,5 +451,10 @@ export type PopupDetail =
       type: PopupType.TestIcons
     }
   | { type: PopupType.ConfirmRestart }
+  | {
+      type: PopupType.FileHistory
+      repository: Repository
+      path: string
+    }
 
 export type Popup = IBasePopup & PopupDetail
