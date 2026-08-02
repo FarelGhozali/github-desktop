@@ -123,7 +123,7 @@ export async function moveStashEntry(
     'moveStashEntryToBranch'
   )
 
-  await dropDesktopStashEntry(repository, stashSha)
+  await dropStashEntry(repository, stashSha)
 }
 
 /**
@@ -198,11 +198,6 @@ export async function createDesktopStashEntry(
   }
 
   return true
-}
-
-async function getStashEntryMatchingSha(repository: Repository, sha: string) {
-  const stash = await getStashes(repository)
-  return stash.desktopEntries.find(e => e.stashSha === sha) || null
 }
 
 /**

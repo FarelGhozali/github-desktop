@@ -1239,6 +1239,10 @@ export class GitStore extends BaseStore {
 
     const { branchName } = stashEntry
 
+    if (branchName === null) {
+      return
+    }
+
     this._desktopStashEntries.set(branchName, {
       ...stashEntry,
       files: { kind: StashedChangesLoadStates.Loading },

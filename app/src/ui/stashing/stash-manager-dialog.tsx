@@ -5,7 +5,7 @@ import { Dispatcher } from '../dispatcher'
 import { Dialog, DialogContent, DialogFooter } from '../dialog'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 import { Button } from '../lib/button'
-import { Octicon, OcticonSymbol } from '../octicons'
+import * as octicons from '../octicons'
 
 interface IStashManagerDialogProps {
   readonly repository: Repository
@@ -34,7 +34,7 @@ export class StashManagerDialog extends React.Component<IStashManagerDialogProps
                     <div className="stash-meta">
                       {entry.branchName && (
                         <span className="branch">
-                          <Octicon symbol={OcticonSymbol.gitBranch} /> {entry.branchName}
+                          <octicons.Octicon symbol={octicons.gitBranch} /> {entry.branchName}
                         </span>
                       )}
                       <span className="sha">{entry.stashSha.substring(0, 7)}</span>
@@ -70,16 +70,16 @@ export class StashManagerDialog extends React.Component<IStashManagerDialogProps
     // We don't have a direct "apply" in Dispatcher that takes an entry name yet
     // But we can add it or use pop if we want it to be removed.
     // GitHub Desktop currently only has popStashEntry which takes a SHA.
-    this.props.dispatcher.popStashEntry(this.props.repository, entry.stashSha)
+    this.props.dispatcher.popStash(this.props.repository, entry)
     this.props.onDismissed()
   }
 
   private onPop = (entry: IStashEntry) => {
-    this.props.dispatcher.popStashEntry(this.props.repository, entry.stashSha)
+    this.props.dispatcher.popStash(this.props.repository, entry)
     this.props.onDismissed()
   }
 
   private onDiscard = (entry: IStashEntry) => {
-    this.props.dispatcher.dropStashEntry(this.props.repository, entry.stashSha)
+    this.props.dispatcher.dropStash(this.props.repository, entry)
   }
 }
