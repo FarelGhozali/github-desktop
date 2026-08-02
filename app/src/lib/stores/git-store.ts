@@ -72,6 +72,8 @@ import {
   getAllTags,
   getAllTagsWithDetails,
   deleteTag,
+  pushTag,
+  deleteRemoteTag,
   MergeResult,
   createBranch,
   updateRemoteHEAD,
@@ -245,7 +247,7 @@ export class GitStore extends BaseStore {
 
   public async refreshTags() {
     const previousTags = this._localTags
-    const [newTags, newTagsDetails] = await this.performFailableOperation(
+    const result = await this.performFailableOperation(
       async () => {
         return Promise.all([
           getAllTags(this.repository),
@@ -254,9 +256,11 @@ export class GitStore extends BaseStore {
       }
     )
 
-    if (newTags === undefined || newTagsDetails === undefined) {
+    if (result === undefined) {
       return
     }
+
+    const [newTags, newTagsDetails] = result
 
     this._localTags = newTags
     this._tagsDetails = newTagsDetails
@@ -265,7 +269,7 @@ export class GitStore extends BaseStore {
     // of local tags. This can happen when the user deletes an
     // unpushed tag from outside of Desktop.
     for (const tagToPush of this._tagsToPush) {
-      if (!this._localTags.has(tagToPush)) {
+      if (!newTags.has(tagToPush)) {
         this.removeTagToPush(tagToPush)
       }
     }
@@ -273,7 +277,7 @@ export class GitStore extends BaseStore {
     if (previousTags !== null) {
       // We don't await for the emition of updates to finish
       // to make this method return earlier.
-      this.emitUpdatesForChangedTags(previousTags, this._localTags)
+      this.emitUpdatesForChangedTags(previousTags, newTags)
     }
   }
 

@@ -1491,7 +1491,7 @@ export class App extends React.Component<IAppProps, IAppState> {
       return
     }
 
-    const state = this.state.localRepositoryStateLookup.get(repository.id)
+    const state = this.props.repositoryStateManager.get(repository)
     if (state === undefined || state.branchesState.tip.kind !== TipState.Valid) {
       return
     }
@@ -2288,8 +2288,8 @@ export class App extends React.Component<IAppProps, IAppState> {
         )
       }
       case PopupType.TagManager: {
-        const repositoryState = this.state.localRepositoryStateLookup.get(
-          popup.repository.id
+        const repositoryState = this.props.repositoryStateManager.get(
+          popup.repository
         )
         const tagsDetails = repositoryState?.tagsDetails ?? []
         return (

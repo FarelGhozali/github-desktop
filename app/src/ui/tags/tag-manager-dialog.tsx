@@ -9,7 +9,9 @@ import { IMatches } from '../../lib/fuzzy-find'
 import { Button } from '../lib/button'
 import { Octicon } from '../octicons'
 import * as OcticonSymbol from '../octicons/octicons.generated'
-import { TipState } from '../../models/tip'
+import { IFilterListItem } from '../lib/filter-list'
+
+interface ITagFilterItem extends ITagDetails, IFilterListItem {}
 
 interface ITagManagerProps {
   readonly dispatcher: Dispatcher
@@ -36,6 +38,12 @@ export class TagManager extends React.Component<ITagManagerProps, ITagManagerSta
   }
 
   public render() {
+    const items: ReadonlyArray<ITagFilterItem> = this.props.tags.map(t => ({
+      ...t,
+      text: [t.name],
+      id: t.name,
+    }))
+
     return (
       <Dialog
         id="tag-manager"
@@ -50,12 +58,12 @@ export class TagManager extends React.Component<ITagManagerProps, ITagManagerSta
               Create Tag
             </Button>
           </div>
-          <FilterList<ITagDetails>
-            items={this.props.tags}
+          <FilterList<ITagFilterItem>
+            rowHeight={29}
+            groups={[{ identifier: 'tags', items }]}
             filterText={this.state.filterText}
             onFilterTextChanged={this.onFilterTextChanged}
             renderItem={this.renderTag}
-            getItemName={this.getTagDetailsName}
             selectedItem={null}
             onSelectionChanged={() => {}}
             invalidationProps={this.props.tags}
@@ -74,11 +82,7 @@ export class TagManager extends React.Component<ITagManagerProps, ITagManagerSta
     this.setState({ filterText })
   }
 
-  private getTagDetailsName = (tag: ITagDetails) => {
-    return tag.name
-  }
-
-  private renderTag = (tag: ITagDetails, matches: IMatches) => {
+  private renderTag = (tag: ITagFilterItem, matches: IMatches) => {
     return (
       <TagListItem
         key={tag.name}
