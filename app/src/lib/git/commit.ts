@@ -16,7 +16,8 @@ export async function createCommit(
   repository: Repository,
   message: string,
   files: ReadonlyArray<WorkingDirectoryFileChange>,
-  amend: boolean = false
+  amend: boolean = false,
+  sign: boolean = false
 ): Promise<string> {
   // Clear the staging area, our diffs reflect the difference between the
   // working directory and the last commit (if any) so our commits should
@@ -29,6 +30,12 @@ export async function createCommit(
 
   if (amend) {
     args.push('--amend')
+  }
+
+  if (sign) {
+    args.push('-S')
+  } else {
+    args.push('--no-gpg-sign')
   }
 
   const result = await git(

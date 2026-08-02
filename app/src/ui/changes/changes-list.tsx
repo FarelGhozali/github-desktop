@@ -148,6 +148,12 @@ interface IChangesListProps {
   /* The scrollTop of the compareList. It is stored to allow for scroll position persistence */
   readonly changesListScrollTop?: number
 
+  /** Whether or not the user has a signing key configured in Git. */
+  readonly isGitSigningConfigured: boolean
+
+  /** Whether or not the user has enabled signing in Git config (commit.gpgsign). */
+  readonly isGitSigningEnabled: boolean
+
   /**
    * Called to open a file in its default application
    *
@@ -855,6 +861,8 @@ export class ChangesList extends React.Component<
         onPersistCommitMessage={this.onPersistCommitMessage}
         onCommitMessageFocusSet={this.onCommitMessageFocusSet}
         onRefreshAuthor={this.onRefreshAuthor}
+        isGitSigningConfigured={this.props.isGitSigningConfigured}
+        isGitSigningEnabled={this.props.isGitSigningEnabled}
         onShowPopup={this.onShowPopup}
         onShowFoldout={this.onShowFoldout}
         onCommitSpellcheckEnabledChanged={this.onCommitSpellcheckEnabledChanged}

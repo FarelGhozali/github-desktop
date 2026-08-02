@@ -15,6 +15,7 @@ import { parseRawUnfoldedTrailers } from './interpret-trailers'
 import { createLogParser } from './git-delimiter-parser'
 import { revRange } from '.'
 import { forceUnwrap } from '../fatal-error'
+import { parseSignatureStatus } from '../../models/commit-signature'
 
 // File mode 160000 is used by git specifically for submodules:
 // https://github.com/git/git/blob/v2.37.3/cache.h#L62-L69
@@ -117,6 +118,9 @@ export async function getCommits(
     parents: '%P', // parent SHAs,
     trailers: '%(trailers:unfold,only)',
     refs: '%D',
+    signatureStatus: '%G?',
+    signatureKeyId: '%GK',
+    signatureSigner: '%GS',
   })
 
   const args = ['log']
@@ -177,7 +181,12 @@ export async function getCommits(
       //    pair is separated by ": ". Otherwise it shares the same semantics as
       //    separator=<SEP> above."
       parseRawUnfoldedTrailers(commit.trailers, ':'),
-      tags
+      tags,
+      {
+        status: parseSignatureStatus(commit.signatureStatus),
+        keyId: commit.signatureKeyId || null,
+        signer: commit.signatureSigner || null,
+      }
     )
   })
 }

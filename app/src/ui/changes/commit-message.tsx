@@ -36,6 +36,7 @@ import { Popup, PopupType } from '../../models/popup'
 import { RepositorySettingsTab } from '../repository-settings/repository-settings'
 import { IdealSummaryLength } from '../../lib/wrap-rich-text-commit-message'
 import { isEmptyOrWhitespace } from '../../lib/is-empty-or-whitespace'
+import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { TooltipDirection } from '../lib/tooltip'
 import { pick } from '../../lib/pick'
 import { ToggledtippedContent } from '../lib/toggletipped-content'
@@ -136,6 +137,12 @@ interface ICommitMessageProps {
     onCommitAnyway: () => void
   ) => void
 
+  /** Whether or not the user has a signing key configured in Git. */
+  readonly isGitSigningConfigured: boolean
+
+  /** Whether or not the user has enabled signing in Git config (commit.gpgsign). */
+  readonly isGitSigningEnabled: boolean
+
   /**
    * Called when the component unmounts to give callers the ability
    * to persist the commit message (i.e. when switching between changes
@@ -182,6 +189,8 @@ interface ICommitMessageState {
   readonly descriptionObscured: boolean
 
   readonly isCommittingStatusMessage: string
+
+  readonly signCommit: boolean
 
   readonly repoRulesEnabled: boolean
 
@@ -241,7 +250,9 @@ export class CommitMessage extends React.Component<
       ),
       descriptionObscured: false,
       isCommittingStatusMessage: '',
+      signCommit: props.isGitSigningEnabled,
       repoRulesEnabled: false,
+
       isRuleFailurePopoverOpen: false,
       repoRuleCommitMessageFailures: new RepoRulesMetadataFailures(),
       repoRuleCommitAuthorFailures: new RepoRulesMetadataFailures(),
@@ -525,11 +536,12 @@ export class CommitMessage extends React.Component<
 
     const trailers = this.getCoAuthorTrailers()
 
-    const commitContext = {
+    const commitContext: ICommitContext = {
       summary: this.summaryOrPlaceholder,
       description,
       trailers,
       amend: this.props.commitToAmend !== null,
+      sign: this.state.signCommit,
     }
 
     const timer = startTimer('create commit', this.props.repository)
@@ -1103,6 +1115,29 @@ export class CommitMessage extends React.Component<
     this.setState({ isRuleFailurePopoverOpen: false })
   }
 
+  private onSignCommitChanged = (event: React.FormEvent<HTMLInputElement>) => {
+    this.setState({ signCommit: event.currentTarget.checked })
+  }
+
+  private renderSignCommitCheckbox() {
+    const { isGitSigningConfigured, isCommitting } = this.props
+    const { signCommit } = this.state
+
+    return (
+      <div
+        className="sign-commit-container"
+        title={!isGitSigningConfigured ? 'No signing key configured in Git' : undefined}
+      >
+        <Checkbox
+          label="Sign commit"
+          value={signCommit ? CheckboxValue.On : CheckboxValue.Off}
+          onChange={this.onSignCommitChanged}
+          disabled={!isGitSigningConfigured || isCommitting === true}
+        />
+      </div>
+    )
+  }
+
   private onSwitchBranch = () => {
     this.props.onShowFoldout({ type: FoldoutType.Branch })
   }
@@ -1375,6 +1410,8 @@ export class CommitMessage extends React.Component<
         </FocusContainer>
 
         {this.renderCoAuthorInput()}
+
+        {this.renderSignCommitCheckbox()}
 
         {this.renderAmendCommitNotice()}
         {this.renderBranchProtectionsRepoRulesCommitWarning()}

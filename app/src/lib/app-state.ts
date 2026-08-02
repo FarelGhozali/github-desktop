@@ -760,6 +760,12 @@ export interface IChangesState {
    * Repo rules that apply to the current branch.
    */
   readonly currentRepoRulesInfo: RepoRulesInfo
+
+  /** Whether or not the user has a signing key configured in Git. */
+  readonly isGitSigningConfigured: boolean
+
+  /** Whether or not the user has enabled signing in Git config (commit.gpgsign). */
+  readonly isGitSigningEnabled: boolean
 }
 
 /**

@@ -21,6 +21,7 @@ import { Avatar } from '../lib/avatar'
 import { CopyButton } from '../copy-button'
 import { Account } from '../../models/account'
 import { Emoji } from '../../lib/emoji'
+import { VerifiedBadge } from '../lib/verified-badge'
 
 interface IExpandableCommitSummaryProps {
   readonly repository: Repository
@@ -515,9 +516,16 @@ export class ExpandableCommitSummary extends React.Component<
       return null
     }
 
+    const commit = this.props.selectedCommits[0]
+
     return (
       <div className="ecs-meta">
         {this.renderAuthors()}
+        {commit.signature && (
+          <div className="ecs-meta-item">
+            <VerifiedBadge signature={commit.signature} />
+          </div>
+        )}
         {this.renderCommitRef()}
         {this.renderLinesChanged()}
         {this.renderTags()}

@@ -1,0 +1,58 @@
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-fg-muted);
+  gap: 4px;
+
+  &:hover {
+    background-color: var(--color-bg-subtle);
+  }
+
+  &.verified {
+    color: var(--color-success-fg);
+    border-color: var(--color-success-border);
+    .octicon {
+      fill: var(--color-success-fg);
+    }
+  }
+
+  &.unverified {
+    color: var(--color-fg-muted);
+    border-color: var(--color-border-default);
+  }
+
+  &.bad {
+    color: var(--color-danger-fg);
+    border-color: var(--color-danger-border);
+    .octicon {
+      fill: var(--color-danger-fg);
+    }
+  }
+
+  .badge-label {
+    margin-left: 2px;
+  }
+}
+
+.verified-badge-details {
+  padding: 8px;
+  max-width: 250px;
+  font-size: var(--font-size-sm);
+
+  .status-description {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: 8px;
+  }
+
+  .signer, .key-id {
+    margin-top: 4px;
+    word-break: break-all;
+  }
+}

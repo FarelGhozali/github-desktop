@@ -20,6 +20,7 @@ import classNames from 'classnames'
 import { TooltippedContent } from '../lib/tooltipped-content'
 import { Account } from '../../models/account'
 import { Emoji } from '../../lib/emoji'
+import { VerifiedBadge } from '../lib/verified-badge'
 
 interface ICommitProps {
   readonly gitHubRepository: GitHubRepository | null
@@ -174,10 +175,14 @@ export class CommitListItem extends React.PureComponent<
   private renderCommitIndicators() {
     const tagIndicator = renderCommitListItemTags(this.props.commit.tags)
     const unpushedIndicator = this.renderUnpushedIndicator()
+    const verifiedBadge = this.props.commit.signature ? (
+      <VerifiedBadge signature={this.props.commit.signature} />
+    ) : null
 
-    if (tagIndicator || unpushedIndicator) {
+    if (tagIndicator || unpushedIndicator || verifiedBadge) {
       return (
         <div className="commit-indicators">
+          {verifiedBadge}
           {tagIndicator}
           {unpushedIndicator}
         </div>
