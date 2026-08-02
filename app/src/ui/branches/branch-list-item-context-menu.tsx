@@ -7,6 +7,7 @@ interface IBranchContextMenuConfig {
   onRenameBranch?: (branchName: string) => void
   onViewPullRequestOnGitHub?: () => void
   onDeleteBranch?: (branchName: string) => void
+  onCompareToBranch?: (branchName: string) => void
 }
 
 export function generateBranchContextMenuItems(
@@ -18,8 +19,17 @@ export function generateBranchContextMenuItems(
     onRenameBranch,
     onViewPullRequestOnGitHub,
     onDeleteBranch,
+    onCompareToBranch,
   } = config
   const items = new Array<IMenuItem>()
+
+  if (onCompareToBranch !== undefined) {
+    items.push({
+      label: `Compare with ${name}`,
+      action: () => onCompareToBranch(name),
+    })
+    items.push({ type: 'separator' })
+  }
 
   if (onRenameBranch !== undefined) {
     items.push({
