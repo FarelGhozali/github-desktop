@@ -32,6 +32,11 @@ import { getAccountForRepository } from '../../lib/get-account-for-repository'
 import { IAheadBehind } from '../../models/branch'
 import { Emoji } from '../../lib/emoji'
 
+import { SubmoduleStatus } from '../../models/submodule'
+import { Octicon } from '../octicons'
+import * as octicons from '../octicons/octicons.generated'
+import { LinkButton } from '../lib/link-button'
+
 /**
  * The timeout for the animation of the enter/leave animation for Undo.
  *
@@ -365,41 +370,71 @@ export class ChangesSidebar extends React.Component<IChangesSidebarProps, {}> {
   public focus() {
     this.changesListRef.current?.focus()
   }
+private onManageSubmodules = () => {
+  this.props.dispatcher.showPopup({
+    type: PopupType.SubmoduleManager,
+    repository: this.props.repository,
+  })
+}
 
-  public render() {
-    const {
-      workingDirectory,
-      commitMessage,
-      showCoAuthoredBy,
-      coAuthors,
-      conflictState,
-      selection,
-      currentBranchProtected,
-      currentRepoRulesInfo,
-    } = this.props.changes
-    let rebaseConflictState: RebaseConflictState | null = null
-    if (conflictState !== null) {
-      rebaseConflictState = isRebaseConflictState(conflictState)
-        ? conflictState
-        : null
-    }
+private renderSubmoduleWarning() {
+  const { submodules } = this.props.changes
+  if (submodules.length === 0) {
+    return null
+  }
 
-    const selectedFileIDs =
-      selection.kind === ChangesSelectionKind.WorkingDirectory
-        ? selection.selectedFileIDs
-        : []
+  const outOfSync = submodules.some(s => s.status !== SubmoduleStatus.UpToDate)
 
-    const isShowingStashEntry = selection.kind === ChangesSelectionKind.Stash
-    const repositoryAccount = getAccountForRepository(
-      this.props.accounts,
-      this.props.repository
-    )
+  if (!outOfSync) {
+    return null
+  }
 
-    return (
-      <div className="panel" role="tabpanel" aria-labelledby="changes-tab">
-        <ChangesList
-          ref={this.changesListRef}
-          dispatcher={this.props.dispatcher}
+  return (
+    <div className="submodule-warning">
+      <Octicon symbol={octicons.alert} />
+      <span>Some submodules are out of sync or not initialized.</span>
+      <LinkButton onClick={this.onManageSubmodules}>
+        Manage Submodules
+      </LinkButton>
+    </div>
+  )
+}
+
+public render() {
+  const {
+    workingDirectory,
+    commitMessage,
+    showCoAuthoredBy,
+    coAuthors,
+    conflictState,
+    selection,
+    currentBranchProtected,
+    currentRepoRulesInfo,
+  } = this.props.changes
+  let rebaseConflictState: RebaseConflictState | null = null
+  if (conflictState !== null) {
+    rebaseConflictState = isRebaseConflictState(conflictState)
+      ? conflictState
+      : null
+  }
+
+  const selectedFileIDs =
+    selection.kind === ChangesSelectionKind.WorkingDirectory
+      ? selection.selectedFileIDs
+      : []
+
+  const isShowingStashEntry = selection.kind === ChangesSelectionKind.Stash
+  const repositoryAccount = getAccountForRepository(
+    this.props.accounts,
+    this.props.repository
+  )
+
+  return (
+    <div id="changes-sidebar-contents" className="panel" role="tabpanel" aria-labelledby="changes-tab">
+      {this.renderSubmoduleWarning()}
+      <ChangesList
+        ref={this.changesListRef}
+        dispatcher={this.props.dispatcher}
           repository={this.props.repository}
           repositoryAccount={repositoryAccount}
           workingDirectory={workingDirectory}

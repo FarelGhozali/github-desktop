@@ -322,6 +322,7 @@ function getInitialRepositoryState(): IRepositoryState {
       workingDirectory: WorkingDirectoryStatus.fromFiles(
         new Array<WorkingDirectoryFileChange>()
       ),
+      submodules: [],
       selection: {
         kind: ChangesSelectionKind.WorkingDirectory,
         selectedFileIDs: [],

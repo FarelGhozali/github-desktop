@@ -189,6 +189,7 @@ import {
   getBranchMergeBaseDiff,
   checkoutCommit,
   getRemoteURL,
+  listSubmodules,
 } from '../git'
 import {
   installGlobalLFSFilters,
@@ -2584,6 +2585,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
     this.repositoryStateCache.updateChangesState(repository, state => ({
       conflictState: updateConflictState(state, status, this.statsStore),
+    }))
+
+    const submodules = await listSubmodules(repository)
+    this.repositoryStateCache.updateChangesState(repository, () => ({
+      submodules,
     }))
 
     this.updateMultiCommitOperationConflictsIfFound(repository)

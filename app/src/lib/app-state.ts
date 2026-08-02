@@ -711,9 +711,11 @@ export type ChangesSelection =
   | ChangesWorkingDirectorySelection
   | ChangesStashSelection
 
+import { SubmoduleEntry } from '../models/submodule'
+
 export interface IChangesState {
   readonly workingDirectory: WorkingDirectoryStatus
-
+  readonly submodules: ReadonlyArray<SubmoduleEntry>
   /** The commit message for a work-in-progress commit in the changes view. */
   readonly commitMessage: ICommitMessage
 
