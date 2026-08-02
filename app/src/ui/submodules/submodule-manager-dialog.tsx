@@ -73,8 +73,8 @@ export class SubmoduleManager extends React.Component<
         <DialogFooter>
           <OkCancelButtonGroup
             okButtonText="Close"
-            onCancel={this.props.onDismissed}
-            cancelVisible={false}
+            onCancelButtonClick={this.props.onDismissed}
+            cancelButtonVisible={false}
           />
         </DialogFooter>
       </Dialog>

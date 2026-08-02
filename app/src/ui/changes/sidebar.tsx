@@ -424,19 +424,17 @@ public render() {
       : []
 
   const isShowingStashEntry = selection.kind === ChangesSelectionKind.Stash
+  const repositoryAccount = getAccountForRepository(
+    this.props.accounts,
+    this.props.repository
+  )
 
   return (
-    <div id="changes-sidebar-contents">
+    <div id="changes-sidebar-contents" className="panel" role="tabpanel" aria-labelledby="changes-tab">
       {this.renderSubmoduleWarning()}
       <ChangesList
         ref={this.changesListRef}
-
-
-    return (
-      <div className="panel" role="tabpanel" aria-labelledby="changes-tab">
-        <ChangesList
-          ref={this.changesListRef}
-          dispatcher={this.props.dispatcher}
+        dispatcher={this.props.dispatcher}
           repository={this.props.repository}
           repositoryAccount={repositoryAccount}
           workingDirectory={workingDirectory}

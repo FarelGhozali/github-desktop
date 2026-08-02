@@ -362,7 +362,7 @@ export function buildDefaultMenu({
       },
       separator,
       {
-        label: __DARWIN__ ? 'Manage Submodules…' : 'Manage &submodules…',
+        label: __DARWIN__ ? 'Manage Submodules…' : '&Manage submodules…',
         id: 'manage-submodules',
         click: emit('manage-submodules'),
       },

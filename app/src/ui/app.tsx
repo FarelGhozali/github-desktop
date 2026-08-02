@@ -1475,6 +1475,11 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   private showSubmoduleManager() {
     const repository = this.getRepository()
+
+    if (!repository || repository instanceof CloningRepository) {
+      return
+    }
+
     this.props.dispatcher.showPopup({
       type: PopupType.SubmoduleManager,
       repository,
@@ -2781,7 +2786,7 @@ export class App extends React.Component<IAppProps, IAppState> {
           />
         )
       default:
-        return assertNever(popup, `Unknown popup type: ${popup.type}`)
+        return assertNever(popup, `Unknown popup type: ${(popup as any).type}`)
       }
       }
 

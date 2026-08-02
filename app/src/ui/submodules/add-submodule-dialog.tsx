@@ -45,14 +45,14 @@ export class AddSubmodule extends React.Component<
             label="Repository URL"
             placeholder="https://github.com/user/repo.git"
             value={this.state.url}
-            onValueChange={this.onUrlChange}
+            onValueChanged={this.onUrlChange}
             autoFocus={true}
           />
           <TextBox
             label="Local Path"
             placeholder="vendor/my-submodule"
             value={this.state.path}
-            onValueChange={this.onPathChange}
+            onValueChanged={this.onPathChange}
           />
         </DialogContent>
         <DialogFooter>
