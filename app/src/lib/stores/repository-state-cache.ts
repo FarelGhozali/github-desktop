@@ -13,6 +13,7 @@ import {
   IChangesState,
   ICompareState,
   IRepositoryState,
+  IBranchComparisonState,
   RepositorySectionTab,
   ICommitSelection,
   ChangesSelectionKind,
@@ -79,6 +80,21 @@ export class RepositoryStateCache {
       const newValues = fn(compareState)
 
       return { compareState: merge(compareState, newValues) }
+    })
+  }
+
+  public updateBranchComparisonState<K extends keyof IBranchComparisonState>(
+    repository: Repository,
+    fn: (state: IBranchComparisonState) => Pick<IBranchComparisonState, K>
+  ) {
+    this.update(repository, state => {
+      const { branchComparisonState } = state
+      if (branchComparisonState === null) {
+        return { branchComparisonState: null }
+      }
+
+      const newValues = fn(branchComparisonState)
+      return { branchComparisonState: merge(branchComparisonState, newValues) }
     })
   }
 
@@ -321,6 +337,7 @@ function getInitialRepositoryState(): IRepositoryState {
       isGitSigningConfigured: false,
       isGitSigningEnabled: false,
     },
+    branchComparisonState: null,
     selectedSection: RepositorySectionTab.Changes,
     branchesState: {
       tip: { kind: TipState.Unknown },

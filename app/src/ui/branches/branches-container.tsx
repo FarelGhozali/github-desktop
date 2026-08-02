@@ -50,6 +50,7 @@ interface IBranchesContainerProps {
   readonly pullRequests: ReadonlyArray<PullRequest>
   readonly onRenameBranch: (branchName: string) => void
   readonly onDeleteBranch: (branchName: string) => void
+  readonly onCompareToBranch?: (branchName: string) => void
 
   /** The pull request associated with the current branch. */
   readonly currentPullRequest: PullRequest | null
@@ -223,7 +224,8 @@ export class BranchesContainer extends React.Component<
       matches,
       this.props.currentBranch,
       this.onDropOntoBranch,
-      this.onDropOntoCurrentBranch
+      this.onDropOntoCurrentBranch,
+      this.props.onCompareToBranch
     )
   }
 
@@ -280,6 +282,7 @@ export class BranchesContainer extends React.Component<
             renderPreList={this.renderPreList}
             onRenameBranch={this.props.onRenameBranch}
             onDeleteBranch={this.props.onDeleteBranch}
+            onCompareToBranch={this.props.onCompareToBranch}
           />
         )
       case BranchesTab.PullRequests: {
