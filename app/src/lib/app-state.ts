@@ -51,6 +51,7 @@ import { RepoRulesInfo } from '../models/repo-rules'
 import { IAPIRepoRuleset } from './api'
 import { ICustomIntegration } from './custom-integration'
 import { Emoji } from './emoji'
+import { ICommitTemplate } from '../models/commit-template'
 
 export enum SelectionType {
   Repository,
@@ -244,9 +245,11 @@ export interface IAppState {
 
   /** Whether or not the app should show the commit length warning */
   readonly showCommitLengthWarning: boolean
-
   /** The current setting for whether the user has disable usage reports */
   readonly optOutOfUsageTracking: boolean
+
+  /** The user's custom commit templates. */
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
   /**
    * A cached entry representing an external editor found on the user's machine:
    *

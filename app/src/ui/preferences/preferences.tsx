@@ -44,11 +44,13 @@ import { Prompts } from './prompts'
 import { Repository } from '../../models/repository'
 import { Notifications } from './notifications'
 import { Accessibility } from './accessibility'
+import { CommitTemplates } from './commit-templates'
 import {
   ICustomIntegration,
   TargetPathArgument,
   isValidCustomIntegration,
 } from '../../lib/custom-integration'
+import { ICommitTemplate } from '../../models/commit-template'
 
 interface IPreferencesProps {
   readonly dispatcher: Dispatcher
@@ -83,6 +85,7 @@ interface IPreferencesProps {
   readonly onOpenFileInExternalEditor: (path: string) => void
   readonly underlineLinks: boolean
   readonly showDiffCheckMarks: boolean
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 }
 
 interface IPreferencesState {
@@ -135,6 +138,8 @@ interface IPreferencesState {
   readonly underlineLinks: boolean
 
   readonly showDiffCheckMarks: boolean
+
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 }
 
 /**
@@ -193,6 +198,7 @@ export class Preferences extends React.Component<
       globalGitConfigPath: null,
       underlineLinks: this.props.underlineLinks,
       showDiffCheckMarks: this.props.showDiffCheckMarks,
+      commitTemplates: this.props.commitTemplates,
     }
   }
 
@@ -321,6 +327,10 @@ export class Preferences extends React.Component<
               <Octicon className="icon" symbol={octicons.accessibility} />
               Accessibility
             </span>
+            <span id={this.getTabId(PreferencesTab.CommitTemplates)}>
+              <Octicon className="icon" symbol={octicons.file} />
+              Templates
+            </span>
           </TabBar>
 
           {this.renderActiveTab()}
@@ -356,6 +366,9 @@ export class Preferences extends React.Component<
         break
       case PreferencesTab.Accessibility:
         suffix = 'accessibility'
+        break
+      case PreferencesTab.CommitTemplates:
+        suffix = 'commit-templates'
         break
       default:
         return assertNever(tab, `Unknown tab type: ${tab}`)
@@ -541,6 +554,16 @@ export class Preferences extends React.Component<
           />
         )
         break
+      case PreferencesTab.CommitTemplates:
+        View = (
+          <CommitTemplates
+            templates={this.state.commitTemplates}
+            onAddTemplate={this.onAddTemplate}
+            onRemoveTemplate={this.onRemoveTemplate}
+            onUpdateTemplate={this.onUpdateTemplate}
+          />
+        )
+        break
       default:
         return assertNever(index, `Unknown tab index: ${index}`)
     }
@@ -677,6 +700,26 @@ export class Preferences extends React.Component<
 
   private onShowDiffCheckMarksChanged = (showDiffCheckMarks: boolean) => {
     this.setState({ showDiffCheckMarks })
+  }
+
+  private onAddTemplate = (template: ICommitTemplate) => {
+    this.setState({
+      commitTemplates: [...this.state.commitTemplates, template],
+    })
+  }
+
+  private onRemoveTemplate = (id: string) => {
+    this.setState({
+      commitTemplates: this.state.commitTemplates.filter(t => t.id !== id),
+    })
+  }
+
+  private onUpdateTemplate = (template: ICommitTemplate) => {
+    this.setState({
+      commitTemplates: this.state.commitTemplates.map(t =>
+        t.id === template.id ? template : t
+      ),
+    })
   }
 
   private onSelectedTabSizeChanged = (tabSize: number) => {
@@ -828,6 +871,8 @@ export class Preferences extends React.Component<
     dispatcher.setUnderlineLinksSetting(this.state.underlineLinks)
 
     dispatcher.setDiffCheckMarksSetting(this.state.showDiffCheckMarks)
+
+    dispatcher.setCommitTemplates(this.state.commitTemplates)
 
     this.props.onDismissed()
   }

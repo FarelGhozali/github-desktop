@@ -58,6 +58,8 @@ import { TooltippedContent } from '../lib/tooltipped-content'
 import { RepoRulesInfo } from '../../models/repo-rules'
 import { IAheadBehind } from '../../models/branch'
 import { StashDiffViewerId } from '../stashing'
+import { ICommitTemplate } from '../../models/commit-template'
+import { ConventionalCommitTemplates } from '../../models/commit-template'
 
 const RowHeight = 29
 const StashIcon: OcticonSymbolVariant = {
@@ -224,6 +226,7 @@ interface IChangesListProps {
   readonly showCommitLengthWarning: boolean
 
   readonly accounts: ReadonlyArray<Account>
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 }
 
 interface IChangesState {
@@ -861,6 +864,10 @@ export class ChangesList extends React.Component<
         onStopAmending={this.onStopAmending}
         onShowCreateForkDialog={this.onShowCreateForkDialog}
         accounts={this.props.accounts}
+        commitTemplates={[
+          ...ConventionalCommitTemplates,
+          ...this.props.commitTemplates,
+        ]}
       />
     )
   }

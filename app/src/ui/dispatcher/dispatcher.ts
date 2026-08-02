@@ -60,6 +60,7 @@ import { CloneRepositoryTab } from '../../models/clone-repository-tab'
 import { CloningRepository } from '../../models/cloning-repository'
 import { Commit, ICommitContext, CommitOneLine } from '../../models/commit'
 import { ICommitMessage } from '../../models/commit-message'
+import { ICommitTemplate } from '../../models/commit-template'
 import { DiffSelection, ImageDiffType, ITextDiff } from '../../models/diff'
 import { FetchType } from '../../models/fetch'
 import { GitHubRepository } from '../../models/github-repository'
@@ -3130,6 +3131,22 @@ export class Dispatcher {
 
   public setCommitSpellcheckEnabled(commitSpellcheckEnabled: boolean) {
     this.appStore._setCommitSpellcheckEnabled(commitSpellcheckEnabled)
+  }
+
+  public setCommitTemplates(templates: ReadonlyArray<ICommitTemplate>) {
+    return this.appStore._setCommitTemplates(templates)
+  }
+
+  public addCommitTemplate(template: ICommitTemplate) {
+    return this.appStore._addCommitTemplate(template)
+  }
+
+  public removeCommitTemplate(id: string) {
+    return this.appStore._removeCommitTemplate(id)
+  }
+
+  public updateCommitTemplate(template: ICommitTemplate) {
+    return this.appStore._updateCommitTemplate(template)
   }
 
   public setUseWindowsOpenSSH(useWindowsOpenSSH: boolean) {

@@ -55,6 +55,12 @@ import { RepoRulesetsForBranchLink } from '../repository-rules/repo-rulesets-for
 import { RepoRulesMetadataFailureList } from '../repository-rules/repo-rules-failure-list'
 import { formatCommitMessage } from '../../lib/format-commit-message'
 import { useRepoRulesLogic } from '../../lib/helpers/repo-rules'
+import {
+  CommitTemplateSelector,
+} from './commit-template-selector'
+import {
+  ICommitTemplate,
+} from '../../models/commit-template'
 
 const addAuthorIcon: OcticonSymbolVariant = {
   w: 18,
@@ -163,6 +169,7 @@ interface ICommitMessageProps {
   readonly onShowCreateForkDialog: () => void
 
   readonly accounts: ReadonlyArray<Account>
+  readonly commitTemplates: ReadonlyArray<ICommitTemplate>
 }
 
 interface ICommitMessageState {
@@ -711,6 +718,13 @@ export class CommitMessage extends React.Component<
     this.props.onShowCoAuthoredByChanged(!this.props.showCoAuthoredBy)
   }
 
+  private onSelectTemplate = (template: ICommitTemplate) => {
+    const lines = template.text.split('\n')
+    const summary = lines[0] || ''
+    const description = lines.slice(1).join('\n').trimStart()
+    this.setState({ summary, description })
+  }
+
   private get toggleCoAuthorsText(): string {
     return this.props.showCoAuthoredBy
       ? __DARWIN__
@@ -859,7 +873,16 @@ export class CommitMessage extends React.Component<
       disabled: this.props.isCommitting === true,
     })
 
-    return <div className={className}>{this.renderCoAuthorToggleButton()}</div>
+    return (
+      <div className={className}>
+        <CommitTemplateSelector
+          templates={this.props.commitTemplates}
+          onSelectTemplate={this.onSelectTemplate}
+          disabled={this.props.isCommitting === true}
+        />
+        {this.renderCoAuthorToggleButton()}
+      </div>
+    )
   }
 
   private renderAmendCommitNotice() {

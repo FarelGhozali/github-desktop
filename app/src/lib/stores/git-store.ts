@@ -75,6 +75,7 @@ import {
   createBranch,
   updateRemoteHEAD,
   getRemoteHEAD,
+  getCommitTemplate,
 } from '../git'
 import { GitError as DugiteError } from '../../lib/git'
 import { GitError } from 'dugite'
@@ -1428,6 +1429,29 @@ export class GitStore extends BaseStore {
 
     this.emitUpdate()
     return Promise.resolve()
+  }
+
+  /**
+   * Initializes the commit message from the template defined in the git config,
+   * if the current commit message is empty.
+   */
+  public async initializeCommitMessageFromTemplate() {
+    if (
+      this._commitMessage.summary !== '' ||
+      (this._commitMessage.description !== null &&
+        this._commitMessage.description !== '')
+    ) {
+      return
+    }
+
+    const template = await getCommitTemplate(this.repository)
+    if (template) {
+      const lines = template.split(/\r?\n/)
+      const summary = lines[0] || ''
+      const description = lines.slice(1).join('\n').trimStart()
+      this._commitMessage = { summary, description }
+      this.emitUpdate()
+    }
   }
 
   /** The date the repository was last fetched. */
