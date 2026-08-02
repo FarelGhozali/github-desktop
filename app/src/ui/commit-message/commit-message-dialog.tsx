@@ -137,6 +137,8 @@ export class CommitMessageDialog extends React.Component<
             coAuthors={this.state.coAuthors}
             placeholder={''}
             prepopulateCommitSummary={this.props.prepopulateCommitSummary}
+            isGitSigningConfigured={false}
+            isGitSigningEnabled={false}
             key={this.props.repository.id}
             showBranchProtected={this.props.showBranchProtected}
             repoRulesInfo={this.props.repoRulesInfo}

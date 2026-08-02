@@ -1124,15 +1124,15 @@ export class CommitMessage extends React.Component<
     const { signCommit } = this.state
 
     return (
-      <div className="sign-commit-container">
+      <div
+        className="sign-commit-container"
+        title={!isGitSigningConfigured ? 'No signing key configured in Git' : undefined}
+      >
         <Checkbox
           label="Sign commit"
           value={signCommit ? CheckboxValue.On : CheckboxValue.Off}
           onChange={this.onSignCommitChanged}
           disabled={!isGitSigningConfigured || isCommitting === true}
-          tooltip={
-            !isGitSigningConfigured ? 'No signing key configured in Git' : undefined
-          }
         />
       </div>
     )
