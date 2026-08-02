@@ -32,6 +32,7 @@ interface IStashDiffViewerProps {
 
   /** Whether we should display side by side diffs. */
   readonly showSideBySideDiff: boolean
+  readonly syntaxHighlightingEnabled: boolean
 
   /**
    * Called when the user requests to open a binary file in an the
@@ -114,6 +115,7 @@ export class StashDiffViewer extends React.PureComponent<IStashDiffViewerProps> 
           hideWhitespaceInDiff={false}
           showDiffCheckMarks={false}
           showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
           onOpenBinaryFile={onOpenBinaryFile}
           onChangeImageDiffType={onChangeImageDiffType}
           onHideWhitespaceInDiffChanged={

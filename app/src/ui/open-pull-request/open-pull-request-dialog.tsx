@@ -54,6 +54,7 @@ interface IOpenPullRequestDialogProps {
 
   /** Whether we should display side by side diffs. */
   readonly showSideBySideDiff: boolean
+  readonly syntaxHighlightingEnabled: boolean
 
   /** Whether we should hide whitespace in diff. */
   readonly hideWhitespaceInDiff: boolean
@@ -177,6 +178,7 @@ export class OpenPullRequestDialog extends React.Component<IOpenPullRequestDialo
         nonLocalCommitSHA={nonLocalCommitSHA}
         selectedFile={file}
         showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
         repository={repository}
         onOpenInExternalEditor={this.props.onOpenInExternalEditor}
       />

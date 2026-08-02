@@ -67,6 +67,7 @@ interface ISeamlessDiffSwitcherProps {
   // Used in getDerivedStateFromProps, no-unused-prop-types doesn't know that
   // eslint-disable-next-line react/no-unused-prop-types
   readonly showSideBySideDiff: boolean
+  readonly syntaxHighlightingEnabled: boolean
 
   /** Whether or not to show the diff check marks indicating inclusion in a commit */
   // Used in getDerivedStateFromProps, no-unused-prop-types doesn't know that
@@ -366,6 +367,7 @@ export class SeamlessDiffSwitcher extends React.Component<
             readOnly={readOnly}
             hideWhitespaceInDiff={hideWhitespaceInDiff}
             showSideBySideDiff={showSideBySideDiff}
+            syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
             askForConfirmationOnDiscardChanges={
               this.props.askForConfirmationOnDiscardChanges
             }

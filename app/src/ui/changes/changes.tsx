@@ -48,6 +48,7 @@ interface IChangesProps {
    * Whether we should display side by side diffs.
    */
   readonly showSideBySideDiff: boolean
+  readonly syntaxHighlightingEnabled: boolean
 
   /** Whether or not to show the diff check marks indicating inclusion in a commit */
   readonly showDiffCheckMarks: boolean
@@ -123,6 +124,7 @@ export class Changes extends React.Component<IChangesProps, {}> {
           diff={this.props.diff}
           hideWhitespaceInDiff={this.props.hideWhitespaceInDiff}
           showSideBySideDiff={this.props.showSideBySideDiff}
+        syntaxHighlightingEnabled={this.props.syntaxHighlightingEnabled}
           showDiffCheckMarks={this.props.showDiffCheckMarks}
           askForConfirmationOnDiscardChanges={
             this.props.askForConfirmationOnDiscardChanges
