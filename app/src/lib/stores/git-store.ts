@@ -122,6 +122,8 @@ export class GitStore extends BaseStore {
 
   private _tip: Tip = { kind: TipState.Unknown }
 
+  private _firstParentOnly: boolean = false
+
   private _defaultBranch: Branch | null = null
 
   private _upstreamDefaultBranch: Branch | null = null
@@ -186,7 +188,14 @@ export class GitStore extends BaseStore {
     const range = revRange('HEAD', mergeBase)
 
     const commits = await this.performFailableOperation(() =>
-      getCommits(this.repository, range, CommitBatchSize)
+      getCommits(
+        this.repository,
+        range,
+        CommitBatchSize,
+        undefined,
+        [],
+        this._firstParentOnly
+      )
     )
     if (commits == null) {
       return
@@ -227,7 +236,14 @@ export class GitStore extends BaseStore {
     this.requestsInFight.add(requestKey)
 
     const commits = await this.performFailableOperation(() =>
-      getCommits(this.repository, commitish, CommitBatchSize, skip)
+      getCommits(
+        this.repository,
+        commitish,
+        CommitBatchSize,
+        skip,
+        [],
+        this._firstParentOnly
+      )
     )
 
     this.requestsInFight.delete(requestKey)
@@ -370,6 +386,16 @@ export class GitStore extends BaseStore {
   }
 
   /** The list of ordered SHAs. */
+  public async setFirstParentOnly(firstParentOnly: boolean): Promise<void> {
+    if (this._firstParentOnly === firstParentOnly) {
+      return
+    }
+
+    this._firstParentOnly = firstParentOnly
+    this._history = []
+    this.emitUpdate()
+  }
+
   public get history(): ReadonlyArray<string> {
     return this._history
   }

@@ -59,6 +59,7 @@ interface IRepositoryViewProps {
   readonly commitSpellcheckEnabled: boolean
   readonly showCommitLengthWarning: boolean
   readonly accounts: ReadonlyArray<Account>
+  readonly isHistoryFocusModeActive: boolean
 
   /**
    * A value indicating whether or not the application is currently presenting
@@ -318,6 +319,7 @@ export class RepositoryView extends React.Component<
           this.props.askForConfirmationOnCheckoutCommit
         }
         accounts={this.props.accounts}
+        isHistoryFocusModeActive={this.props.isHistoryFocusModeActive}
       />
     )
   }

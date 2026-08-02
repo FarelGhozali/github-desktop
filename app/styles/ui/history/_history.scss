@@ -31,6 +31,35 @@
     flex: initial;
     padding: var(--spacing-half);
     border-bottom: var(--base-border);
+    display: flex;
+    align-items: center;
+
+    .fancy-text-box {
+      flex: 1;
+    }
+
+    .history-focus-mode-toggle {
+      margin-left: var(--spacing-half);
+      padding: 0 var(--spacing-half);
+      height: 28px;
+      width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.active {
+        background: var(--button-primary-background-color);
+        color: var(--button-primary-color);
+
+        &:hover {
+          background: var(--button-primary-hover-background-color);
+        }
+
+        .octicon {
+          fill: currentColor;
+        }
+      }
+    }
   }
 
   .compare-commit-list {

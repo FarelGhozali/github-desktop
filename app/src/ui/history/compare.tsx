@@ -20,6 +20,8 @@ import { TabBar } from '../tab-bar'
 import { CompareBranchListItem } from './compare-branch-list-item'
 import { FancyTextBox } from '../lib/fancy-text-box'
 import * as octicons from '../octicons/octicons.generated'
+import { Octicon } from '../octicons/octicon'
+import { Button } from '../lib/button'
 import { SelectionSource } from '../lib/filter-list'
 import { IMatches } from '../../lib/fuzzy-find'
 import { Ref } from '../lib/ref'
@@ -60,6 +62,7 @@ interface ICompareSidebarProps {
   readonly isMultiCommitOperationInProgress?: boolean
   readonly shasToHighlight: ReadonlyArray<string>
   readonly accounts: ReadonlyArray<Account>
+  readonly isHistoryFocusModeActive: boolean
 }
 
 interface ICompareSidebarState {
@@ -178,11 +181,27 @@ export class CompareSidebar extends React.Component<
             onKeyDown={this.onBranchFilterKeyDown}
             onSearchCleared={this.handleEscape}
           />
+
+          <Button
+            className={`history-focus-mode-toggle ${
+              this.props.isHistoryFocusModeActive ? 'active' : ''
+            }`}
+            onClick={this.onToggleFocusMode}
+            tooltip={`${
+              this.props.isHistoryFocusModeActive ? 'Disable' : 'Enable'
+            } single branch focus view`}
+          >
+            <Octicon symbol={octicons.eye} />
+          </Button>
         </div>
 
         {showBranchList ? this.renderFilterList() : this.renderCommits()}
       </div>
     )
+  }
+
+  private onToggleFocusMode = () => {
+    this.props.dispatcher.toggleHistoryFocusMode()
   }
 
   private onBranchesListRef = (branchList: BranchList | null) => {
@@ -219,7 +238,9 @@ export class CompareSidebar extends React.Component<
 
     let emptyListMessage: string | JSX.Element
     if (formState.kind === HistoryTabMode.History) {
-      emptyListMessage = 'No history'
+      emptyListMessage = this.props.isHistoryFocusModeActive
+        ? 'No isolated commits to show on this branch yet.'
+        : 'No history'
     } else {
       const currentlyComparedBranchName = formState.comparisonBranch.name
 

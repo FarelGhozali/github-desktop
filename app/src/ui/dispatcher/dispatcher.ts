@@ -1414,10 +1414,16 @@ export class Dispatcher {
     return this.appStore._resetPushPullButtonWidth()
   }
 
+  /** Toggle the history focus mode (first-parent only) */
+  public toggleHistoryFocusMode(): Promise<void> {
+    return this.appStore._toggleHistoryFocusMode()
+  }
+
   /**
-   * Set the update banner's visibility
+   * Set the width of the update banner's visibility
    */
   public setUpdateBannerVisibility(isVisible: boolean) {
+
     return this.appStore._setUpdateBannerVisibility(isVisible)
   }
 

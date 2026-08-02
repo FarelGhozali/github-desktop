@@ -449,6 +449,9 @@ export const underlineLinksDefault = true
 export const showDiffCheckMarksDefault = true
 export const showDiffCheckMarksKey = 'diff-check-marks-visible'
 
+const isHistoryFocusModeActiveKey = 'history-focus-mode-active'
+const isHistoryFocusModeActiveDefault = false
+
 export class AppStore extends TypedBaseStore<IAppState> {
   private readonly gitStoreCache: GitStoreCache
 
@@ -598,6 +601,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
 
   private underlineLinks: boolean = underlineLinksDefault
 
+  private isHistoryFocusModeActive: boolean = isHistoryFocusModeActiveDefault
+
   public constructor(
     private readonly gitHubUserStore: GitHubUserStore,
     private readonly cloningRepositoriesStore: CloningRepositoriesStore,
@@ -630,6 +635,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.gitStoreCache = new GitStoreCache(
       shell,
       this.statsStore,
+      () => this.isHistoryFocusModeActive,
       (repo, store) => this.onGitStoreUpdated(repo, store),
       error => this.emitError(error)
     )
@@ -1084,6 +1090,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
       cachedRepoRulesets: this.cachedRepoRulesets,
       underlineLinks: this.underlineLinks,
       showDiffCheckMarks: this.showDiffCheckMarks,
+      isHistoryFocusModeActive: this.isHistoryFocusModeActive,
     }
   }
 
@@ -2305,6 +2312,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.showDiffCheckMarks = getBoolean(
       showDiffCheckMarksKey,
       showDiffCheckMarksDefault
+    )
+
+    this.isHistoryFocusModeActive = getBoolean(
+      isHistoryFocusModeActiveKey,
+      isHistoryFocusModeActiveDefault
     )
 
     this.emitUpdateNow()
@@ -8273,6 +8285,30 @@ export class AppStore extends TypedBaseStore<IAppState> {
       setBoolean(showDiffCheckMarksKey, showDiffCheckMarks)
       this.emitUpdate()
     }
+  }
+
+  /** Toggle the history focus mode (first-parent only) */
+  public async _toggleHistoryFocusMode(): Promise<void> {
+    this.isHistoryFocusModeActive = !this.isHistoryFocusModeActive
+    setBoolean(isHistoryFocusModeActiveKey, this.isHistoryFocusModeActive)
+
+    this.gitStoreCache.forEach(store => {
+      store.setFirstParentOnly(this.isHistoryFocusModeActive)
+    })
+
+    if (this.selectedRepository instanceof Repository) {
+      await this._reloadHistory(this.selectedRepository)
+    }
+
+    this.emitUpdate()
+  }
+
+  /** Reload the history for the given repository. */
+  private async _reloadHistory(repository: Repository): Promise<void> {
+    this.repositoryStateCache.updateCompareState(repository, () => ({
+      commitSHAs: [],
+    }))
+    await this._loadNextCommitBatch(repository)
   }
 }
 
