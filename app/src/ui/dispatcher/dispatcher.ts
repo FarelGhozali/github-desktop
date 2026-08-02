@@ -2501,7 +2501,7 @@ export class Dispatcher {
   public async performRetry(retryAction: RetryAction): Promise<void> {
     switch (retryAction.type) {
       case RetryActionType.Push:
-        return this.push(retryAction.repository, {
+        return this.pushWithOptions(retryAction.repository, {
           forceWithLease: false,
           noVerify: retryAction.noVerify,
         })

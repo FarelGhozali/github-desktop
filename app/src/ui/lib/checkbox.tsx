@@ -28,6 +28,9 @@ interface ICheckboxProps {
   /** An aria description of a checkbox - intended to provide more verbose
    * information than a label that a the user might need */
   readonly ariaDescribedBy?: string
+
+  /** Tooltip to display on hover */
+  readonly tooltip?: string
 }
 
 interface ICheckboxState {
@@ -107,7 +110,7 @@ export class Checkbox extends React.Component<ICheckboxProps, ICheckboxState> {
 
   public render() {
     return (
-      <div className="checkbox-component">
+      <div className="checkbox-component" title={this.props.tooltip}>
         <input
           id={this.state.inputId}
           tabIndex={this.props.tabIndex}

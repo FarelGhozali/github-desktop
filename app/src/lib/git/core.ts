@@ -53,7 +53,7 @@ export interface IGitExecutionOptions extends DugiteExecutionOptions {
    * The git errors which are expected by the caller. Unexpected errors will
    * be logged and an error thrown.
    */
-  readonly expectedErrors?: ReadonlySet<DugiteError>
+  readonly expectedErrors?: ReadonlySet<DugiteError | DesktopGitError>
 
   /** Should it track & report LFS progress? */
   readonly trackLFSProgress?: boolean
@@ -536,7 +536,7 @@ export function getDescriptionForError(
     case DugiteError.PathExistsButNotInRef:
       return null
     default:
-      return assertNever(error, `Unknown error: ${error}`)
+      return assertNever(error as never, `Unknown error: ${error}`)
   }
 }
 
