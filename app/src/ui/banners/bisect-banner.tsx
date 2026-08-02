@@ -4,8 +4,8 @@ import { IBisectState, BisectStepKind } from '../../models/bisect'
 import { Dispatcher } from '../dispatcher'
 import { Repository } from '../../models/repository'
 import { Button } from '../lib/button'
-import { ButtonGroup } from '../lib/button-group'
-import { Octicon, OcticonSymbol } from '../octicons'
+import * as octicons from '../octicons/octicons.generated'
+import { Octicon } from '../octicons'
 
 interface IBisectBannerProps {
   readonly repository: Repository
@@ -27,15 +27,15 @@ export class BisectBanner extends React.Component<IBisectBannerProps> {
       : 'No commit currently selected'
 
     return (
-      <Banner className="bisect-banner" dismissable={false}>
+      <Banner id="bisect-banner" dismissable={false} onDismissed={this.onReset}>
         <div className="bisect-banner-content">
-          <Octicon className="icon" symbol={OcticonSymbol.search} />
+          <Octicon className="icon" symbol={octicons.search} />
           <div className="bisect-banner-text">
             <strong>{title}</strong>
             <div className="bisect-banner-details">{commitInfo}</div>
           </div>
 
-          <ButtonGroup>
+          <div className="button-group">
             {kind === BisectStepKind.Bisecting && (
               <>
                 <Button onClick={this.onMarkGood}>Good</Button>
@@ -46,7 +46,7 @@ export class BisectBanner extends React.Component<IBisectBannerProps> {
             <Button onClick={this.onReset}>
               {kind === BisectStepKind.CulpritFound ? 'Reset' : 'Abort'}
             </Button>
-          </ButtonGroup>
+          </div>
         </div>
       </Banner>
     )

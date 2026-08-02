@@ -248,6 +248,7 @@ import {
 import { ManualConflictResolution } from '../../models/manual-conflict-resolution'
 import { BranchPruner } from './helpers/branch-pruner'
 import { enableCustomIntegration } from '../feature-flag'
+import { IBisectState } from '../../models/bisect'
 import { Banner, BannerType } from '../../models/banner'
 import { ComputedAction } from '../../models/computed-action'
 import {
@@ -5682,6 +5683,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
   public async _resetBisect(repository: Repository) {
     await resetBisect(repository)
     await this._loadStatus(repository)
+  }
+
   public async _interactiveRebase(
     repository: Repository,
     todoList: ReadonlyArray<IRebaseTodoItem>,

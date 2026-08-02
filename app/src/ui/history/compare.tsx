@@ -320,6 +320,7 @@ export class CompareSidebar extends React.Component<
 
   private onRewordCommit = (commit: Commit) => {
     this.props.dispatcher.showRewordDialog(this.props.repository, commit)
+  }
 
   private onFixupCommit = (commit: Commit) => {
     this.props.dispatcher.showFixupCommitDialog(this.props.repository, commit)
@@ -336,6 +337,7 @@ export class CompareSidebar extends React.Component<
 
   private onCancelKeyboardReorder = () => {
     this.setState({ keyboardReorderData: undefined })
+  }
 
   private onDropCommitInsertion = async (
     baseCommit: Commit | null,

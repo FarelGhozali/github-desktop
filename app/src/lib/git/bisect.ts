@@ -1,7 +1,7 @@
 import { git } from './core'
 import { Repository } from '../../models/repository'
 import { BisectStepKind, IBisectState } from '../../models/bisect'
-import { getCommit } from './show'
+import { getCommit } from './log'
 import * as Path from 'path'
 import { pathExists } from '../../ui/lib/path-exists'
 
@@ -29,8 +29,6 @@ export async function getBisectState(
   // For now, let's get the current HEAD.
   const currentCommit = await getCommit(repository, 'HEAD')
 
-  const result = await git(['bisect', 'visualize', '--format=%H'], repository.path, 'getBisectState')
-  
   // Parse the output of 'git bisect status' (which doesn't exist, we use a trick)
   // Actually, 'git bisect visualize' gives us the range.
   

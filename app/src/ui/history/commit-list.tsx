@@ -158,7 +158,7 @@ interface ICommitListProps {
 
   /** Callback to mark a commit as good/bad in an active bisect */
   readonly onMarkBisect?: (commit: Commit, kind: 'good' | 'bad') => void
-  }
+
   /** Callback to fire when the user wants to start an interactive rebase. */
   readonly onRewordCommit?: (commit: Commit) => void
   readonly onFixupCommit?: (commit: Commit) => void
